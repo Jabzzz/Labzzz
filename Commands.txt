@@ -1,4 +1,15 @@
+#check status
+git status
+
+#git add
 git add (file names)
 git commit -m "(committed message)" filename
+
+#git remove
+git rm (file names)
+git commit -m "(committed message)" filename
+
+#git push
 git push -u origin master
+
 
