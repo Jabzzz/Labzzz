@@ -3,7 +3,7 @@ git status
 
 #git add
 git add (file names)
-git commit -m "remove (committed message)" filename
+git commit -m "(committed message)" filename
 
 #git remove
 git rm (file names)
@@ -11,5 +11,9 @@ git commit -m "(committed message)" filename
 
 #git push
 git push -u origin master
+
+
+#useful links
+https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html
 
 
