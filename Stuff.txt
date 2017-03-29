@@ -1,3 +1,7 @@
+#
+#COMMANDS
+#
+
 #check status
 git status
 
@@ -16,4 +20,9 @@ git push -u origin master
 #useful links
 https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html
 
-#kraken test?
+#
+#LINKS
+#
+
+#Android SDK
+https://developer.android.com/studio/index.html#downloads
