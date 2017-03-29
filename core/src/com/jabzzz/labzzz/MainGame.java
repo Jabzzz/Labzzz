@@ -18,11 +18,24 @@ public class MainGame extends ApplicationAdapter
 		img = new Texture("badlogic.jpg");
 	}
 
+	private int frames = 0;
+	private long lastOut = 0;
+
 	@Override
 	public void render () 
 	{
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		frames++;
+
+		if(System.currentTimeMillis() - lastOut > 1000)
+		{
+			System.out.println("FPS: " + frames);
+			frames = 0;
+			lastOut = System.currentTimeMillis();
+		}
+
 
 		batch.begin();
 		batch.draw(img, 0, 0);
