@@ -3,7 +3,7 @@ git status
 
 #git add
 git add (file names)
-git commit -m "remove (committed message)" filename
+git commit -m "(committed message)" filename
 
 #git remove
 git rm (file names)
