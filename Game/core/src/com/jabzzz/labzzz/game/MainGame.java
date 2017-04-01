@@ -1,4 +1,4 @@
-package com.jabzzz.labzzz;
+package com.jabzzz.labzzz.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
