@@ -8,6 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MainGame extends ApplicationAdapter
 {
+
+
+	public static final String TITLE = "THE Game";
+	public static final int WIDTH = 500;
+	public static final int HEIGHT = 850;
+
+
+
 	SpriteBatch batch;
 	Texture img;
 	
@@ -16,6 +24,9 @@ public class MainGame extends ApplicationAdapter
 	{
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+
+
+
 	}
 
 	private int frames = 0;
@@ -41,6 +52,14 @@ public class MainGame extends ApplicationAdapter
 		batch.draw(img, 0, 0);
 		batch.end();
 	}
+
+
+	public void update()
+	{
+
+	}
+
+
 	
 	@Override
 	public void dispose ()
