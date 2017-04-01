@@ -50,8 +50,8 @@ public class MainGame extends ApplicationAdapter
 		theStateStack.add(theMenuState = new MenuState());
 
 
-		theUpdateThread = new UpdateThread();
-
+		theUpdateThread = new UpdateThread(this);
+		theUpdateThread.start();
 	}
 
 	private void printFPS()
@@ -92,5 +92,6 @@ public class MainGame extends ApplicationAdapter
 	public void dispose ()
 	{
 		theStateStack.peek().dispose();
+		theUpdateThread.setRunning(false);
 	}
 }
