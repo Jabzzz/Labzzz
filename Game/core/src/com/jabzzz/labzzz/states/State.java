@@ -14,19 +14,22 @@ public abstract class State
 
     protected OrthographicCamera theCam;
 
+    protected SpriteBatch theBatch;
+
 
     public State()
     {
 
+        theBatch = new SpriteBatch();
         theCam = new OrthographicCamera();
         theCam.setToOrtho(false, MainGame.WIDTH / 2, MainGame.HEIGHT / 2);
     }
 
 
 
-    public abstract void render(SpriteBatch theBatch);
+    public abstract void render();
     public abstract void update();
-
+    public abstract void dispose();
 
 
 
