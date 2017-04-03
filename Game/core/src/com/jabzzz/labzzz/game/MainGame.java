@@ -2,6 +2,7 @@ package com.jabzzz.labzzz.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +23,7 @@ public class MainGame extends ApplicationAdapter
 
 	private MenuState theMenuState = null;
 	private UpdateThread theUpdateThread = null;
+	private InputHandler theInputHandler = null;
 
 	private Stack<State> theStateStack = new Stack();
 
@@ -46,6 +48,8 @@ public class MainGame extends ApplicationAdapter
 
 		theUpdateThread = new UpdateThread(this);
 		theUpdateThread.start();
+
+		theInputHandler = new InputHandler();
 	}
 
 	private void printFPS()

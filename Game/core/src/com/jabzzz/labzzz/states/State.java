@@ -30,7 +30,6 @@ public abstract class State
     public abstract void render();
     public abstract void update();
     public abstract void dispose();
-
-
+    public abstract void input(int x, int y);
 
 }
