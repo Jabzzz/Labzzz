@@ -13,6 +13,7 @@ import com.jabzzz.labzzz.game.MainGame;
 public class MenuState extends State
 {
 
+    private int xText = 0, yText = 0;
     private Texture backgroundTexture = null;
     private BitmapFont textFont = null;
 
@@ -37,7 +38,8 @@ public class MenuState extends State
 
         theBatch.draw(backgroundTexture, 0, 0, MainGame.WIDTH, MainGame.HEIGHT);
 
-        textFont.draw(theBatch, "The Menu", ((MainGame.WIDTH - 150) / 2) + (int) (20 * (Math.cos(System.currentTimeMillis() * 0.01))), (int) ((MainGame.HEIGHT - 200) + 50 * Math.sin(System.currentTimeMillis() * 0.001)));
+
+        textFont.draw(theBatch, "The Menu", xText, yText);
 
 
         theBatch.end();
@@ -46,7 +48,8 @@ public class MenuState extends State
     @Override
     public void update()
     {
-
+        xText = (int) (((MainGame.WIDTH - 150) / 2) + (20 * (Math.cos(System.currentTimeMillis() * 0.01))));
+        yText = (int) ((MainGame.HEIGHT - 200) + 50 * Math.sin(System.currentTimeMillis() * 0.001));
     }
 
     @Override

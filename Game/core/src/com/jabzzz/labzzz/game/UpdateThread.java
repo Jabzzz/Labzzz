@@ -61,7 +61,7 @@ public class UpdateThread extends Thread
             if(System.currentTimeMillis() - lastTimer >= 1000)
             {
                 lastTimer += 1000;
-                System.out.println(ticks +" ticks, ");
+                System.out.println("TPS: " + ticks);
                 ticks= 0;
             }
         }

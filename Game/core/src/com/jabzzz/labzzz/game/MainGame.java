@@ -20,7 +20,6 @@ public class MainGame extends ApplicationAdapter
 
 
 
-
 	private MenuState theMenuState = null;
 	private UpdateThread theUpdateThread = null;
 
@@ -31,15 +30,10 @@ public class MainGame extends ApplicationAdapter
 	private long lastOut = 0;
 
 
-
-	SpriteBatch batch;
-	Texture img;
 	
 	@Override
 	public void create ()
 	{
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 
 
 		//init printFPS
@@ -83,7 +77,7 @@ public class MainGame extends ApplicationAdapter
 
 	public void update()
 	{
-
+		theStateStack.peek().update();
 	}
 
 
