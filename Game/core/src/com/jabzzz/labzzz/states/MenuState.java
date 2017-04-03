@@ -57,4 +57,11 @@ public class MenuState extends State
     {
         theBatch.dispose();
     }
+
+    @Override
+    public void input(int x, int y)
+    {
+
+    }
+
 }
