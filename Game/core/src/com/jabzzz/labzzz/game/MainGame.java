@@ -49,7 +49,7 @@ public class MainGame extends ApplicationAdapter
 		theUpdateThread = new UpdateThread(this);
 		theUpdateThread.start();
 
-		theInputHandler = new InputHandler();
+		theInputHandler = new InputHandler(theStateStack);
 	}
 
 	private void printFPS()
