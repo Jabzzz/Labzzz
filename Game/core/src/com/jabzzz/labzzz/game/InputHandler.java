@@ -46,19 +46,19 @@ public class InputHandler implements InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         theStateStack.peek().input(screenX, screenY);
-        System.out.println("touchDown");
+        System.out.println("touchDown "+screenX+" "+screenY+" "+pointer+" "+button);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchUp");
+        System.out.println("touchUp "+screenX+" "+screenY+" "+pointer+" "+button);
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        System.out.println("touchDragged");
+        System.out.println("touchDragged"+screenX+" "+screenY+" "+pointer);
         return false;
     }
 
