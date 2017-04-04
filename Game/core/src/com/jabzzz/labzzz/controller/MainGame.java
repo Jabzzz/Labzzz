@@ -1,13 +1,10 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.controller;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jabzzz.labzzz.states.MenuState;
-import com.jabzzz.labzzz.states.State;
+import com.jabzzz.labzzz.states.AState;
 
 import java.util.Stack;
 
@@ -25,7 +22,7 @@ public class MainGame extends ApplicationAdapter
 	private UpdateThread theUpdateThread = null;
 	private InputHandler theInputHandler = null;
 
-	private Stack<State> theStateStack = new Stack();
+	private Stack<AState> theStateStack = new Stack();
 
 
 	private int frames = 0;

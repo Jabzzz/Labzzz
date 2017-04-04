@@ -1,8 +1,8 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.jabzzz.labzzz.states.State;
+import com.jabzzz.labzzz.states.AState;
 
 import java.util.Stack;
 
@@ -13,9 +13,9 @@ import java.util.Stack;
 public class InputHandler implements InputProcessor
 {
 
-    private Stack<State> theStateStack = null;
+    private Stack<AState> theStateStack = null;
 
-    public InputHandler(Stack<State> theStateStack)
+    public InputHandler(Stack<AState> theStateStack)
     {
 
         this.theStateStack = theStateStack;

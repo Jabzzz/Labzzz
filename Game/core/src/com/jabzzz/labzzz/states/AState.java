@@ -2,13 +2,13 @@ package com.jabzzz.labzzz.states;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.jabzzz.labzzz.game.MainGame;
+import com.jabzzz.labzzz.controller.MainGame;
 
 /**
  * Created by Useless on 01.04.2017.
  */
 
-public abstract class State
+public abstract class AState
 {
 
 
@@ -17,7 +17,7 @@ public abstract class State
     protected SpriteBatch theBatch;
 
 
-    public State()
+    public AState()
     {
 
         theBatch = new SpriteBatch();

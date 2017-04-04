@@ -2,7 +2,7 @@ package com.jabzzz.labzzz.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.jabzzz.labzzz.game.MainGame;
+import com.jabzzz.labzzz.controller.MainGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

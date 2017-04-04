@@ -1,4 +1,4 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.controller;
 
 /**
  * Created by Useless on 01.04.2017.
