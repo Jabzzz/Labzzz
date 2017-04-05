@@ -92,7 +92,7 @@ public class MenuState extends AState
     }
 
     @Override
-    public void input(int x, int y)
+    public void input(double abs, Enum dir)
     {
         theMainGame.popStack();
     }

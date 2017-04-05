@@ -51,7 +51,7 @@ public class GameState extends AState
         theBatch.dispose();
     }
 
-    public void input(int x, int y)
+    public void input(double abs, Enum dir)
     {
 
     }
