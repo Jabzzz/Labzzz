@@ -23,28 +23,19 @@ public class MenuState extends AState
     private BitmapFont textFont = null;
 
 
-
-    private int[] zone =
-            {
-                    300,
-                    600
-            };
-
-    private int d = 1;
-
-
     public MenuState(MainGame theMainGame)
     {
         this.theMainGame = theMainGame;
 
-
-        theBatch = new SpriteBatch();
+        //init Camera
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
-
+        //init Textures
+        theBatch = new SpriteBatch();
 
         backgroundTexture = new Texture("menu_background.jpg");
 
+        //init Textfont
         textFont = new BitmapFont(Gdx.files.internal("textfont.fnt"), false);
         textFont.setColor(Color.WHITE);
 
@@ -72,22 +63,10 @@ public class MenuState extends AState
     @Override
     public void update()
     {
-  //      xText = (int) (((MainGame.WIDTH - 150) / 2) + (20 * (Math.cos(System.currentTimeMillis() * 0.01))));
-   //     yText = (int) ((MainGame.HEIGHT - 200) + 50 * Math.sin(System.currentTimeMillis() * 0.001));
 
-
-        //theCam.position.x = theCam.viewportWidth / 2 + (int) (50 * Math.sin(System.currentTimeMillis() * 0.01));
-        //theCam.position.y = theCam.viewportHeight / 2 +  (int) (50 * Math.sin(System.currentTimeMillis() * 0.001));
-
-        if(theCam.position.y > zone[1] || theCam.position.y < zone[0])
-            d = d * (-1);
-
-        theCam.position.y += d;
-
-
+        yText = (int) ((MainGame.HEIGHT - 200) + 50 * Math.sin(System.currentTimeMillis() * 0.001));
 
         xText = MainGame.WIDTH / 2 - 50;
-        yText = MainGame.HEIGHT - 200;
     }
 
     @Override

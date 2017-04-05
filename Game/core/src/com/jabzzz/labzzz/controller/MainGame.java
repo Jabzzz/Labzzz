@@ -75,7 +75,6 @@ public class MainGame extends ApplicationAdapter
 		printFPS();
 
 		theStateStack.peek().render();
-
 	}
 
 

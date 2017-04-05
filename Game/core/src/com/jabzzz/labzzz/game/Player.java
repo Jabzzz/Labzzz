@@ -10,4 +10,9 @@ public class Player extends AEntity {
     {
         position.set(x,y);
     }
+
+    @Override
+    public void render() {
+
+    }
 }
