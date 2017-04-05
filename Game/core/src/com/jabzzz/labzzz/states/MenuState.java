@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.jabzzz.labzzz.game.MainGame;
+import com.jabzzz.labzzz.controller.MainGame;
 
 /**
  * Created by Useless on 01.04.2017.
  */
 
-public class MenuState extends State
+public class MenuState extends AState
 {
 
     private int xText = 0, yText = 0;
