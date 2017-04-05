@@ -23,9 +23,6 @@ public class InputHandler implements InputProcessor
         this.theStateStack = theStateStack;
         Gdx.input.setInputProcessor(this);
         System.out.println("InputHandler got constructed!");
-<<<<<<< HEAD
-    }
-=======
 
 
         for(int i=0; i<refPoints.length; i++)
@@ -33,7 +30,6 @@ public class InputHandler implements InputProcessor
             for(int j=0; j<refPoints[0].length; j++)
             refPoints[i][j] = 0;
         }
->>>>>>> master
 
         System.out.println(refPoints);
 

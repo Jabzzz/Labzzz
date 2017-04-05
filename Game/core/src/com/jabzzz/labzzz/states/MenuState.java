@@ -30,6 +30,8 @@ public class MenuState extends AState
                     600
             };
 
+    private int d = 1;
+
 
     public MenuState(MainGame theMainGame)
     {
@@ -37,7 +39,6 @@ public class MenuState extends AState
 
 
         theBatch = new SpriteBatch();
-        theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
 
@@ -78,6 +79,10 @@ public class MenuState extends AState
         //theCam.position.x = theCam.viewportWidth / 2 + (int) (50 * Math.sin(System.currentTimeMillis() * 0.01));
         //theCam.position.y = theCam.viewportHeight / 2 +  (int) (50 * Math.sin(System.currentTimeMillis() * 0.001));
 
+        if(theCam.position.y > zone[1] || theCam.position.y < zone[0])
+            d = d * (-1);
+
+        theCam.position.y += d;
 
 
 
