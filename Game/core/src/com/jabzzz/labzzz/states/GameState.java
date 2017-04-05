@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jabzzz.labzzz.controller.*;
+import com.jabzzz.labzzz.enums.Direction;
+import com.jabzzz.labzzz.enums.InputSystem;
+import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.*;
 import com.jabzzz.labzzz.controller.MainGame;
 
@@ -51,7 +54,7 @@ public class GameState extends AState
         theBatch.dispose();
     }
 
-    public void input(double abs, Enum dir)
+    public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
     {
 
     }
