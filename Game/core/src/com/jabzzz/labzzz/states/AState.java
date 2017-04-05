@@ -19,10 +19,8 @@ public abstract class AState
 
     public AState()
     {
+        System.out.println("State - Constructor");
 
-        theBatch = new SpriteBatch();
-        theCam = new OrthographicCamera();
-        theCam.setToOrtho(false, MainGame.WIDTH / 2, MainGame.HEIGHT / 2);
     }
 
 
