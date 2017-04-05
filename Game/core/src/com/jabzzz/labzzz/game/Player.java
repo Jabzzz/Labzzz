@@ -6,4 +6,8 @@ package com.jabzzz.labzzz.game;
 
 public class Player extends AEntity {
 
+    public Player(float x, float y)
+    {
+        position.set(x,y);
+    }
 }

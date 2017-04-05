@@ -3,6 +3,7 @@ package com.jabzzz.labzzz.controller;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.jabzzz.labzzz.states.GameState;
 import com.jabzzz.labzzz.states.MenuState;
 import com.jabzzz.labzzz.states.AState;
 
@@ -17,7 +18,7 @@ public class MainGame extends ApplicationAdapter
 	public static final int HEIGHT = 850;
 
 
-
+	private GameState theGameState = null;
 	private MenuState theMenuState = null;
 	private UpdateThread theUpdateThread = null;
 	private InputHandler theInputHandler = null;
@@ -38,6 +39,8 @@ public class MainGame extends ApplicationAdapter
 		//init printFPS
 		lastOut = System.currentTimeMillis();
 
+		//init GameState
+		theStateStack.add(theGameState = new GameState(this));
 
 		//init MenuState
 		theStateStack.add(theMenuState = new MenuState(this));

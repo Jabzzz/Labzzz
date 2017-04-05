@@ -2,6 +2,8 @@ package com.jabzzz.labzzz.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -26,8 +28,12 @@ public class Labyrinth {
 
     }
 
-    public void render(AEntity center)
+    public void render(AEntity center, OrthographicCamera theCam)
     {
+        ShapeRenderer sr = new ShapeRenderer();
+        theCam.update();
+        sr.setProjectionMatrix(theCam.combined);
+
         //One Unit is 50px
 
 
