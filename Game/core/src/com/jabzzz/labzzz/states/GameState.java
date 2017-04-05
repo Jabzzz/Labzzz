@@ -1,6 +1,8 @@
 package com.jabzzz.labzzz.states;
 
+import com.jabzzz.labzzz.controller.*;
 import com.jabzzz.labzzz.game.*;
+import com.jabzzz.labzzz.controller.MainGame;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -21,16 +23,16 @@ public class GameState extends AState
 
     public void render()
     {
+        theBatch.begin();
 
+        //theBatch.draw(null, 0, 0, MainGame.WIDTH, MainGame.HEIGHT);
+
+        theBatch.end();
     }
 
     public void update()
     {
-        theBatch.begin();
-
-
-
-        theBatch.end();
+        
     }
 
     public void dispose()

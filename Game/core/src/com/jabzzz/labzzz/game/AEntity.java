@@ -9,4 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 public class AEntity {
     private Vector2 position = null;
 
+    public AEntity()
+    {
+
+    }
+
 }

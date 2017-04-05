@@ -20,7 +20,7 @@ public class InputHandler implements InputProcessor
 
         this.theStateStack = theStateStack;
         Gdx.input.setInputProcessor(this);
-        System.out.println("UpdateThread got constructed!");
+        System.out.println("InputHandler got constructed!");
     }
 
 
