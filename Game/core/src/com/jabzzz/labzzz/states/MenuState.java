@@ -2,7 +2,6 @@ package com.jabzzz.labzzz.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,17 +28,15 @@ public class MenuState extends AState
     public MenuState(MainGame theMainGame)
     {
         this.theMainGame = theMainGame;
-
+        
         //init Camera
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
-
 
         //init Textures
         theBatch = new SpriteBatch();
         backgroundTexture = new Texture("menu_background.jpg");
 
         Texture btnTexture = new Texture(Gdx.files.internal("playbtn.png"));
-
 
         //init Play-Button
         playButton = new Button(btnTexture,
@@ -62,15 +59,15 @@ public class MenuState extends AState
         theBatch.setProjectionMatrix(theCam.combined);
 
         theBatch.begin();
+
+        //draw Background
         theBatch.draw(backgroundTexture, 0, 0, MainGame.WIDTH, MainGame.HEIGHT);
+        //draw Text
         textFont.draw(theBatch, "The Menu", xText, yText);
-
-
+        //draw Button
         playButton.render(theBatch);
 
         theBatch.end();
-
-
     }
 
 
