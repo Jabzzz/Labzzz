@@ -1,9 +1,9 @@
 package com.jabzzz.labzzz.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+
 /**
  * Created by Stefan on 04.04.2017.
  */
@@ -11,13 +11,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 public class Player extends AEntity {
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private OrthographicCamera theCam;
 
-    public Player(float x, float y)
+    public Player(float x, float y, OrthographicCamera theCam)
     {
         position.set(x,y);
+        this.theCam = theCam;
     }
 
-    public void render(OrthographicCamera theCam)
+    public void render(SpriteBatch theBatch)
     {
         theCam.position.set(getPosition(), 0);
         theCam.update();
