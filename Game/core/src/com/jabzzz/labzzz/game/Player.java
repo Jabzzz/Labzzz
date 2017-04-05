@@ -1,5 +1,7 @@
 package com.jabzzz.labzzz.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 /**
  * Created by Stefan on 04.04.2017.
  */
@@ -12,7 +14,8 @@ public class Player extends AEntity {
     }
 
     @Override
-    public void render() {
+    public void render(SpriteBatch theBatch)
+    {
 
     }
 }

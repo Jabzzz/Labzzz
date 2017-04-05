@@ -1,5 +1,6 @@
 package com.jabzzz.labzzz.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -16,6 +17,6 @@ public abstract class AEntity
     }
 
 
-    public abstract void render();
+    public abstract void render(SpriteBatch theBatch);
 
 }

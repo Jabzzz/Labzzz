@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jabzzz.labzzz.controller.MainGame;
+import com.jabzzz.labzzz.game.Button;
 
 /**
  * Created by Useless on 01.04.2017.
@@ -22,6 +23,8 @@ public class MenuState extends AState
     private Texture backgroundTexture = null;
     private BitmapFont textFont = null;
 
+    private Button playButton = null;
+
 
     public MenuState(MainGame theMainGame)
     {
@@ -30,10 +33,18 @@ public class MenuState extends AState
         //init Camera
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
+
         //init Textures
         theBatch = new SpriteBatch();
-
         backgroundTexture = new Texture("menu_background.jpg");
+
+        Texture btnTexture = new Texture(Gdx.files.internal("playbtn.png"));
+
+
+        //init Play-Button
+        playButton = new Button(btnTexture,
+                (MainGame.WIDTH - btnTexture.getWidth()) / 2,
+                (MainGame.HEIGHT - btnTexture.getHeight()) / 4);
 
         //init Textfont
         textFont = new BitmapFont(Gdx.files.internal("textfont.fnt"), false);
@@ -50,13 +61,16 @@ public class MenuState extends AState
         theCam.update();
         theBatch.setProjectionMatrix(theCam.combined);
 
-
         theBatch.begin();
-
         theBatch.draw(backgroundTexture, 0, 0, MainGame.WIDTH, MainGame.HEIGHT);
         textFont.draw(theBatch, "The Menu", xText, yText);
 
+
+        playButton.render(theBatch);
+
         theBatch.end();
+
+
     }
 
 
