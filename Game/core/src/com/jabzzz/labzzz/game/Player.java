@@ -3,6 +3,9 @@ package com.jabzzz.labzzz.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.jabzzz.labzzz.enums.Direction;
+import com.jabzzz.labzzz.enums.InputSystem;
+import com.jabzzz.labzzz.enums.Speed;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -25,11 +28,16 @@ public class Player extends AEntity {
         theCam.update();
         shapeRenderer.setProjectionMatrix(theCam.combined);
         shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 1, 0, 1);
 
         shapeRenderer.circle(getPosition().x, getPosition().y, 10);
 
         shapeRenderer.end();
+    }
+
+    public void input(Speed speed, Direction dir)
+    {
+
     }
 }

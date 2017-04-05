@@ -25,9 +25,9 @@ public class GameState extends AState
     {
         this.theMainGame = theMainGame;
 
-
         theBatch = new SpriteBatch();
         theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
+
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
         player = new Player(75f, 75f, theCam);
@@ -40,8 +40,6 @@ public class GameState extends AState
         player.render(theBatch);
         labyrinth.render(theCam);
 
-
-        //theBatch.end();
     }
 
     public void update()

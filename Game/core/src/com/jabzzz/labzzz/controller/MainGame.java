@@ -34,8 +34,6 @@ public class MainGame extends ApplicationAdapter
 	@Override
 	public void create ()
 	{
-
-
 		//init printFPS
 		lastOut = System.currentTimeMillis();
 
