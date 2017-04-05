@@ -16,7 +16,14 @@ public abstract class AEntity
         position = new Vector2();
     }
 
+<<<<<<< Updated upstream
 
     public abstract void render(SpriteBatch theBatch);
+=======
+    public Vector2 getPosition()
+    {
+        return position;
+    }
+>>>>>>> Stashed changes
 
 }

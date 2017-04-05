@@ -27,15 +27,15 @@ public class GameState extends AState
         theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
-        player = new Player(0f,0f);
+        player = new Player(75f,75f);
         labyrinth = new Labyrinth();
     }
 
     public void render()
     {
 
-
-        labyrinth.render(new Player(100,200), theCam);
+        player.render(theCam);
+        labyrinth.render(theCam);
 
 
         //theBatch.end();

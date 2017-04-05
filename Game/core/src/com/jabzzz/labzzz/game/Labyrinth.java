@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Labyrinth {
     private int[][] map = null;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public Labyrinth()//int amountColums, int amountRows)
     {
@@ -19,8 +21,8 @@ public class Labyrinth {
             {
                     {1,1,1,1,1,1},
                     {1,0,0,0,0,1},
-                    {1,0,1,1,0,1},
-                    {1,0,1,1,0,1},
+                    {1,0,1,0,0,1},
+                    {1,0,1,1,1,1},
                     {1,0,0,0,0,1},
                     {1,1,1,1,1,1}
             };
@@ -28,14 +30,28 @@ public class Labyrinth {
 
     }
 
-    public void render(AEntity center, OrthographicCamera theCam)
+    public void render(OrthographicCamera theCam)
     {
-        ShapeRenderer sr = new ShapeRenderer();
         theCam.update();
-        sr.setProjectionMatrix(theCam.combined);
+        shapeRenderer.setProjectionMatrix(theCam.combined);
+        shapeRenderer.setAutoShapeType(true);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(0, 0, 0, 1);
 
+        Vector2 position = new Vector2();
         //One Unit is 50px
+        for(int row = 0; row < map.length; row++)
+        {
+            for(int colum = 0; colum < map[row].length; colum++) {
+                if (map[row][colum] == 1) {
+                    position.set(50 * (map[row].length - colum - 1), 50 * row);
 
+                    shapeRenderer.rect(position.x, position.y, 50, 50);
+                }
+            }
+        }
+
+        shapeRenderer.end();
 
     }
 
