@@ -3,6 +3,8 @@ package com.jabzzz.labzzz.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.jabzzz.labzzz.enums.Direction;
+import com.jabzzz.labzzz.enums.InputSystem;
+import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.states.AState;
 
 import java.util.Stack;
@@ -16,6 +18,7 @@ public class InputHandler implements InputProcessor
 
     private Stack<AState> theStateStack = null;
     private int refPoints[][] = new int[10][2];
+    private Speed kbSpeed = null;
 
     public InputHandler(Stack<AState> theStateStack)
     {
@@ -23,7 +26,7 @@ public class InputHandler implements InputProcessor
         this.theStateStack = theStateStack;
         Gdx.input.setInputProcessor(this);
         System.out.println("InputHandler got constructed!");
-
+        kbSpeed = Speed.SLOW;
 
         for(int i=0; i<refPoints.length; i++)
         {
@@ -31,26 +34,79 @@ public class InputHandler implements InputProcessor
             refPoints[i][j] = 0;
         }
 
-        System.out.println(refPoints);
-
     }
 
     @Override
     public boolean keyDown(int keycode) {
+
         System.out.println("keyDown "+keycode);
 
+        InputSystem is = InputSystem.KEYBOARDMOVE;
+
+        Direction d = getDirection(keycode);
+
+        if(d == Direction.NONE)
+        {
+            if(keycode==31)
+                kbSpeed = Speed.SLOW;
+            if(keycode==59)
+                kbSpeed = Speed.FAST;
+        }
+        else
+        {
+            System.out.println("Input(Keyboard move): speed: " +kbSpeed+ ", direction: " + d);
+            theStateStack.peek().input(kbSpeed, d, is, 0, 0);
+        }
         return false;
+    }
+
+    private Direction getDirection(int keycode) {
+        Direction d = null;
+        switch(keycode)
+        {
+            case 51: d = Direction.UP;
+                break;
+            case 19: d = Direction.UP;
+                break;
+            case 29: d = Direction.LEFT;
+                break;
+            case 21: d = Direction.LEFT;
+                break;
+            case 47: d = Direction.DOWN;
+                break;
+            case 20: d = Direction.DOWN;
+                break;
+            case 32: d = Direction.RIGHT;
+                break;
+            case 22: d = Direction.RIGHT;
+                break;
+            default: d = Direction.NONE;
+        }
+        return d;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         System.out.println("keyUp "+keycode);
+
+        InputSystem is = InputSystem.KEYBOARDSTOP;
+
+        Direction d = getDirection(keycode);
+
+        if(keycode==31)
+            kbSpeed = Speed.NORMAL;
+        if(keycode==31)
+            kbSpeed = Speed.NORMAL;
+
+        System.out.println("Input(Keyboard stop): speed: "+kbSpeed+", direction: "+d);
+        theStateStack.peek().input(kbSpeed, d, is, 0 ,0);
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        System.out.println("keyTyped "+character);
+        //wont be used
+        //System.out.println("keyTyped "+character);
         return false;
     }
 
@@ -81,10 +137,11 @@ public class InputHandler implements InputProcessor
         else
         {
             //on display left upper corner is 0/0 so we have y has to be -y
-            double vecX = (double) screenX-refPoints[pointer][0];
-            double vecY = -((double) screenY-refPoints[pointer][1]);
+            float vecX = (float) screenX-refPoints[pointer][0];
+            float vecY = -((float) screenY-refPoints[pointer][1]);
 
             Direction d = null;
+            InputSystem is = InputSystem.TOUCH;
 
             //get direction
             if(vecX > vecY)
@@ -112,8 +169,17 @@ public class InputHandler implements InputProcessor
 
             double abs = Math.sqrt(Math.pow(vecX,2)+Math.pow(vecY,2));
 
-            System.out.println("Input: abs: "+abs+", direction: "+d);
-            theStateStack.peek().input(abs, d);
+            Speed s = null;
+
+            if(abs<100)
+                s = Speed.SLOW;
+            else if(abs<200)
+                s = Speed.NORMAL;
+            else
+                s = Speed.FAST;
+
+            System.out.println("Input: s: "+s+", direction: "+d);
+            theStateStack.peek().input(s, d, is, vecX, vecY);
         }
         return false;
     }

@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jabzzz.labzzz.controller.MainGame;
+import com.jabzzz.labzzz.enums.Direction;
+import com.jabzzz.labzzz.enums.InputSystem;
+import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.Button;
 
 /**
@@ -87,7 +90,7 @@ public class MenuState extends AState
     }
 
     @Override
-    public void input(double abs, Enum dir)
+    public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
     {
         theMainGame.popStack();
     }

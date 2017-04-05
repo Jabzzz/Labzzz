@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.enums.Direction;
+import com.jabzzz.labzzz.enums.InputSystem;
+import com.jabzzz.labzzz.enums.Speed;
 
 /**
  * Created by Useless on 01.04.2017.
@@ -30,6 +32,6 @@ public abstract class AState
     public abstract void render();
     public abstract void update();
     public abstract void dispose();
-    public abstract void input(double abs, Enum dir);
+    public abstract void input(Speed speed, Direction dir, InputSystem is, float x, float y);
 
 }
