@@ -39,7 +39,7 @@ public class InputHandler implements InputProcessor
     @Override
     public boolean keyDown(int keycode) {
 
-        System.out.println("keyDown "+keycode);
+        //System.out.println("keyDown "+keycode);
 
         InputSystem is = InputSystem.KEYBOARDMOVE;
 
@@ -61,7 +61,7 @@ public class InputHandler implements InputProcessor
     }
 
     private Direction getDirection(int keycode) {
-        Direction d = null;
+        Direction d = Direction.NONE;;
         switch(keycode)
         {
             case 51: d = Direction.UP;
@@ -80,14 +80,13 @@ public class InputHandler implements InputProcessor
                 break;
             case 22: d = Direction.RIGHT;
                 break;
-            default: d = Direction.NONE;
         }
         return d;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        System.out.println("keyUp "+keycode);
+        //System.out.println("keyUp "+keycode);
 
         InputSystem is = InputSystem.KEYBOARDSTOP;
 
@@ -112,13 +111,13 @@ public class InputHandler implements InputProcessor
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchDown at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
+        //System.out.println("touchDown at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchUp at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
+        //System.out.println("touchUp at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
 
         refPoints[pointer][0] = 0;
         refPoints[pointer][1] = 0;
@@ -127,7 +126,7 @@ public class InputHandler implements InputProcessor
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        System.out.println("touchDragged at:"+screenX+", "+screenY+" from Pointer: "+pointer);
+        //System.out.println("touchDragged at:"+screenX+", "+screenY+" from Pointer: "+pointer);
 
         if (refPoints[pointer][0]==0)
         {
@@ -169,14 +168,13 @@ public class InputHandler implements InputProcessor
 
             double abs = Math.sqrt(Math.pow(vecX,2)+Math.pow(vecY,2));
 
-            Speed s = null;
+            Speed s = Speed.FAST;
 
             if(abs<100)
                 s = Speed.SLOW;
             else if(abs<200)
                 s = Speed.NORMAL;
-            else
-                s = Speed.FAST;
+
 
             System.out.println("Input: s: "+s+", direction: "+d);
             theStateStack.peek().input(s, d, is, vecX, vecY);
@@ -186,13 +184,13 @@ public class InputHandler implements InputProcessor
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        System.out.println("mouseMoved "+screenX+" "+screenX);
+        //System.out.println("mouseMoved "+screenX+" "+screenX);
         return false;
     }
 
     @Override
     public boolean scrolled(int amount) {
-        System.out.println("scrolled "+amount);
+        //System.out.println("scrolled "+amount);
         return false;
     }
 }
