@@ -94,7 +94,7 @@ public class InputHandler implements InputProcessor
 
         if(keycode==31)
             kbSpeed = Speed.NORMAL;
-        if(keycode==31)
+        if(keycode==59)
             kbSpeed = Speed.NORMAL;
 
         System.out.println("Input(Keyboard stop): speed: "+kbSpeed+", direction: "+d);
