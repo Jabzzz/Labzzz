@@ -15,14 +15,16 @@ import com.jabzzz.labzzz.enums.Speed;
 
 public class Player extends AEntity {
 
-    private Vector2 acceleration;
-    private Vector2 velocity;
+    private Vector2 acceleration = new Vector2();
+    private Vector2 velocity = new Vector2();
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthographicCamera theCam;
 
     public Player(float x, float y, OrthographicCamera theCam)
     {
+        System.out.println("Player - Constructor");
+
         position.set(x,y);
         this.theCam = theCam;
     }

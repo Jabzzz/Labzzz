@@ -8,9 +8,5 @@ import com.badlogic.gdx.math.Polygon;
 
 public interface ICollisable
 {
-
-
     public Polygon getCollisionPolygon();
-
-
 }
