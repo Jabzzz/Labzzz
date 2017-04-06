@@ -5,5 +5,5 @@ package com.jabzzz.labzzz.enums;
  */
 
 public enum Direction {
-    UP, DOWN, LEFT, RIGHT, NONE
+    UPRIGHT, UP, UPLEFT, LEFT, DOWNLEFT, DOWN, DOWNRIGHT, RIGHT, NONE
 }
