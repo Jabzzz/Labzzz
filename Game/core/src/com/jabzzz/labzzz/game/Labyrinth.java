@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -19,15 +20,27 @@ public class Labyrinth {
         //Example for a map
         map = new int[][]
             {
-                    {1,1,1,1,1,1},
+                    {1,1,1,0,1,1},
                     {1,0,0,0,0,1},
                     {1,0,1,0,0,1},
                     {1,0,1,1,1,1},
-                    {1,0,0,0,0,1},
-                    {1,1,1,1,1,1}
+                    {0,0,0,0,0,0},
+                    {1,1,1,0,1,1}
             };
 
 
+    }
+
+    public int getMapBlockAt(int row, int col)
+    {
+        int rowInMatrix = mod(row, map.length);
+        int colInMatrix = mod(col, map.length);
+
+        return map[rowInMatrix][colInMatrix];
+    }
+    private int mod(int x, int y)
+    {
+        return (((x % y) + y) % y);
     }
 
     public void render(OrthographicCamera theCam)
@@ -38,13 +51,25 @@ public class Labyrinth {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0, 0, 0, 1);
 
+        Vector2 sizeDisplay = new Vector2(500, 850);
+        int blockSize = 50;
         Vector2 position = new Vector2();
+
         //One Unit is 50px
-        for(int row = 0; row < map.length; row++)
+        int halfDisplayX = MathUtils.ceil(sizeDisplay.x * 0.5f);
+        int halfDisplayY = MathUtils.ceil(sizeDisplay.y * 0.5f);
+
+        int colStart = MathUtils.floor((theCam.position.x - halfDisplayX) / blockSize);
+        int colEnd = MathUtils.floor((theCam.position.x + halfDisplayX) / blockSize);
+        int rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / blockSize);
+        int rowEnd = MathUtils.floor((theCam.position.y + halfDisplayY) / blockSize);
+
+
+        for(int row = rowStart; row <= rowEnd; row++)
         {
-            for(int colum = 0; colum < map[row].length; colum++) {
-                if (map[row][colum] == 1) {
-                    position.set(50 * (map[row].length - colum - 1), 50 * row);
+            for(int colum = colStart; colum <= colEnd; colum++) {
+                if (getMapBlockAt(row, colum) == 1) {
+                    position.set(50 * colum, 50 * row);
 
                     shapeRenderer.rect(position.x, position.y, 50, 50);
                 }
