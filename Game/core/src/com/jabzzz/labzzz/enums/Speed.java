@@ -5,5 +5,5 @@ package com.jabzzz.labzzz.enums;
  */
 
 public enum Speed {
-    FAST, NORMAL, SLOW
+    FAST, NORMAL, SLOW, NONE
 }

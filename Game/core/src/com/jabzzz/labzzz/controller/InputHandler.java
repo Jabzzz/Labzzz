@@ -2,6 +2,7 @@ package com.jabzzz.labzzz.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
@@ -38,7 +39,6 @@ public class InputHandler implements InputProcessor
 
     @Override
     public boolean keyDown(int keycode) {
-
         //System.out.println("keyDown "+keycode);
 
         InputSystem is = InputSystem.KEYBOARDMOVE;
@@ -52,11 +52,10 @@ public class InputHandler implements InputProcessor
             if(keycode==59)
                 kbSpeed = Speed.FAST;
         }
-        else
-        {
-            System.out.println("Input(Keyboard move): speed: " +kbSpeed+ ", direction: " + d);
-            theStateStack.peek().input(kbSpeed, d, is, 0, 0);
-        }
+
+        System.out.println("Input: Keyboard move with speed: " +kbSpeed+ ", direction: " + d);
+        theStateStack.peek().input(kbSpeed, d, is, 0, 0);
+
         return false;
     }
 
@@ -97,7 +96,7 @@ public class InputHandler implements InputProcessor
         if(keycode==59)
             kbSpeed = Speed.NORMAL;
 
-        System.out.println("Input(Keyboard stop): speed: "+kbSpeed+", direction: "+d);
+        System.out.println("Input: Keyboard stop: new speed: "+kbSpeed+", direction: "+d);
         theStateStack.peek().input(kbSpeed, d, is, 0 ,0);
         return false;
     }
@@ -112,6 +111,9 @@ public class InputHandler implements InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         //System.out.println("touchDown at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
+
+        System.out.println("Input: Click at: x: "+screenX+", "+screenX);
+        theStateStack.peek().input(Speed.NONE, Direction.NONE, InputSystem.CLICK, screenX, screenY);
         return false;
     }
 
@@ -136,37 +138,30 @@ public class InputHandler implements InputProcessor
         else
         {
             //on display left upper corner is 0/0 so we have y has to be -y
-            float vecX = (float) screenX-refPoints[pointer][0];
-            float vecY = -((float) screenY-refPoints[pointer][1]);
-
+            Vector2 vec = new Vector2((float) screenX-refPoints[pointer][0], -((float) screenY-refPoints[pointer][1]));
             Direction d = null;
-            InputSystem is = InputSystem.TOUCH;
+            InputSystem is = InputSystem.DRAGORMOUSE;
 
-            //get direction
-            if(vecX > vecY)
-            {
-                if(vecX > -vecY)
-                {
-                    d = Direction.RIGHT;
-                }
-                if(vecX <= -vecY)
-                {
-                    d = Direction.DOWN;
-                }
-            }
-            if(vecX <= vecY)
-            {
-                if(vecX > -vecY)
-                {
-                    d = Direction.UP;
-                }
-                if(vecX <= -vecY)
-                {
-                    d = Direction.LEFT;
-                }
-            }
+            //get Direction
 
-            double abs = Math.sqrt(Math.pow(vecX,2)+Math.pow(vecY,2));
+            if(337.5<=vec.angle()||vec.angle()<22.5)
+                d = Direction.RIGHT;
+            else if(vec.angle()<67.5)
+                d = Direction.UPRIGHT;
+            else if(vec.angle()<112.5)
+                d = Direction.UP;
+            else if(vec.angle()<157.5)
+                d = Direction.UPLEFT;
+            else if(vec.angle()<202.5)
+                d = Direction.LEFT;
+            else if(vec.angle()<247.5)
+                d = Direction.DOWNLEFT;
+            else if(vec.angle()<292.5)
+                d = Direction.DOWN;
+            else if(vec.angle()<337.5)
+                d = Direction.DOWNRIGHT;
+
+            float abs = vec.len();
 
             Speed s = Speed.FAST;
 
@@ -176,8 +171,8 @@ public class InputHandler implements InputProcessor
                 s = Speed.NORMAL;
 
 
-            System.out.println("Input: s: "+s+", direction: "+d);
-            theStateStack.peek().input(s, d, is, vecX, vecY);
+            System.out.println("Input: Drag or mouse with speed:"+s+", direction: "+d);
+            theStateStack.peek().input(s, d, is, screenX, screenY);
         }
         return false;
     }
