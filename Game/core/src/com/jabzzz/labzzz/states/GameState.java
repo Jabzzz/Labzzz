@@ -45,6 +45,10 @@ public class GameState extends AState
     public void update()
     {
 
+        //Collision
+
+        player.update();
+        //theMainGame.getInputHandler()
     }
 
     public void dispose()

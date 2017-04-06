@@ -94,4 +94,10 @@ public class MainGame extends ApplicationAdapter
 		theStateStack.peek().dispose();
 		theUpdateThread.setRunning(false);
 	}
+
+	public InputHandler getInputHandler()
+	{
+		return theInputHandler;
+	}
+
 }
