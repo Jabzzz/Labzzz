@@ -18,6 +18,8 @@ public class Player extends AEntity {
     private Vector2 acceleration = new Vector2();
     private Vector2 velocity = new Vector2();
 
+    private float maxVelocity = 0f;
+
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthographicCamera theCam;
 
@@ -45,10 +47,32 @@ public class Player extends AEntity {
 
     public void update()
     {
-        position.add(velocity);
-        velocity.add(acceleration);
-        acceleration.set(0,0);
+        //MaxSpeed
+        Vector2 totalAcceleration = new Vector2(Vector2.Zero);
+        totalAcceleration.add(this.acceleration);
 
+        //Friction
+        Vector2 frictionAcceleration = new Vector2(Vector2.Zero);
+        frictionAcceleration.sub(new Vector2(velocity).setLength(0.05f));
+        if(frictionAcceleration.len2() > velocity.len2())
+        {
+            frictionAcceleration = new Vector2(Vector2.Zero);
+            frictionAcceleration.sub(velocity);
+        }
+        totalAcceleration.add(frictionAcceleration);
+
+
+        position.add(velocity);
+        if(new Vector2(velocity).add(totalAcceleration).len() <= maxVelocity)
+        {
+            velocity.add(totalAcceleration);
+        }
+        else
+        {
+            velocity.add(frictionAcceleration);
+        }
+
+        this.acceleration.set(0,0);
     }
 
     public void input(Speed speed, Direction dir)
@@ -64,15 +88,16 @@ public class Player extends AEntity {
         switch (speed)
         {
             case SLOW:
-                accelerationAbs = 0.5f;
+                maxVelocity = 1f;
                 break;
             case NORMAL:
-                accelerationAbs = 1.0f;
+                maxVelocity = 2f;
                 break;
             case FAST:
-                accelerationAbs = 2.0f;
+                maxVelocity = 4f;
                 break;
         }
+        accelerationAbs = 0.2f;
         switch (dir)
         {
             case UPRIGHT:
