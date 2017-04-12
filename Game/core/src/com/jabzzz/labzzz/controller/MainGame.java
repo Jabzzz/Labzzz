@@ -102,8 +102,11 @@ public class MainGame extends ApplicationAdapter
 	@Override
 	public void dispose ()
 	{
-		theStateStack.peek().dispose();
+		//theStateStack.peek().dispose();
+		theGameState.dispose();
+		theMenuState.dispose();
 		theUpdateThread.setRunning(false);
+		//Gdx.app.exit();
 	}
 
 	public InputHandler getInputHandler()
