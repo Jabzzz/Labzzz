@@ -60,7 +60,7 @@ public class CollisionHandler
         {
             //Move Right
             collisionMatrix[1][1] = theLabyrinth.getMapBlockAtPosition(pBottomRight);
-            collisionMatrix[0][1] = theLabyrinth.getMapBlockAtPosition(pTopRight)
+            collisionMatrix[0][1] = theLabyrinth.getMapBlockAtPosition(pTopRight);
 
             //thePlayer.setVelocity(velocity.set(-velocity.x, velocity.y));
         }
