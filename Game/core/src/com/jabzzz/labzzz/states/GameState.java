@@ -3,6 +3,7 @@ package com.jabzzz.labzzz.states;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.jabzzz.labzzz.collision.CollisionHandler;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.controller.*;
 import com.jabzzz.labzzz.enums.Direction;
@@ -18,8 +19,9 @@ import com.jabzzz.labzzz.controller.MainGame;
 public class GameState extends AState
 {
     private MainGame theMainGame = null;
-    private InputHandler theInputHandler = null;
 
+    private InputHandler theInputHandler = null;
+    private CollisionHandler theCollisionHandler = null;
 
     private Player player = null;
     private Labyrinth labyrinth = null;
@@ -42,6 +44,7 @@ public class GameState extends AState
         labyrinth = lb;
 
         player = new Player(new Vector2(75f, 75f), theCam);
+        theCollisionHandler = new CollisionHandler(player, labyrinth);
     }
 
     public void render()
@@ -58,6 +61,8 @@ public class GameState extends AState
     {
 
         //Collision
+        theCollisionHandler.update();
+
 
         player.update();
         //theMainGame.getInputHandler()
