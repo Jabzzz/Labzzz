@@ -3,6 +3,9 @@ package com.jabzzz.labzzz.controller;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.jabzzz.labzzz.enums.Direction;
+import com.jabzzz.labzzz.enums.InputSystem;
+import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.states.GameState;
 import com.jabzzz.labzzz.states.MenuState;
 import com.jabzzz.labzzz.states.AState;
@@ -37,8 +40,11 @@ public class MainGame extends ApplicationAdapter
 		//init printFPS
 		lastOut = System.currentTimeMillis();
 
+		//init InputHandler
+		theInputHandler = new InputHandler(this);
+
 		//init GameState
-		theStateStack.add(theGameState = new GameState(this));
+		theStateStack.add(theGameState = new GameState(this, theInputHandler));
 
 		//init MenuState
 		theStateStack.add(theMenuState = new MenuState(this));
@@ -47,7 +53,6 @@ public class MainGame extends ApplicationAdapter
 		theUpdateThread = new UpdateThread(this);
 		theUpdateThread.start();
 
-		theInputHandler = new InputHandler(theStateStack);
 	}
 
 	private void printFPS()
@@ -74,13 +79,17 @@ public class MainGame extends ApplicationAdapter
 		printFPS();
 
 		theStateStack.peek().render();
-		theInputHandler.render(HEIGHT);
 	}
 
 
 	public void update()
 	{
 		theStateStack.peek().update();
+	}
+
+	public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
+	{
+		theStateStack.peek().input(speed, dir, is, x, y);
 	}
 
 
