@@ -54,7 +54,7 @@ public class Player extends AEntity {
 
         //Friction
         Vector2 frictionAcceleration = new Vector2(Vector2.Zero);
-        frictionAcceleration.sub(new Vector2(velocity).setLength(0.05f));
+        frictionAcceleration.sub(new Vector2(velocity).setLength(0.1f));
         if(frictionAcceleration.len2() > velocity.len2())
         {
             frictionAcceleration = new Vector2(Vector2.Zero);
