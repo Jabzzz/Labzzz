@@ -84,7 +84,7 @@ public class Player extends AEntity {
     }
     private Vector2 getAccelerationFrom(Speed speed, Direction dir)
     {
-        float accelerationAbs = 0;
+        float accelerationAbs = 0.4f;
         switch (speed)
         {
             case SLOW:
@@ -97,7 +97,7 @@ public class Player extends AEntity {
                 maxVelocity = 4f;
                 break;
         }
-        accelerationAbs = 0.2f;
+
         switch (dir)
         {
             case UPRIGHT:

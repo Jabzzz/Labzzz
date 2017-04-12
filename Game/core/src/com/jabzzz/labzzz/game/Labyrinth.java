@@ -12,13 +12,13 @@ import com.badlogic.gdx.math.Vector2;
  */
 
 public class Labyrinth {
-    private int[][] map = null;
+    protected int[][] map = null;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public Labyrinth()//int amountColums, int amountRows)
     {
         //Example for a map
-        map = new int[][]
+        /*map = new int[][]
             {
                     {1,1,1,0,1,1},
                     {1,0,0,0,0,1},
@@ -26,7 +26,8 @@ public class Labyrinth {
                     {1,0,1,1,1,1},
                     {0,0,0,0,0,0},
                     {1,1,1,0,1,1}
-            };
+            };*/
+        map = new int[30][30];
 
 
     }
@@ -79,7 +80,6 @@ public class Labyrinth {
         shapeRenderer.end();
 
     }
-
 
     public void update()
     {
