@@ -5,5 +5,5 @@ package com.jabzzz.labzzz.enums;
  */
 
 public enum InputSystem {
-    KEYBOARDMOVE, KEYBOARDSTOP, DRAGORMOUSE, CLICK
+    KEYBOARDMOVE, KEYBOARDSTOP, DRAGORMOUSE, CLICK, CLICKSTOP
 }
