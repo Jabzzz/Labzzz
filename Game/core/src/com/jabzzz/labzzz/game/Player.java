@@ -24,11 +24,11 @@ public class Player extends AEntity {
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthographicCamera theCam;
 
-    public Player(float x, float y, OrthographicCamera theCam)
+    public Player(Vector2 position, OrthographicCamera theCam)
     {
         System.out.println("Player - Constructor");
 
-        position.set(x,y);
+        this.position = new Vector2(position);
         this.theCam = theCam;
     }
 

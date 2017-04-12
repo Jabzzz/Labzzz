@@ -10,11 +10,10 @@ public class LabyrinthBuilder extends Labyrinth {
 
     private int deletedBlocks;
 
-    public LabyrinthBuilder()
+    public LabyrinthBuilder(int mapLength)
     {
-        super();
+        super(mapLength);
         deletedBlocks = 0;
-
     }
 
     public void resetLab()
@@ -94,7 +93,7 @@ public class LabyrinthBuilder extends Labyrinth {
             int oldRating = rateCurrentMap();
             countFreeBlocksAndSet(nextBlock);
             int newRating = rateCurrentMap();
-            System.out.println("Rating:" + oldRating  + ":" + newRating);
+            System.out.println("Map Rating:" + oldRating  + ":" + newRating);
 
             if(oldRating > newRating) {
                 map = oldMap;

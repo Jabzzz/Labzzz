@@ -3,10 +3,13 @@ package com.jabzzz.labzzz.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.controller.*;
+
+import java.util.Random;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -16,7 +19,7 @@ public class Labyrinth {
     protected int[][] map = null;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    public Labyrinth()//int amountColums, int amountRows)
+    public Labyrinth(int mapLength)//int amountColums, int amountRows)
     {
         //Example for a map
         /*map = new int[][]
@@ -28,9 +31,7 @@ public class Labyrinth {
                     {0,0,0,0,0,0},
                     {1,1,1,0,1,1}
             };*/
-        map = new int[30][30];
-
-
+        map = new int[mapLength][mapLength];
     }
 
     public int getMapBlockAt(int row, int col)
@@ -42,8 +43,8 @@ public class Labyrinth {
     }
     public int getMapBlockAtPosition(Vector2 position)
     {
-        int row = MathUtils.floor(position.x / 50);
-        int col = MathUtils.floor(position.y / 50);
+        int col = MathUtils.floor(position.x / 50);
+        int row = MathUtils.floor(position.y / 50);
 
         return getMapBlockAt(row, col);
     }
@@ -51,6 +52,17 @@ public class Labyrinth {
     {
         return (((x % y) + y) % y);
     }
+
+    public Vector2 getRandomSpawnPosition()
+    {
+        Random random = new Random();
+        int spawnIndex = random.nextInt(map.length);
+
+        //if(getMapBlockAt())
+
+        return new Vector2();
+    }
+
 
     public void render(OrthographicCamera theCam)
     {
