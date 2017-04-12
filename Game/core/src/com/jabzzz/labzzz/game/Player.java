@@ -1,5 +1,6 @@
 package com.jabzzz.labzzz.game;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -71,19 +72,26 @@ public class Player extends AEntity {
         {
             velocity.add(frictionAcceleration);
         }
-
-        this.acceleration.set(0,0);
     }
 
-    public void input(Speed speed, Direction dir)
+    public void input(Speed speed, Direction dir, InputSystem is)
     {
-        if(speed != Speed.NONE)
+        switch (is)
         {
-            this.acceleration = getAccelerationFrom(speed, dir);
+            case CLICK:
+            default:
+                this.acceleration = getAccelerationFrom(speed, dir, is);
+                break;
+            case CLICKSTOP:
+                this.acceleration.set(0,0);
+                break;
         }
     }
-    private Vector2 getAccelerationFrom(Speed speed, Direction dir)
+    private Vector2 getAccelerationFrom(Speed speed, Direction dir, InputSystem is)
     {
+        if(is == InputSystem.CLICKSTOP)
+            return new Vector2(0,0);
+
         float accelerationAbs = 0.4f;
         switch (speed)
         {

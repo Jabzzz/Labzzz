@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.jabzzz.labzzz.controller.*;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -52,7 +53,7 @@ public class Labyrinth {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0, 0, 0, 1);
 
-        Vector2 sizeDisplay = new Vector2(500, 850);
+        Vector2 sizeDisplay = new Vector2(MainGame.WIDTH, MainGame.HEIGHT);
         int blockSize = 50;
         Vector2 position = new Vector2();
 

@@ -62,6 +62,6 @@ public class GameState extends AState
 
     public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
     {
-        player.input(speed, dir);
+        player.input(speed, dir, is);
     }
 }
