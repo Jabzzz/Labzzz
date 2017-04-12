@@ -17,13 +17,18 @@ import com.jabzzz.labzzz.controller.MainGame;
 public class GameState extends AState
 {
     private MainGame theMainGame = null;
+    private InputHandler theInputHandler = null;
+
 
     private Player player = null;
     private Labyrinth labyrinth = null;
 
-    public GameState(MainGame theMainGame)
+
+
+    public GameState(MainGame theMainGame, InputHandler theInputHandler)
     {
         this.theMainGame = theMainGame;
+        this.theInputHandler = theInputHandler;
 
         theBatch = new SpriteBatch();
         theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
@@ -40,6 +45,8 @@ public class GameState extends AState
 
     public void render()
     {
+
+        theInputHandler.render(theCam);
 
         player.render(theBatch);
         labyrinth.render(theCam);

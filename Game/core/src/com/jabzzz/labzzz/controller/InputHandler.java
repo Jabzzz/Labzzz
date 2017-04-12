@@ -2,6 +2,7 @@ package com.jabzzz.labzzz.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.enums.Direction;
@@ -18,10 +19,11 @@ import java.util.Stack;
 public class InputHandler implements InputProcessor
 {
 
+    private MainGame theMainGame = null;
+
+
     private final int SLOWBOARDER = 100;
     private final int FASTBOARDER = 200;
-
-    private Stack<AState> theStateStack = null;
 
     private int refPoints[][] = new int[10][2];
     //array for directions: 0=up 1=left 2=down 3=right
@@ -33,10 +35,10 @@ public class InputHandler implements InputProcessor
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    public InputHandler(Stack<AState> theStateStack)
+    public InputHandler(MainGame theMainGame)
     {
 
-        this.theStateStack = theStateStack;
+        this.theMainGame = theMainGame;
         Gdx.input.setInputProcessor(this);
         //System.out.println("InputHandler got constructed!");
         kbSpeed = Speed.SLOW;
@@ -49,23 +51,30 @@ public class InputHandler implements InputProcessor
 
     }
 
-    public void render(int height)
+    public void render(OrthographicCamera theCam)
     {
         //zeichnet nur für einen Finger
         if ((refPoints[0][0] != 0)&&(refPoints[0][1] != 0))
         {
+            shapeRenderer.setProjectionMatrix(theCam.combined);
+
             shapeRenderer.setAutoShapeType(true);
 
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+            float x = theCam.position.x - MainGame.WIDTH / 2;
+            float y = theCam.position.y - MainGame.HEIGHT / 2;
+
             shapeRenderer.setColor(1, 0, 0, 0.5f);
-            shapeRenderer.circle(refPoints[0][0], height-refPoints[0][1], 5);
+            shapeRenderer.circle(x + refPoints[0][0], y + MainGame.HEIGHT - refPoints[0][1], 5);
             /*shapeRenderer.end();
 
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);*/
             shapeRenderer.setColor(1, 0, 0, 0.1f);
-            shapeRenderer.circle(refPoints[0][0], height-refPoints[0][1], SLOWBOARDER);
+            shapeRenderer.circle(x + refPoints[0][0], y +  MainGame.HEIGHT - refPoints[0][1], SLOWBOARDER);
             shapeRenderer.setColor(1, 0, 0, 0.1f);
-            shapeRenderer.circle(refPoints[0][0], height-refPoints[0][1], FASTBOARDER);
+            shapeRenderer.circle(x + refPoints[0][0], y + MainGame.HEIGHT - refPoints[0][1], FASTBOARDER);
+
             shapeRenderer.end();
         }
     }
@@ -86,7 +95,7 @@ public class InputHandler implements InputProcessor
         getSpeed();
 
         System.out.println("Input: Keyboard move with speed: " +kbSpeed+ ", direction: " + d);
-        theStateStack.peek().input(kbSpeed, d, is, 0, 0);
+        theMainGame.input(kbSpeed, d, is, 0, 0);
 
         return false;
     }
@@ -174,7 +183,7 @@ public class InputHandler implements InputProcessor
         getSpeed();
 
         //System.out.println("Input: Keyboard stop: new speed: "+kbSpeed+", direction: "+d);
-        theStateStack.peek().input(kbSpeed, d, is, 0 ,0);
+        theMainGame.input(kbSpeed, d, is, 0 ,0);
         return false;
     }
 
@@ -190,7 +199,7 @@ public class InputHandler implements InputProcessor
         //System.out.println("touchDown at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
 
         //System.out.println("Input: Click at: x: "+screenX+", "+screenX);
-        theStateStack.peek().input(Speed.NONE, Direction.NONE, InputSystem.CLICK, screenX, screenY);
+        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICK, screenX, screenY);
         return false;
     }
 
@@ -202,7 +211,7 @@ public class InputHandler implements InputProcessor
         refPoints[pointer][1] = 0;
 
         //System.out.println("Input: Click stop at: x: "+screenX+", "+screenX);
-        theStateStack.peek().input(Speed.NONE, Direction.NONE, InputSystem.CLICKSTOP, screenX, screenY);
+        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICKSTOP, screenX, screenY);
         return false;
     }
 
@@ -254,7 +263,7 @@ public class InputHandler implements InputProcessor
 
 
                 //System.out.println("Input: Drag or mouse with speed:" + s + ", direction: " + d);
-                theStateStack.peek().input(s, d, is, screenX, screenY);
+                theMainGame.input(s, d, is, screenX, screenY);
             }
             /*else
                 System.out.println("Skipped");*/
