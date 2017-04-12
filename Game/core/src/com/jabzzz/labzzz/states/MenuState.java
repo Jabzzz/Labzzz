@@ -29,9 +29,11 @@ public class MenuState extends AState
 
     private Button playButton = null;
     private Button exitButton = null;
+    private Button shopButton = null;
 
     private Rectangle recPlay = null;
     private Rectangle recExit = null;
+    private Rectangle recShop = null;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -49,24 +51,34 @@ public class MenuState extends AState
 
         Texture btnPlayTexture = new Texture(Gdx.files.internal("playbtn.png"));
         Texture btnExitTexture = new Texture(Gdx.files.internal("exitbtn.png"));
+        Texture btnShopTexture = new Texture(Gdx.files.internal("shopbtn.png"));
 
         //init Play-Button
         playButton = new Button(btnPlayTexture,
                 (MainGame.WIDTH - btnPlayTexture.getWidth()) / 2,
-                (MainGame.HEIGHT - btnPlayTexture.getHeight()) / 4);
+                (MainGame.HEIGHT + 5*btnPlayTexture.getHeight()) / 4);
 
         //init Exit-Button
 
         exitButton = new Button(btnExitTexture,
                 (MainGame.WIDTH - btnExitTexture.getWidth()) / 2,
-                (MainGame.HEIGHT - 7*btnExitTexture.getHeight()) / 4);
+                (MainGame.HEIGHT - 5*btnExitTexture.getHeight()) / 4);
+
+        //init Shop-Button
+
+        shopButton = new Button(btnShopTexture,
+                (MainGame.WIDTH - btnShopTexture.getWidth()) / 2,
+                (MainGame.HEIGHT) / 4);
 
         recPlay = new Rectangle(playButton.getPosition().x, playButton.getPosition().y, btnPlayTexture.getWidth(), btnPlayTexture.getHeight());
         recExit = new Rectangle(exitButton.getPosition().x, exitButton.getPosition().y, btnExitTexture.getWidth(), btnExitTexture.getHeight());
+        recShop = new Rectangle(shopButton.getPosition().x, shopButton.getPosition().y, btnShopTexture.getWidth(), btnShopTexture.getHeight());
 
         //init Textfont
+
         textFont = new BitmapFont(Gdx.files.internal("textfont.fnt"), false);
         textFont.setColor(Color.WHITE);
+        textFont.getData().setScale(1.5f);
 
     }
 
@@ -88,6 +100,7 @@ public class MenuState extends AState
         //draw Button
         playButton.render(theBatch);
         exitButton.render(theBatch);
+        shopButton.render(theBatch);
 
         theBatch.end();
 
@@ -108,7 +121,7 @@ public class MenuState extends AState
 
         yText = (int) ((MainGame.HEIGHT - 200) + 50 * Math.sin(System.currentTimeMillis() * 0.001));
 
-        xText = MainGame.WIDTH / 2 - 50;
+        xText = MainGame.WIDTH / 3;
     }
 
     @Override
@@ -128,6 +141,9 @@ public class MenuState extends AState
 
             if (recExit.contains(x, y))
                 theMainGame.dispose();
+
+            //if (recShop.contains(x, y))
+
         }
     }
 
