@@ -7,9 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
+
+import java.util.Stack;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -19,6 +22,8 @@ public class Player extends AEntity {
 
     private Vector2 acceleration = new Vector2();
     private Vector2 velocity = new Vector2();
+
+    private Stack<InputData> inputDataStack = new Stack<InputData>();
 
     private float maxVelocity = 0f;
 
@@ -57,6 +62,10 @@ public class Player extends AEntity {
 
     public void update()
     {
+        //Calculate Input
+        calcInputData();
+
+
         //MaxSpeed
         Vector2 totalAcceleration = new Vector2(Vector2.Zero);
         totalAcceleration.add(this.acceleration);
@@ -85,16 +94,7 @@ public class Player extends AEntity {
 
     public void input(Speed speed, Direction dir, InputSystem is)
     {
-        switch (is)
-        {
-            case CLICK:
-            default:
-                this.acceleration = getAccelerationFrom(speed, dir, is);
-                break;
-            case CLICKSTOP:
-                this.acceleration.set(0,0);
-                break;
-        }
+        pushInputData(new InputData(speed, dir, is));
     }
     private Vector2 getAccelerationFrom(Speed speed, Direction dir, InputSystem is)
     {
@@ -135,6 +135,22 @@ public class Player extends AEntity {
                 return new Vector2(1,0).setLength(accelerationAbs);
         }
         return new Vector2(0,0);
+    }
+
+    public synchronized void pushInputData(InputData inputData)
+    {
+        inputDataStack.push(inputData);
+    }
+
+    public synchronized void calcInputData()
+    {
+        InputData inputData;
+        while(!inputDataStack.empty())
+        {
+            inputData = inputDataStack.pop();
+            this.acceleration = getAccelerationFrom(inputData.getSpeed(), inputData.getDirection(), inputData.getInputSystem());
+        }
+
     }
 
     public Vector2 getVelocity()
