@@ -128,7 +128,6 @@ public class MenuState extends AState
 
             if (recExit.contains(x, y))
                 theMainGame.dispose();
-            System.exit(1);
         }
     }
 
