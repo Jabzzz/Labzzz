@@ -41,7 +41,7 @@ public class GameState extends AState
         lb.createMap(2000);
         labyrinth = lb;
 
-        player = new Player(new Vector2(75f, 75f), theCam);
+        player = new Player(lb.getRandomSpawnPosition(), theCam);
     }
 
     public void render()

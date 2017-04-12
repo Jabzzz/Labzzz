@@ -58,9 +58,23 @@ public class Labyrinth {
         Random random = new Random();
         int spawnIndex = random.nextInt(map.length);
 
-        //if(getMapBlockAt())
+        for(int row = 0; row < map.length; row++)
+        {
+            for (int colum = 0; colum < map[row].length; colum++)
+            {
+                if(getMapBlockAt(row, colum) == 0)
+                {
+                    if (spawnIndex == 0) {
+                        return new Vector2(colum * 50 + 25, row * 50 + 25);
+                    } else {
+                        spawnIndex--;
+                    }
+                }
+            }
+        }
 
-        return new Vector2();
+
+        return null;
     }
 
 
