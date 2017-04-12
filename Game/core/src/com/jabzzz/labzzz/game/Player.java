@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
@@ -24,12 +25,19 @@ public class Player extends AEntity {
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthographicCamera theCam;
 
-    public Player(Vector2 position, OrthographicCamera theCam)
+
+    private int pictureWidth = 20;
+    private int pictureHeight = 20;
+    private int collisionWidth = 20;
+    private int collisionHeight = 20;
+
+    public Player(float x, float y, OrthographicCamera theCam)
     {
+        this.theCam = theCam;
+
         System.out.println("Player - Constructor");
 
-        this.position = new Vector2(position);
-        this.theCam = theCam;
+        position.set(x,y);
     }
 
     public void render(SpriteBatch theBatch)
@@ -42,6 +50,8 @@ public class Player extends AEntity {
         shapeRenderer.setColor(0, 1, 0, 1);
 
         shapeRenderer.circle(getPosition().x, getPosition().y, 10);
+
+        shapeRenderer.rect(getCollisionRectangle().x, getCollisionRectangle().y, getCollisionRectangle().width, getCollisionRectangle().height);
 
         shapeRenderer.end();
     }
@@ -127,4 +137,31 @@ public class Player extends AEntity {
         }
         return new Vector2(0,0);
     }
+
+    public Vector2 getVelocity()
+    {
+        return this.velocity;
+    }
+
+    public void setVelocity(Vector2 velocity)
+    {
+        this.velocity = velocity;
+    }
+
+    public void setAcceleration(Vector2 acceleration)
+    {
+        this.acceleration = acceleration;
+    }
+
+    public Vector2 getDecenteredPosition()
+    {
+        return new Vector2(position.x - (pictureWidth / 2), position.y - (pictureHeight / 2));
+    }
+
+    public Rectangle getCollisionRectangle()
+    {
+        return new Rectangle(getDecenteredPosition().x, getDecenteredPosition().y, collisionWidth, collisionHeight);
+    }
+
+
 }

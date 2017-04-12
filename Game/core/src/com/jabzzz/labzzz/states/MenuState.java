@@ -56,12 +56,13 @@ public class MenuState extends AState
                 (MainGame.HEIGHT - btnPlayTexture.getHeight()) / 4);
 
         //init Exit-Button
+
         exitButton = new Button(btnExitTexture,
                 (MainGame.WIDTH - btnExitTexture.getWidth()) / 2,
-                (int)(MainGame.HEIGHT - 1.5*(btnExitTexture.getHeight()) / 4));
+                (MainGame.HEIGHT - 7*btnExitTexture.getHeight()) / 4);
 
-        recPlay = new Rectangle(playButton.getPosition().x, playButton.getPosition().x, btnPlayTexture.getWidth(), btnPlayTexture.getHeight());
-        recExit = new Rectangle(exitButton.getPosition().x, exitButton.getPosition().x, btnExitTexture.getWidth(), btnExitTexture.getHeight());
+        recPlay = new Rectangle(playButton.getPosition().x, playButton.getPosition().y, btnPlayTexture.getWidth(), btnPlayTexture.getHeight());
+        recExit = new Rectangle(exitButton.getPosition().x, exitButton.getPosition().y, btnExitTexture.getWidth(), btnExitTexture.getHeight());
 
         //init Textfont
         textFont = new BitmapFont(Gdx.files.internal("textfont.fnt"), false);
@@ -86,6 +87,7 @@ public class MenuState extends AState
         textFont.draw(theBatch, "The Menu", xText, yText);
         //draw Button
         playButton.render(theBatch);
+        exitButton.render(theBatch);
 
         theBatch.end();
 
@@ -123,6 +125,10 @@ public class MenuState extends AState
             //System.out.println(recPlay.contains(x, y) + "   " + recPlay.getX() + "   " + recPlay.getY() + "   " + recPlay.getWidth() + "   " + recPlay.getHeight() + "  x " + x + "   y  " + y);
             if (recPlay.contains(x, y))
                 theMainGame.popStack();
+
+            if (recExit.contains(x, y))
+                theMainGame.dispose();
+            System.exit(1);
         }
     }
 

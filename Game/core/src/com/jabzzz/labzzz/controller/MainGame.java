@@ -19,6 +19,7 @@ public class MainGame extends ApplicationAdapter
 	public static final String TITLE = "THE Game";
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 850;
+	public static final int BLOCK_SIZE = 50;
 
 
 	private GameState theGameState = null;
@@ -102,8 +103,11 @@ public class MainGame extends ApplicationAdapter
 	@Override
 	public void dispose ()
 	{
-		theStateStack.peek().dispose();
+		//theStateStack.peek().dispose();
+		theGameState.dispose();
+		theMenuState.dispose();
 		theUpdateThread.setRunning(false);
+		//Gdx.app.exit();
 	}
 
 	public InputHandler getInputHandler()
