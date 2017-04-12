@@ -53,10 +53,8 @@ public class Labyrinth {
         return (((x % y) + y) % y);
     }
 
-    public Vector2 getRandomSpawnPosition()
+    public Vector2 getSpawnPosition()
     {
-        Random random = new Random();
-        int spawnIndex = random.nextInt(map.length * map.length);
 
         for(int row = 0; row < map.length; row++)
         {
@@ -64,11 +62,7 @@ public class Labyrinth {
             {
                 if(getMapBlockAt(row, colum) == 0)
                 {
-                    if (spawnIndex == 0) {
-                        return new Vector2(colum * 50 + 25, row * 50 + 25);
-                    } else {
-                        spawnIndex--;
-                    }
+                    return new Vector2(colum * 50 + 25, row * 50 + 25);
                 }
             }
         }

@@ -2,9 +2,7 @@ package com.jabzzz.labzzz.states;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jabzzz.labzzz.collision.CollisionHandler;
-import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.controller.*;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
@@ -43,7 +41,7 @@ public class GameState extends AState
         lb.createMap(2000);
         labyrinth = lb;
 
-        player = new Player(lb.getRandomSpawnPosition(), theCam);
+        player = new Player(lb.getSpawnPosition(), theCam);
         theCollisionHandler = new CollisionHandler(player, labyrinth);
     }
 
