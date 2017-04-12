@@ -58,7 +58,7 @@ public class MenuState extends AState
         //init Exit-Button
         exitButton = new Button(btnExitTexture,
                 (MainGame.WIDTH - btnExitTexture.getWidth()) / 2,
-                (MainGame.HEIGHT - 1.5*(btnExitTexture.getHeight()) / 4));
+                (int)(MainGame.HEIGHT - 1.5*(btnExitTexture.getHeight()) / 4));
 
         recPlay = new Rectangle(playButton.getPosition().x, playButton.getPosition().x, btnPlayTexture.getWidth(), btnPlayTexture.getHeight());
         recExit = new Rectangle(exitButton.getPosition().x, exitButton.getPosition().x, btnExitTexture.getWidth(), btnExitTexture.getHeight());

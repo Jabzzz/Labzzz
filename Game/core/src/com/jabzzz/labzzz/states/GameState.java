@@ -39,7 +39,7 @@ public class GameState extends AState
 
         LabyrinthBuilder lb = new LabyrinthBuilder();
         lb.resetLab();
-        lb.createMap(800);
+        lb.createMap(2000);
         labyrinth = lb;
     }
 

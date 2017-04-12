@@ -42,12 +42,15 @@ public class LabyrinthBuilder extends Labyrinth {
                             rating -=4;
                             break;
                         case 1:
-                            rating +=1;
+                            rating -=1;
                             break;
                         case 2:
                             rating +=4;
                             break;
                         case 3:
+                            rating += 3;
+                            break;
+                        case 4:
                             rating += 1;
                             break;
                     }
@@ -95,7 +98,6 @@ public class LabyrinthBuilder extends Labyrinth {
 
             if(oldRating > newRating) {
                 map = oldMap;
-                System.out.println("OldMap was better");
             }
         }
     }
