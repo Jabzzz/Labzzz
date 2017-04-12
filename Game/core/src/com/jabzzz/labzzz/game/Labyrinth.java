@@ -56,7 +56,7 @@ public class Labyrinth {
     public Vector2 getRandomSpawnPosition()
     {
         Random random = new Random();
-        int spawnIndex = random.nextInt(map.length);
+        int spawnIndex = random.nextInt(map.length * map.length);
 
         for(int row = 0; row < map.length; row++)
         {

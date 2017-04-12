@@ -31,13 +31,12 @@ public class Player extends AEntity {
     private int collisionWidth = 20;
     private int collisionHeight = 20;
 
-    public Player(float x, float y, OrthographicCamera theCam)
+    public Player(Vector2 position, OrthographicCamera theCam)
     {
         this.theCam = theCam;
+        this.position = new Vector2(position);
 
         System.out.println("Player - Constructor");
-
-        position.set(x,y);
     }
 
     public void render(SpriteBatch theBatch)
