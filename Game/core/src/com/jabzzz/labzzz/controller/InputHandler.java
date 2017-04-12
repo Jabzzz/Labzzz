@@ -151,7 +151,7 @@ public class InputHandler implements InputProcessor
             else
                 d = Direction.LEFT;
         }
-        else if (dir[2])
+        if (dir[2])
         {
             if (dir[1])
                 d = Direction.DOWNLEFT;

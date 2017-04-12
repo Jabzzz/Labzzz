@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
@@ -27,6 +28,8 @@ public class MenuState extends AState
 
     private Button playButton = null;
 
+    private Rectangle recPlay = null;
+
 
     public MenuState(MainGame theMainGame)
     {
@@ -45,6 +48,7 @@ public class MenuState extends AState
         playButton = new Button(btnTexture,
                 (MainGame.WIDTH - btnTexture.getWidth()) / 2,
                 (MainGame.HEIGHT - btnTexture.getHeight()) / 4);
+        Rectangle recPlay = new Rectangle(MainGame.WIDTH - btnTexture.getWidth() / 2, MainGame.HEIGHT - btnTexture.getHeight() / 4, btnTexture.getWidth(), btnTexture.getHeight());
 
         //init Textfont
         textFont = new BitmapFont(Gdx.files.internal("textfont.fnt"), false);
@@ -92,6 +96,9 @@ public class MenuState extends AState
     @Override
     public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
     {
+        /*System.out.println(recPlay.contains(x, y));
+        if (recPlay.contains(x, y))
+            theMainGame.popStack();*/
         theMainGame.popStack();
     }
 
