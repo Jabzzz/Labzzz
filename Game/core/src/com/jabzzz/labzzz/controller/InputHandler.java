@@ -148,14 +148,14 @@ public class InputHandler implements InputProcessor
         {
             if (dir[3])
                 d = Direction.NONE;
+            if (dir[2])
+                d = Direction.DOWNLEFT;
             else
                 d = Direction.LEFT;
         }
-        if (dir[2])
+        else if (dir[2])
         {
-            if (dir[1])
-                d = Direction.DOWNLEFT;
-            else if (dir[3])
+            if (dir[3])
                 d = Direction.DOWNRIGHT;
             else
                 d = Direction.DOWN;
@@ -199,7 +199,7 @@ public class InputHandler implements InputProcessor
         //System.out.println("touchDown at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
 
         //System.out.println("Input: Click at: x: "+screenX+", "+screenX);
-        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICK, screenX, screenY);
+        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICK, screenX, MainGame.HEIGHT-screenY);
         return false;
     }
 
