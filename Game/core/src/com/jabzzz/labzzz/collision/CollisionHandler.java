@@ -48,44 +48,46 @@ public class CollisionHandler
         pTopLeft = new Vector2(collisionRect.getX(), collisionRect.getY() + collisionRect.getHeight());
         pTopRight = new Vector2(pBottomRight.x, pTopLeft.y);
 
-        int collide = 0;
+        int collisionMatrix[][] = {{0,0},{0,0}};
+        /*
+            collisionMatrix[][]
+            [0][0]   [0][1]
+
+            [1][0]   [1][1]
+         */
 
         if(dx > 0)
         {
             //Move Right
-            collide += theLabyrinth.getMapBlockAtPosition(pBottomRight);
-            collide += theLabyrinth.getMapBlockAtPosition(pTopRight);
-            System.out.print("Right");
+            collisionMatrix[1][1] = theLabyrinth.getMapBlockAtPosition(pBottomRight);
+            collisionMatrix[0][1] = theLabyrinth.getMapBlockAtPosition(pTopRight)
+
+            //thePlayer.setVelocity(velocity.set(-velocity.x, velocity.y));
         }
         else if (dx < 0)
         {
             //Move Left
-            collide += theLabyrinth.getMapBlockAtPosition(pBottomLeft);
-            collide += theLabyrinth.getMapBlockAtPosition(pTopLeft);
-            System.out.print("Left");
+            collisionMatrix[1][0] = theLabyrinth.getMapBlockAtPosition(pBottomLeft);
+            collisionMatrix[0][0] = theLabyrinth.getMapBlockAtPosition(pTopLeft);
+
+            //thePlayer.setVelocity(velocity.set(-velocity.x, velocity.y));
         }
 
         if(dy > 0)
         {
             //Move up
-            collide += theLabyrinth.getMapBlockAtPosition(pTopLeft);
-            collide += theLabyrinth.getMapBlockAtPosition(pTopRight);
-            System.out.print("Up");
+            collisionMatrix[0][0] = theLabyrinth.getMapBlockAtPosition(pTopLeft);
+            collisionMatrix[0][1] = theLabyrinth.getMapBlockAtPosition(pTopRight);
+
+            //thePlayer.setVelocity(velocity.set(velocity.x, -velocity.y));
         }
         else if(dy < 0)
         {
             //Move Down
-            collide += theLabyrinth.getMapBlockAtPosition(pBottomRight);
-            collide += theLabyrinth.getMapBlockAtPosition(pBottomLeft);
-            System.out.print("Down");
-        }
+            collisionMatrix[1][1] = theLabyrinth.getMapBlockAtPosition(pBottomRight);
+            collisionMatrix[1][0] = theLabyrinth.getMapBlockAtPosition(pBottomLeft);
 
-        if(collide > 0)
-        {
-            thePlayer.setVelocity(new Vector2(0,0));
-            thePlayer.setAcceleration(new Vector2(0,0));
-            System.out.println(" - Collide!");
-
+            //thePlayer.setVelocity(velocity.set(velocity.x, -velocity.y));
         }
 
 
