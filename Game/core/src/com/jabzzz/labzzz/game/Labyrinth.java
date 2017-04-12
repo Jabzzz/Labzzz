@@ -40,6 +40,13 @@ public class Labyrinth {
 
         return map[rowInMatrix][colInMatrix];
     }
+    public int getMapBlockAtPosition(Vector2 position)
+    {
+        int row = MathUtils.floor(position.x / 50);
+        int col = MathUtils.floor(position.y / 50);
+
+        return getMapBlockAt(row, col);
+    }
     private int mod(int x, int y)
     {
         return (((x % y) + y) % y);
