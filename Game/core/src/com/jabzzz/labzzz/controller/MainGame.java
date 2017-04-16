@@ -54,6 +54,7 @@ public class MainGame extends ApplicationAdapter
 		theUpdateThread = new UpdateThread(this);
 		theUpdateThread.start();
 
+		theUpdateThread.setUpdatesPerSecond(120);
 	}
 
 	private void printFPS()

@@ -21,7 +21,7 @@ public class GameState extends AState
     private InputHandler theInputHandler = null;
     private CollisionHandler theCollisionHandler = null;
 
-    private Player player = null;
+    private com.jabzzz.labzzz.entities.Player player = null;
     private Labyrinth labyrinth = null;
 
 
@@ -41,8 +41,10 @@ public class GameState extends AState
         lb.createMap(2000);
         labyrinth = lb;
 
-        player = new Player(lb.getSpawnPosition(), theCam);
+        player = new com.jabzzz.labzzz.entities.Player(lb.getSpawnPosition(), theCam);
         theCollisionHandler = new CollisionHandler(player, labyrinth);
+
+
     }
 
     public void render()

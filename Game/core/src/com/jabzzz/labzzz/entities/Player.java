@@ -1,10 +1,8 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.entities;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.controller.InputData;
@@ -18,7 +16,7 @@ import java.util.Stack;
  * Created by Stefan on 04.04.2017.
  */
 
-public class Player extends AEntity {
+public class Player extends com.jabzzz.labzzz.entities.AEntity {
 
     private Vector2 acceleration = new Vector2();
     private Vector2 velocity = new Vector2();
@@ -137,15 +135,15 @@ public class Player extends AEntity {
         return new Vector2(0,0);
     }
 
-    public synchronized void pushInputData(InputData inputData)
+    public void pushInputData(InputData inputData)
     {
         inputDataStack.push(inputData);
     }
 
-    public synchronized void calcInputData()
+    public void calcInputData()
     {
         InputData inputData;
-        while(!inputDataStack.empty())
+        if(!inputDataStack.empty())
         {
             inputData = inputDataStack.pop();
             this.acceleration = getAccelerationFrom(inputData.getSpeed(), inputData.getDirection(), inputData.getInputSystem());
@@ -168,9 +166,19 @@ public class Player extends AEntity {
         this.acceleration = acceleration;
     }
 
+    public Vector2 getAcceleration()
+    {
+        return this.acceleration;
+    }
+
     public Vector2 getDecenteredPosition()
     {
         return new Vector2(position.x - (pictureWidth / 2), position.y - (pictureHeight / 2));
+    }
+
+    public void setPosition(Vector2 position)
+    {
+        this.position.set(position.x + (pictureWidth / 2), position.y + (pictureHeight / 2));
     }
 
     public Rectangle getCollisionRectangle()

@@ -1,4 +1,4 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;

@@ -11,7 +11,7 @@ import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
-import com.jabzzz.labzzz.game.Button;
+import com.jabzzz.labzzz.entities.Button;
 
 /**
  * Created by Useless on 01.04.2017.

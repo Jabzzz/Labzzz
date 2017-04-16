@@ -1,4 +1,4 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by samvell on 05.04.17.
  */
 
-public class Button extends AEntity
+public class Button extends com.jabzzz.labzzz.entities.AEntity
 {
     private Texture btnTexture = null;
     private SpriteBatch theBatch = null;
