@@ -28,9 +28,9 @@ public class CollisionHandler
 
     public void update()
     {
-        currentPositionCollision();
+     //   currentPositionCollision();
 
-        nextStepCollisionPvE();
+        //nextStepCollisionPvE();
     }
 
     private void currentPositionCollision()

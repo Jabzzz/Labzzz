@@ -10,7 +10,7 @@ import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
 
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -21,7 +21,7 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
     private Vector2 acceleration = new Vector2();
     private Vector2 velocity = new Vector2();
 
-    private Stack<InputData> inputDataStack = new Stack<InputData>();
+    private ArrayList<InputData> inputDataList = new ArrayList<InputData>();
 
     private float maxVelocity = 0f;
 
@@ -135,17 +135,18 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
         return new Vector2(0,0);
     }
 
-    public void pushInputData(InputData inputData)
+    public synchronized void pushInputData(InputData inputData)
     {
-        inputDataStack.push(inputData);
+        inputDataList.add(inputData);
     }
 
-    public void calcInputData()
+    public synchronized void calcInputData()
     {
         InputData inputData;
-        if(!inputDataStack.empty())
+        while(!inputDataList.isEmpty())
         {
-            inputData = inputDataStack.pop();
+            inputData = inputDataList.get(0);
+            inputDataList.remove(0);
             this.acceleration = getAccelerationFrom(inputData.getSpeed(), inputData.getDirection(), inputData.getInputSystem());
         }
 
