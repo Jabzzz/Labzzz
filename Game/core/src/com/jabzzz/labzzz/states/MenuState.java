@@ -70,6 +70,7 @@ public class MenuState extends AState
                 (MainGame.WIDTH - btnShopTexture.getWidth()) / 2,
                 (MainGame.HEIGHT) / 4);
 
+        //init recs for click detection
         recPlay = new Rectangle(playButton.getPosition().x, playButton.getPosition().y, btnPlayTexture.getWidth(), btnPlayTexture.getHeight());
         recExit = new Rectangle(exitButton.getPosition().x, exitButton.getPosition().y, btnExitTexture.getWidth(), btnExitTexture.getHeight());
         recShop = new Rectangle(shopButton.getPosition().x, shopButton.getPosition().y, btnShopTexture.getWidth(), btnShopTexture.getHeight());
@@ -118,7 +119,6 @@ public class MenuState extends AState
     @Override
     public void update()
     {
-
         yText = (int) ((MainGame.HEIGHT - 200) + 50 * Math.sin(System.currentTimeMillis() * 0.001));
 
         xText = MainGame.WIDTH / 3;
@@ -137,12 +137,14 @@ public class MenuState extends AState
         {
             //System.out.println(recPlay.contains(x, y) + "   " + recPlay.getX() + "   " + recPlay.getY() + "   " + recPlay.getWidth() + "   " + recPlay.getHeight() + "  x " + x + "   y  " + y);
             if (recPlay.contains(x, y))
-                theMainGame.popStack();
+                theMainGame.pushGameStack();
+                //theMainGame.popStack();
 
             if (recExit.contains(x, y))
                 theMainGame.dispose();
 
-            //if (recShop.contains(x, y))
+            if (recShop.contains(x, y))
+                theMainGame.pushShopStack();
 
         }
     }

@@ -50,10 +50,12 @@ public class GameState extends AState
     public void render()
     {
 
+        theCam.update();
+        theBatch.setProjectionMatrix(theCam.combined);
         theInputHandler.render(theCam);
 
         player.render(theBatch);
-        labyrinth.render(theCam);
+        labyrinth.render(theBatch, theCam);
 
     }
 
