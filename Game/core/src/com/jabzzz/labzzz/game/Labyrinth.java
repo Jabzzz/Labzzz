@@ -3,6 +3,8 @@ package com.jabzzz.labzzz.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,6 +20,8 @@ import java.util.Random;
 public class Labyrinth {
     protected int[][] map = null;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private Texture wall = null;
+    private Texture ground = null;
 
     public Labyrinth(int mapLength)//int amountColums, int amountRows)
     {
@@ -32,6 +36,10 @@ public class Labyrinth {
                     {1,1,1,0,1,1}
             };*/
         map = new int[mapLength][mapLength];
+
+        wall = new Texture("wall.png");
+        ground = new Texture("ground.png");
+
     }
 
     public int getMapBlockAt(int row, int col)
@@ -72,13 +80,9 @@ public class Labyrinth {
     }
 
 
-    public void render(OrthographicCamera theCam)
+    public void render(SpriteBatch theBatch, OrthographicCamera theCam)
     {
-        theCam.update();
-        shapeRenderer.setProjectionMatrix(theCam.combined);
-        shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(0, 0, 0, 1);
+        theBatch.begin();
 
         Vector2 sizeDisplay = new Vector2(MainGame.WIDTH, MainGame.HEIGHT);
         int blockSize = 50;
@@ -93,19 +97,23 @@ public class Labyrinth {
         int rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / blockSize);
         int rowEnd = MathUtils.floor((theCam.position.y + halfDisplayY) / blockSize);
 
-
         for(int row = rowStart; row <= rowEnd; row++)
         {
             for(int colum = colStart; colum <= colEnd; colum++) {
                 if (getMapBlockAt(row, colum) == 1) {
                     position.set(50 * colum, 50 * row);
 
-                    shapeRenderer.rect(position.x, position.y, 50, 50);
+                    theBatch.draw(wall, position.x, position.y, 50f, 50f);
+                }
+                else if (getMapBlockAt(row, colum) == 0) {
+                    position.set(50 * colum, 50 * row);
+
+                    theBatch.draw(ground, position.x, position.y, 50f, 50f);
                 }
             }
         }
 
-        shapeRenderer.end();
+        theBatch.end();
 
     }
 

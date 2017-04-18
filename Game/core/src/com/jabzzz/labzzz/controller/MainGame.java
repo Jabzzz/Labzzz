@@ -9,6 +9,7 @@ import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.states.GameState;
 import com.jabzzz.labzzz.states.MenuState;
 import com.jabzzz.labzzz.states.AState;
+import com.jabzzz.labzzz.states.ShopState;
 
 import java.util.Stack;
 
@@ -24,6 +25,7 @@ public class MainGame extends ApplicationAdapter
 
 	private GameState theGameState = null;
 	private MenuState theMenuState = null;
+	private ShopState theShopState = null;
 	private UpdateThread theUpdateThread = null;
 	private InputHandler theInputHandler = null;
 
@@ -47,9 +49,11 @@ public class MainGame extends ApplicationAdapter
 		//init GameState
 		theStateStack.add(theGameState = new GameState(this, theInputHandler));
 
+		//init ShopState
+		theStateStack.add(theShopState = new ShopState(this));
+
 		//init MenuState
 		theStateStack.add(theMenuState = new MenuState(this));
-
 
 		theUpdateThread = new UpdateThread(this);
 		theUpdateThread.start();
@@ -100,7 +104,13 @@ public class MainGame extends ApplicationAdapter
         theStateStack.pop();
     }
 
-	
+    public void pushShopStack() { theStateStack.push(theShopState);}
+
+	public void pushMenuStack() { theStateStack.push(theMenuState);}
+
+	public void pushGameStack() { theStateStack.push(theGameState);}
+
+
 	@Override
 	public void dispose ()
 	{
