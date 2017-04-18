@@ -53,9 +53,12 @@ public class InputHandler implements InputProcessor
 
     public void render(OrthographicCamera theCam)
     {
+
+
         //zeichnet nur für einen Finger
         if ((refPoints[0][0] != 0)&&(refPoints[0][1] != 0))
         {
+            //theCam.update();
             shapeRenderer.setProjectionMatrix(theCam.combined);
 
             shapeRenderer.setAutoShapeType(true);
@@ -199,7 +202,12 @@ public class InputHandler implements InputProcessor
         //System.out.println("touchDown at:\t"+screenX+", "+screenY+" from Pointer: "+pointer);
 
         //System.out.println("Input: Click at: x: "+screenX+", "+screenX);
-        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICK, screenX, MainGame.HEIGHT-screenY);
+
+        float dScreenX = screenX * ((float) MainGame.WIDTH / Gdx.graphics.getWidth());
+        float dScreenY = screenY * ((float) MainGame.HEIGHT / Gdx.graphics.getHeight());
+
+
+        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICK, dScreenX, MainGame.HEIGHT - dScreenY);
         return false;
     }
 
@@ -221,13 +229,16 @@ public class InputHandler implements InputProcessor
 
         if (refPoints[pointer][0]==0)
         {
-            refPoints[pointer][0] = screenX;
-            refPoints[pointer][1] = screenY;
+            refPoints[pointer][0] = (int) (screenX * ((float) MainGame.WIDTH / Gdx.graphics.getWidth()));
+            refPoints[pointer][1] = (int) (screenY * ((float) MainGame.HEIGHT / Gdx.graphics.getHeight()));
         }
         else {
 
+            float dScreenX = screenX * ((float) MainGame.WIDTH / Gdx.graphics.getWidth());
+            float dScreenY = screenY * ((float) MainGame.HEIGHT / Gdx.graphics.getHeight());
+
             //on display left upper corner is 0/0 so we have y has to be -y
-            Vector2 vec = new Vector2((float) screenX - refPoints[pointer][0], -((float) screenY - refPoints[pointer][1]));
+            Vector2 vec = new Vector2((float) dScreenX - refPoints[pointer][0], -((float) dScreenY - refPoints[pointer][1]));
             float abs = vec.len();
 
             //zu kleine Impulse filtern

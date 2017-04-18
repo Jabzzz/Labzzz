@@ -28,16 +28,16 @@ public class CollisionHandler
 
     public void update()
     {
-        currentPositionCollision();
+       // currentPositionCollision();
 
-        nextStepCollisionPvE();
+        //anextStepCollisionPvE();
     }
 
     private void currentPositionCollision()
     {
-        Vector2 velocity = lastVelocity;
-        Vector2 position = thePlayer.getDecenteredPosition();
-        Rectangle collisionRect = thePlayer.getCollisionRectangle();
+        Vector2 velocity = new Vector2(lastVelocity);
+        Vector2 position = new Vector2(thePlayer.getDecenteredPosition());
+        Rectangle collisionRect = new Rectangle(thePlayer.getCollisionRectangle());
         Vector2 collisionPoints[] = getCollisionPoints(collisionRect);
 
         //Set last velocity
@@ -49,7 +49,7 @@ public class CollisionHandler
             velocity.rotate(180);
             velocity.setLength(0.5f);
 
-            for(int i = 0; i < 10; i++)
+            for(int i = 0; i < 5; i++)
             {
                 collisionRect.setPosition(position.add(velocity));
 
