@@ -53,11 +53,15 @@ public class GameState extends AState
 
     public void render()
     {
-
+        //Set up Camera and SpriteBatch
+        theCam.position.set(player.getPosition(), 0);
         theCam.update();
         theBatch.setProjectionMatrix(theCam.combined);
+
+        labyrinth.render(theBatch);
+
+        //Render the Game
         theInputHandler.render(theCam);
-        labyrinth.render(theBatch, theCam);
 
         player.render(theBatch);
         enemy.render(theBatch);
@@ -71,6 +75,7 @@ public class GameState extends AState
         //Collision
         theCollisionHandler.update();
 
+        labyrinth.update(theCam);
 
         player.update();
         //theMainGame.getInputHandler()

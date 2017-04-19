@@ -6,7 +6,8 @@ import java.util.Random;
  * Created by Stefan on 12.04.2017.
  */
 
-public class LabyrinthBuilder extends Labyrinth {
+public class LabyrinthBuilder extends Labyrinth
+{
 
     private int deletedBlocks;
 

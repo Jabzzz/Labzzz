@@ -39,20 +39,18 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
         this.theCam = theCam;
         this.position = new Vector2(position);
 
+        shapeRenderer.setAutoShapeType(true);
+
         System.out.println("Player - Constructor");
     }
 
     public void render(SpriteBatch theBatch)
     {
-        theCam.position.set(getPosition(), 0);
-        theCam.update();
         shapeRenderer.setProjectionMatrix(theCam.combined);
-        shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
         shapeRenderer.setColor(0, 1, 0, 1);
-
         shapeRenderer.circle(getPosition().x, getPosition().y, 10);
-
         shapeRenderer.rect(getCollisionRectangle().x, getCollisionRectangle().y, getCollisionRectangle().width, getCollisionRectangle().height);
 
         shapeRenderer.end();

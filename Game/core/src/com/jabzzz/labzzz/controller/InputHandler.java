@@ -37,7 +37,6 @@ public class InputHandler implements InputProcessor
 
     public InputHandler(MainGame theMainGame)
     {
-
         this.theMainGame = theMainGame;
         Gdx.input.setInputProcessor(this);
         //System.out.println("InputHandler got constructed!");
@@ -73,10 +72,10 @@ public class InputHandler implements InputProcessor
             /*shapeRenderer.end();
 
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);*/
-            shapeRenderer.setColor(1, 0, 0, 0.1f);
+            shapeRenderer.setColor(1f, 0, 0, 0.1f);
             shapeRenderer.circle(x + refPoints[0][0], y +  MainGame.HEIGHT - refPoints[0][1], SLOWBOARDER);
             shapeRenderer.setColor(1, 0, 0, 0.1f);
-            shapeRenderer.circle(x + refPoints[0][0], y + MainGame.HEIGHT - refPoints[0][1], FASTBOARDER);
+//            shapeRenderer.circle(x + refPoints[0][0], y + MainGame.HEIGHT - refPoints[0][1], FASTBOARDER);
 
             shapeRenderer.end();
         }

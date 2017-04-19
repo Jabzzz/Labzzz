@@ -27,6 +27,14 @@ public class Labyrinth {
     private Texture wall = null;
     private Texture ground = null;
 
+
+    private int colStart = 0;
+    private int colEnd = 0;
+    private int rowStart = 0;
+    private int rowEnd = 0;
+    private int halfDisplayX = (int) (MainGame.WIDTH / 2);
+    private int halfDisplayY = (int) (MainGame.HEIGHT / 2);
+
     public Labyrinth(int mapLength)//int amountColums, int amountRows)
     {
         //Example for a map
@@ -63,6 +71,11 @@ public class Labyrinth {
     private int mod(int x, int y)
     {
         return (((x % y) + y) % y);
+    }
+
+    public Vector2 getMidpointFromBlock(int row, int colum)
+    {
+        return new Vector2(colum * MainGame.BLOCK_SIZE + MainGame.BLOCK_SIZE / 2, row * MainGame.BLOCK_SIZE + MainGame.BLOCK_SIZE / 2);
     }
 
     public Vector2 getSpawnPosition()
@@ -103,27 +116,12 @@ public class Labyrinth {
         return freeBlocks.get(randomNumber);
     }
 
-    public Vector2 getMidpointFromBlock(int row, int colum)
-    {
-        return new Vector2(colum * MainGame.BLOCK_SIZE + MainGame.BLOCK_SIZE / 2, row * MainGame.BLOCK_SIZE + MainGame.BLOCK_SIZE / 2);
-    }
 
 
-    public void render(SpriteBatch theBatch, OrthographicCamera theCam)
+    public void render(SpriteBatch theBatch)
     {
         theBatch.begin();
-
-        Vector2 sizeDisplay = new Vector2(MainGame.WIDTH, MainGame.HEIGHT);
         Vector2 position = new Vector2();
-
-        //One Unit is 50px
-        int halfDisplayX = MathUtils.ceil(sizeDisplay.x * 0.5f);
-        int halfDisplayY = MathUtils.ceil(sizeDisplay.y * 0.5f);
-
-        int colStart = MathUtils.floor((theCam.position.x - halfDisplayX) / MainGame.BLOCK_SIZE);
-        int colEnd = MathUtils.floor((theCam.position.x + halfDisplayX) / MainGame.BLOCK_SIZE);
-        int rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / MainGame.BLOCK_SIZE);
-        int rowEnd = MathUtils.floor((theCam.position.y + halfDisplayY) / MainGame.BLOCK_SIZE);
 
         for(int row = rowStart; row <= rowEnd; row++)
         {
@@ -145,9 +143,12 @@ public class Labyrinth {
 
     }
 
-    public void update()
+    public void update(OrthographicCamera theCam)
     {
-
+        colStart = MathUtils.floor((theCam.position.x - halfDisplayX) / MainGame.BLOCK_SIZE);
+        colEnd = MathUtils.floor((theCam.position.x + halfDisplayX) / MainGame.BLOCK_SIZE);
+        rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / MainGame.BLOCK_SIZE);
+        rowEnd = MathUtils.floor((theCam.position.y + halfDisplayY) / MainGame.BLOCK_SIZE);
     }
 
     public int[][] getMap()

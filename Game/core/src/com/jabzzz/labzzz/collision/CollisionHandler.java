@@ -100,21 +100,27 @@ public class CollisionHandler
         //Proof Collision
         int collisionMatrix[][] = getCollisionMatrix(velocity.x, velocity.y, collisionPoints);
 
-        //Set Player-Speed/Acceleration (2-Point Collision)
-        Vector2 acceleration = thePlayer.getAcceleration();
+        //Set Player-Speed (2-Point Collision)
 
         boolean onePointCollision = false;
+        boolean twoPointCollision = false;
+
         Vector2 dPoint = new Vector2();
 
         if(isCollisionUP(collisionMatrix) || isCollisionDOWN(collisionMatrix))
         {
-            thePlayer.setVelocity(new Vector2(velocity.x, 0));
+            thePlayer.setVelocity(velocity.set(velocity.x, 0));
+            twoPointCollision = true;
         }
-        else if(isCollisionLEFT(collisionMatrix) || isCollisionRIGHT(collisionMatrix))
+
+        if(isCollisionLEFT(collisionMatrix) || isCollisionRIGHT(collisionMatrix))
         {
-            thePlayer.setVelocity(new Vector2(0, velocity.y));
+            thePlayer.setVelocity(velocity.set(0, velocity.y));
+            if(twoPointCollision)
+                thePlayer.setVelocity(new Vector2(0, 0));
         }
-        else
+
+        if(!twoPointCollision)
         {
             if(collisionMatrix[0][0] == 1)
             {
@@ -138,7 +144,7 @@ public class CollisionHandler
             }
         }
 
-        if(onePointCollision)
+        if(onePointCollision && !twoPointCollision)
         {
             dPoint.add(new Vector2(velocity.x, -1f * velocity.y));
 
@@ -212,26 +218,26 @@ public class CollisionHandler
 
     private boolean isCollisionUP(int collisionMatrix[][])
     {
-        return (collisionMatrix[0][0] == 1 && collisionMatrix[0][1] == 1 &&
-                collisionMatrix[1][0] == 0 && collisionMatrix[1][1] == 0);
+        return (collisionMatrix[0][0] == 1 && collisionMatrix[0][1] == 1);// &&
+                //collisionMatrix[1][0] == 0 && collisionMatrix[1][1] == 0);
     }
 
     private boolean isCollisionDOWN(int collisionMatrix[][])
     {
-        return (collisionMatrix[1][0] == 1 && collisionMatrix[1][1] == 1 &&
-                collisionMatrix[0][0] == 0 && collisionMatrix[0][1] == 0);
+        return (collisionMatrix[1][0] == 1 && collisionMatrix[1][1] == 1);// &&
+                //collisionMatrix[0][0] == 0 && collisionMatrix[0][1] == 0);
     }
 
     private boolean isCollisionLEFT(int collisionMatrix[][])
     {
-        return (collisionMatrix[0][0] == 1 && collisionMatrix[1][0] == 1 &&
-                collisionMatrix[0][1] == 0 && collisionMatrix[1][1] == 0);
+        return (collisionMatrix[0][0] == 1 && collisionMatrix[1][0] == 1);// &&
+                //collisionMatrix[0][1] == 0 && collisionMatrix[1][1] == 0);
     }
 
     private boolean isCollisionRIGHT(int collisionMatrix[][])
     {
-        return (collisionMatrix[0][1] == 1  && collisionMatrix[1][1] == 1 &&
-                collisionMatrix[0][0] == 0 && collisionMatrix[1][0] == 0);
+        return (collisionMatrix[0][1] == 1  && collisionMatrix[1][1] == 1);// &&
+                //collisionMatrix[0][0] == 0 && collisionMatrix[1][0] == 0);
     }
 
 }
