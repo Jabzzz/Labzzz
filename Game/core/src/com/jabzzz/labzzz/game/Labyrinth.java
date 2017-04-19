@@ -37,8 +37,8 @@ public class Labyrinth {
             };*/
         map = new int[mapLength][mapLength];
 
-        wall = new Texture("wall.png");
-        ground = new Texture("ground.png");
+        wall = new Texture("Wall.png");
+        ground = new Texture("Ground.png");
 
     }
 

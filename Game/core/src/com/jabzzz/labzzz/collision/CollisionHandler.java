@@ -87,21 +87,18 @@ public class CollisionHandler
     private void nextStepCollisionPvE()
     {
         //Get Values
-        Vector2 velocity = thePlayer.getVelocity();
+        Vector2 velocity = new Vector2(thePlayer.getVelocity());
         Vector2 dPosition = thePlayer.getDecenteredPosition().add(velocity);
         Rectangle collisionRect = thePlayer.getCollisionRectangle();
 
         //Calc new Position and Speed-Direction
         collisionRect.setPosition(dPosition);
 
-        int dx = (int) velocity.x;
-        int dy = (int) velocity.y;
-
         //Set Player-Collision-Points
         Vector2 collisionPoints[] = getCollisionPoints(collisionRect);
 
         //Proof Collision
-        int collisionMatrix[][] = getCollisionMatrix(dx, dy, collisionPoints);
+        int collisionMatrix[][] = getCollisionMatrix(velocity.x, velocity.y, collisionPoints);
 
         //Set Player-Speed/Acceleration (2-Point Collision)
         Vector2 acceleration = thePlayer.getAcceleration();
@@ -111,53 +108,47 @@ public class CollisionHandler
 
         if(isCollisionUP(collisionMatrix) || isCollisionDOWN(collisionMatrix))
         {
-            acceleration.set(acceleration.x, -acceleration.y * 0f);
-
-            thePlayer.setVelocity(velocity.set(velocity.x, 0));  //-velocity.y));
-            thePlayer.setAcceleration(acceleration);
+            thePlayer.setVelocity(new Vector2(velocity.x, 0));
         }
         else if(isCollisionLEFT(collisionMatrix) || isCollisionRIGHT(collisionMatrix))
         {
-            acceleration.set(-acceleration.x * 0f, acceleration.y);
-
-            thePlayer.setVelocity(velocity.set(0, velocity.y));//-velocity.x, velocity.y));
-            thePlayer.setAcceleration(acceleration);
+            thePlayer.setVelocity(new Vector2(0, velocity.y));
         }
-        else if(collisionMatrix[0][0] == 1)
+        else
         {
-            dPoint = collisionPoints[2];
-            onePointCollision = true;
-        }
-        else if(collisionMatrix[0][1] == 1)
-        {
-            dPoint = collisionPoints[3];
-            onePointCollision = true;
-        }
-        else if(collisionMatrix[1][0] == 1)
-        {
-            dPoint = collisionPoints[0];
-            onePointCollision = true;
-        }
-        else if(collisionMatrix[1][1] == 1)
-        {
-            dPoint = collisionPoints[1];
-            onePointCollision = true;
+            if(collisionMatrix[0][0] == 1)
+            {
+                dPoint = collisionPoints[2];
+                onePointCollision = true;
+            }
+            else if(collisionMatrix[0][1] == 1)
+            {
+                dPoint = collisionPoints[3];
+                onePointCollision = true;
+            }
+            else if(collisionMatrix[1][0] == 1)
+            {
+                dPoint = collisionPoints[0];
+                onePointCollision = true;
+            }
+            else if(collisionMatrix[1][1] == 1)
+            {
+                dPoint = collisionPoints[1];
+                onePointCollision = true;
+            }
         }
 
         if(onePointCollision)
         {
-            dPoint.add(new Vector2(velocity.x, -0.01f * velocity.y));
+            dPoint.add(new Vector2(velocity.x, -1f * velocity.y));
 
             if(theLabyrinth.getMapBlockAtPosition(dPoint) == 1)
             {
-                thePlayer.setVelocity(new Vector2(0,0));
-                thePlayer.setAcceleration(new Vector2(0, acceleration.y));
+                thePlayer.setVelocity(new Vector2(0,velocity.y));
             }
             else
             {
-                thePlayer.setVelocity(new Vector2(0,0));
-                thePlayer.setAcceleration(new Vector2(acceleration.x, 0f));
-                System.out.println("");
+                thePlayer.setVelocity(new Vector2(velocity.x,0));
             }
         }
     }
@@ -179,7 +170,7 @@ public class CollisionHandler
         return points;
     }
 
-    private int[][] getCollisionMatrix(int dx, int dy, Vector2[] collisionPoints)
+    private int[][] getCollisionMatrix(float dx, float dy, Vector2[] collisionPoints)
     {
         int collisionMatrix[][] = {{0,0},{0,0}};
         /*

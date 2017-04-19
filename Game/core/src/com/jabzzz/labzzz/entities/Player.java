@@ -78,8 +78,8 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
         }
         totalAcceleration.add(frictionAcceleration);
 
-
         position.add(velocity);
+
         if(new Vector2(velocity).add(totalAcceleration).len() <= maxVelocity)
         {
             velocity.add(totalAcceleration);
