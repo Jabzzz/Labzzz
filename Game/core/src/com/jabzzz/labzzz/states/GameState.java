@@ -44,8 +44,8 @@ public class GameState extends AState
         lb.createMap(2000);
         labyrinth = lb;
 
-        player = new Player(lb.getSpawnPosition(), theCam);
-        enemy = new Enemy(lb.getSpawnPosition());
+        player = new Player(lb.getRandomSpawnPosition(), theCam);
+        enemy = new Enemy(lb.getRandomSpawnPosition());
         theCollisionHandler = new CollisionHandler(player, labyrinth);
 
 

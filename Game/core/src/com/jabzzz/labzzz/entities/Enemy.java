@@ -20,23 +20,28 @@ public class Enemy extends AEntity {
 
     public Enemy(Vector2 position)
     {
-        this.position = position;
+        this.position = new Vector2(position);
 
         texture = new Texture("enemy.gif");
     }
 
     @Override
     public void render(SpriteBatch theBatch)
-        {
-            
-            theBatch.begin();
+    {
 
-            theBatch.draw(texture, getPosition().x, getPosition().y, 50, 50);
+        theBatch.begin();
 
-           // shapeRenderer.circle(getPosition().x, getPosition().y, 10);
+        theBatch.draw(texture, getPosition().x - 25, getPosition().y - 25, 50, 50);
 
-            //shapeRenderer.rect(getCollisionRectangle().x, getCollisionRectangle().y, getCollisionRectangle().width, getCollisionRectangle().height);
+        // shapeRenderer.circle(getPosition().x, getPosition().y, 10);
 
-            theBatch.end();
-        }
+        //shapeRenderer.rect(getCollisionRectangle().x, getCollisionRectangle().y, getCollisionRectangle().width, getCollisionRectangle().height);
+
+        theBatch.end();
+    }
+
+    public void update()
+    {
+        
+    }
 }
