@@ -107,10 +107,6 @@ public class CollisionHandler
 
         Vector2 dPoint = new Vector2();
 
-        System.out.println("------");
-        System.out.println("" + collisionMatrix[0][0] + " | " + collisionMatrix[0][1]);
-        System.out.println("" + collisionMatrix[1][0] + " | " + collisionMatrix[1][1]);
-
         if(isCollisionEDGE(collisionMatrix))
         {
             thePlayer.setVelocity(new Vector2(0,0));

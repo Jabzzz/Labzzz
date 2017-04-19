@@ -61,7 +61,21 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
         //Calculate Input
         calcInputData();
 
+        //Set movement
+        movement();
 
+        //Set animation
+        animate();
+    }
+
+    private void animate()
+    {
+        
+    }
+
+
+    private void movement()
+    {
         //MaxSpeed
         Vector2 totalAcceleration = new Vector2(Vector2.Zero);
         totalAcceleration.add(this.acceleration);
