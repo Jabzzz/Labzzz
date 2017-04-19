@@ -28,7 +28,7 @@ public class CollisionHandler
 
     public void update()
     {
-        //currentPositionCollision();
+        currentPositionCollision();
 
         nextStepCollisionPvE();
     }
@@ -107,18 +107,27 @@ public class CollisionHandler
 
         Vector2 dPoint = new Vector2();
 
-        if(isCollisionUP(collisionMatrix) || isCollisionDOWN(collisionMatrix))
+        System.out.println("------");
+        System.out.println("" + collisionMatrix[0][0] + " | " + collisionMatrix[0][1]);
+        System.out.println("" + collisionMatrix[1][0] + " | " + collisionMatrix[1][1]);
+
+        if(isCollisionEDGE(collisionMatrix))
+        {
+            thePlayer.setVelocity(new Vector2(0,0));
+            System.out.println("Edge");
+        }
+        else if(isCollisionUP(collisionMatrix) || isCollisionDOWN(collisionMatrix))
         {
             thePlayer.setVelocity(velocity.set(velocity.x, 0));
             twoPointCollision = true;
         }
-
-        if(isCollisionLEFT(collisionMatrix) || isCollisionRIGHT(collisionMatrix))
+        else if(isCollisionLEFT(collisionMatrix) || isCollisionRIGHT(collisionMatrix))
         {
             thePlayer.setVelocity(velocity.set(0, velocity.y));
-            if(twoPointCollision)
-                thePlayer.setVelocity(new Vector2(0, 0));
+            twoPointCollision = true;
         }
+
+
 
         if(!twoPointCollision)
         {
@@ -215,6 +224,12 @@ public class CollisionHandler
         return collisionMatrix;
     }
 
+
+    private boolean isCollisionEDGE(int collisionMatrix[][])
+    {
+        return (collisionMatrix[0][0] == 1 && collisionMatrix[1][1] == 1 ||
+                    collisionMatrix[0][1] == 1 && collisionMatrix[1][0] == 1 );
+    }
 
     private boolean isCollisionUP(int collisionMatrix[][])
     {
