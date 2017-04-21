@@ -120,7 +120,7 @@ public class LabyrinthBuilder extends Labyrinth
         {
             for(int col = 0; col < map.length; col++)
             {
-                
+                //HHIIIIIIER JOSHUUUUAAAAA
             }
 
 
