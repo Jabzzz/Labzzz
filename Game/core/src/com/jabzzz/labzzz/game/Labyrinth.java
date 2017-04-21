@@ -50,7 +50,7 @@ public class Labyrinth
             };*/
         map = new int[mapLength][mapLength];
 
-        wall = new Texture("gamestate/environment/wall.png");
+        wall = new Texture("gamestate/environment/wall_shadow_small_lonely.png");
         ground = new Texture("gamestate/environment/ground.png");
 
     }
