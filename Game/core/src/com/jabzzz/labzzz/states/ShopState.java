@@ -52,7 +52,7 @@ public class ShopState extends AState{
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
 
     }
 

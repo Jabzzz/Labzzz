@@ -30,7 +30,7 @@ public abstract class AState
 
 
     public abstract void render();
-    public abstract void update();
+    public abstract void update(float delta);
     public abstract void dispose();
     public abstract void input(Speed speed, Direction dir, InputSystem is, float x, float y);
 

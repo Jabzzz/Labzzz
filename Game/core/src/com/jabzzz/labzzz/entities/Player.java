@@ -17,7 +17,8 @@ import java.util.ArrayList;
  * Created by Stefan on 04.04.2017.
  */
 
-public class Player extends com.jabzzz.labzzz.entities.AEntity {
+public class Player extends AEntity
+{
 
     private Vector2 acceleration = new Vector2();
     private Vector2 velocity = new Vector2();
@@ -59,13 +60,13 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
         shapeRenderer.end();
     }
 
-    public void update()
+    public void update(float delta)
     {
         //Calculate Input
         calcInputData();
 
         //Set movement
-        movement();
+        movement(delta);
 
         //Set animation
         animate();
@@ -73,11 +74,11 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
 
     private void animate()
     {
-        
+
     }
 
 
-    private void movement()
+    private void movement(float delta)
     {
         //MaxSpeed
         Vector2 totalAcceleration = new Vector2(Vector2.Zero);
@@ -109,6 +110,7 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
     {
         pushInputData(new InputData(speed, dir, is));
     }
+
     private Vector2 getAccelerationFrom(Speed speed, Direction dir, InputSystem is)
     {
         if(is == InputSystem.CLICKSTOP)

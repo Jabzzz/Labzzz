@@ -1,5 +1,6 @@
 package com.jabzzz.labzzz.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jabzzz.labzzz.collision.CollisionHandler;
@@ -54,7 +55,8 @@ public class GameState extends AState
     public void render()
     {
         //Set up Camera and SpriteBatch
-        theCam.position.set(player.getPosition(), 0);
+        theCam.position.set(player.getPosition().x + player.getVelocity().x * Gdx.graphics.getRawDeltaTime() * 40f,
+                                player.getPosition().y + player.getVelocity().y * Gdx.graphics.getRawDeltaTime() * 40, 0);
         theCam.update();
         theBatch.setProjectionMatrix(theCam.combined);
 
@@ -69,7 +71,7 @@ public class GameState extends AState
 
     }
 
-    public void update()
+    public void update(float delta)
     {
 
         //Collision
@@ -77,7 +79,7 @@ public class GameState extends AState
 
         labyrinth.update();
 
-        player.update();
+        player.update(delta);
         //theMainGame.getInputHandler()
     }
 

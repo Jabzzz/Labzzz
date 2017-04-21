@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by samvell on 05.04.17.
  */
 
-public class Button extends com.jabzzz.labzzz.entities.AEntity
+public class Button extends AEntity
 {
     private Texture btnTexture = null;
     private SpriteBatch theBatch = null;

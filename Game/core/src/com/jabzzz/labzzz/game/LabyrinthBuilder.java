@@ -9,6 +9,14 @@ import java.util.Random;
 public class LabyrinthBuilder extends Labyrinth
 {
 
+    /*
+		Textures - Numbering
+
+		0 -> 19 (Ground textures, no collision)
+		20 -> 49 (Wall Textures, collisable)
+
+	 */
+
     private int deletedBlocks;
 
     public LabyrinthBuilder(int mapLength)
@@ -100,7 +108,26 @@ public class LabyrinthBuilder extends Labyrinth
                 map = oldMap;
             }
         }
+
+        makeGraphicsMap();
     }
+
+
+    public void makeGraphicsMap()
+    {
+
+        for(int row = 0; row < map.length; row++)
+        {
+            for(int col = 0; col < map.length; col++)
+            {
+                
+            }
+
+
+        }
+
+    }
+
 
     private void countFreeBlocksAndSet(int index)
     {

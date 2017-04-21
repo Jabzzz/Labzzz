@@ -15,6 +15,14 @@ import java.util.Stack;
 
 public class MainGame extends ApplicationAdapter
 {
+	/*
+		Textures - Numbering
+
+		0 -> 19 (Ground textures, no collision)
+		20 -> 49 (Wall Textures, collisable)
+
+	 */
+
 
 
 	public static final String TITLE = "THE Game";
@@ -90,7 +98,7 @@ public class MainGame extends ApplicationAdapter
 
 	public void update()
 	{
-		theStateStack.peek().update();
+		theStateStack.peek().update(Gdx.graphics.getRawDeltaTime());
 	}
 
 	public void input(Speed speed, Direction dir, InputSystem is, float x, float y)

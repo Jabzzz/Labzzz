@@ -21,7 +21,8 @@ import sun.applet.Main;
  * Created by Stefan on 04.04.2017.
  */
 
-public class Labyrinth {
+public class Labyrinth
+{
     protected int[][] map = null;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private Texture wall = null;

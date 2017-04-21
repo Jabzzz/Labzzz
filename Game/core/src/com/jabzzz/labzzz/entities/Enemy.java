@@ -65,7 +65,7 @@ public class Enemy extends AEntity {
         theBatch.end();*/
     }
 
-    public void update()
+    public void update(float delta)
     {
         
     }

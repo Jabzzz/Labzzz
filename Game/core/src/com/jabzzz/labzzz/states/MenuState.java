@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
@@ -83,7 +84,7 @@ public class MenuState extends AState
         theBatch.begin();
 
         //draw Background
-        theBatch.draw(backgroundTexture, 0, 0, MainGame.WIDTH, MainGame.HEIGHT);
+        theBatch.draw(backgroundTexture, backPosition.x, backPosition.y, MainGame.WIDTH, MainGame.HEIGHT);
         //draw Text
         textFont.draw(theBatch, "The Menu", xText, yText);
         //draw Button
@@ -94,9 +95,10 @@ public class MenuState extends AState
         theBatch.end();
     }
 
+    private Vector2 backPosition = new Vector2(0,0);
 
     @Override
-    public void update()
+    public void update(float delta)
     {
         yText = (int) ((MainGame.HEIGHT - 200) + 50 * Math.sin(System.currentTimeMillis() * 0.001));
 
