@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.enums.Direction;
@@ -30,12 +29,6 @@ public class MenuState extends AState
     private Button playButton = null;
     private Button exitButton = null;
     private Button shopButton = null;
-
-    private Rectangle recPlay = null;
-    private Rectangle recExit = null;
-    private Rectangle recShop = null;
-
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 
     public MenuState(MainGame theMainGame)
@@ -70,11 +63,6 @@ public class MenuState extends AState
                 (MainGame.WIDTH - btnShopTexture.getWidth()) / 2,
                 (MainGame.HEIGHT) / 4);
 
-        //init recs for click detection
-        recPlay = new Rectangle(playButton.getPosition().x, playButton.getPosition().y, btnPlayTexture.getWidth(), btnPlayTexture.getHeight());
-        recExit = new Rectangle(exitButton.getPosition().x, exitButton.getPosition().y, btnExitTexture.getWidth(), btnExitTexture.getHeight());
-        recShop = new Rectangle(shopButton.getPosition().x, shopButton.getPosition().y, btnShopTexture.getWidth(), btnShopTexture.getHeight());
-
         //init Textfont
 
         textFont = new BitmapFont(Gdx.files.internal("textfont.fnt"), false);
@@ -104,15 +92,6 @@ public class MenuState extends AState
         shopButton.render(theBatch);
 
         theBatch.end();
-
-        /*shapeRenderer.setProjectionMatrix(theCam.combined);
-
-        shapeRenderer.setAutoShapeType(true);
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1, 1, 0, 1);
-        shapeRenderer.rect(recPlay.getX(), recPlay.getY(), recPlay.getWidth(), recPlay.getHeight());
-        shapeRenderer.end();*/
     }
 
 
@@ -136,14 +115,14 @@ public class MenuState extends AState
         if(is==InputSystem.CLICK)
         {
             //System.out.println(recPlay.contains(x, y) + "   " + recPlay.getX() + "   " + recPlay.getY() + "   " + recPlay.getWidth() + "   " + recPlay.getHeight() + "  x " + x + "   y  " + y);
-            if (recPlay.contains(x, y))
+            if (playButton.isClicked(x,y)==true)
                 theMainGame.pushGameStack();
                 //theMainGame.popStack();
 
-            if (recExit.contains(x, y))
+            if (exitButton.isClicked(x,y)==true)
                 theMainGame.dispose();
 
-            if (recShop.contains(x, y))
+            if (shopButton.isClicked(x,y)==true)
                 theMainGame.pushShopStack();
 
         }

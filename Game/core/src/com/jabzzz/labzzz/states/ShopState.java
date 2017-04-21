@@ -1,8 +1,10 @@
 package com.jabzzz.labzzz.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jabzzz.labzzz.controller.MainGame;
+import com.jabzzz.labzzz.entities.Button;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
@@ -16,6 +18,7 @@ public class ShopState extends AState{
     private MainGame theMainGame = null;
 
     private Texture shopGuy = null;
+    private Button menuBtn = null;
 
     public ShopState(MainGame theMainGame) {
         this.theMainGame = theMainGame;
@@ -25,7 +28,10 @@ public class ShopState extends AState{
 
         //init Textures
         theBatch = new SpriteBatch();
-        shopGuy = new Texture("shop.png");
+        shopGuy = new Texture(Gdx.files.internal("shop.png"));
+
+        Texture btnMenuTexture = new Texture(Gdx.files.internal("menubtn.png"));
+        menuBtn = new Button(btnMenuTexture, MainGame.WIDTH-btnMenuTexture.getWidth(), MainGame.HEIGHT-btnMenuTexture.getHeight());
     }
 
     @Override
@@ -35,8 +41,12 @@ public class ShopState extends AState{
 
         theBatch.begin();
 
-        //draw Background
+        //draw shopGuy
         theBatch.draw(shopGuy, 0, MainGame.HEIGHT/4*3, MainGame.WIDTH, MainGame.HEIGHT/4);
+
+        //draw menubtn
+
+        menuBtn.render(theBatch);
 
         theBatch.end();
     }
@@ -53,6 +63,7 @@ public class ShopState extends AState{
 
     @Override
     public void input(Speed speed, Direction dir, InputSystem is, float x, float y) {
-
+        if(menuBtn.isClicked(x,y)==true)
+            theMainGame.pushMenuStack();
     }
 }

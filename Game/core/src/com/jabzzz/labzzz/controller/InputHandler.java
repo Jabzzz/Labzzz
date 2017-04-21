@@ -2,6 +2,7 @@ package com.jabzzz.labzzz.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -22,8 +23,8 @@ public class InputHandler implements InputProcessor
     private MainGame theMainGame = null;
 
 
-    private final int SLOWBOARDER = 100;
-    private final int FASTBOARDER = 200;
+    private final int SLOWBOARDER = 50;
+    private final int FASTBOARDER = 100;
 
     private int refPoints[][] = new int[10][2];
     //array for directions: 0=up 1=left 2=down 3=right
@@ -57,6 +58,7 @@ public class InputHandler implements InputProcessor
         //zeichnet nur für einen Finger
         if ((refPoints[0][0] != 0)&&(refPoints[0][1] != 0))
         {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
             //theCam.update();
             shapeRenderer.setProjectionMatrix(theCam.combined);
 
@@ -67,15 +69,15 @@ public class InputHandler implements InputProcessor
             float x = theCam.position.x - MainGame.WIDTH / 2;
             float y = theCam.position.y - MainGame.HEIGHT / 2;
 
-            shapeRenderer.setColor(1, 0, 0, 0.5f);
+            shapeRenderer.setColor(0, 0, 0, 0.5f);
             shapeRenderer.circle(x + refPoints[0][0], y + MainGame.HEIGHT - refPoints[0][1], 5);
             /*shapeRenderer.end();
 
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);*/
-            shapeRenderer.setColor(1f, 0, 0, 0.1f);
+            shapeRenderer.setColor(0, 0, 0, 0.1f);
             shapeRenderer.circle(x + refPoints[0][0], y +  MainGame.HEIGHT - refPoints[0][1], SLOWBOARDER);
-            shapeRenderer.setColor(1, 0, 0, 0.1f);
-//            shapeRenderer.circle(x + refPoints[0][0], y + MainGame.HEIGHT - refPoints[0][1], FASTBOARDER);
+            shapeRenderer.setColor(0, 0, 0, 0.1f);
+            shapeRenderer.circle(x + refPoints[0][0], y + MainGame.HEIGHT - refPoints[0][1], FASTBOARDER);
 
             shapeRenderer.end();
         }
