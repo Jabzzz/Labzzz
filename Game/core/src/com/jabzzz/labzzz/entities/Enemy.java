@@ -34,7 +34,7 @@ public class Enemy extends AEntity {
 
         this.position = new Vector2(position);
 
-        texture = new Texture("enemy.gif");
+        texture = new Texture("gamestate/entities/enemy.gif");
     }
 
     @Override

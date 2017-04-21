@@ -41,11 +41,11 @@ public class MenuState extends AState
 
         //init Textures
         theBatch = new SpriteBatch();
-        backgroundTexture = new Texture("menu_background.jpg");
+        backgroundTexture = new Texture("menustate/menu_background.jpg");
 
-        Texture btnPlayTexture = new Texture(Gdx.files.internal("playbtn.png"));
-        Texture btnExitTexture = new Texture(Gdx.files.internal("exitbtn.png"));
-        Texture btnShopTexture = new Texture(Gdx.files.internal("shopbtn.png"));
+        Texture btnPlayTexture = new Texture(Gdx.files.internal("menustate/playbtn.png"));
+        Texture btnExitTexture = new Texture(Gdx.files.internal("menustate/exitbtn.png"));
+        Texture btnShopTexture = new Texture(Gdx.files.internal("menustate/shopbtn.png"));
 
         //init Play-Button
         playButton = new Button(btnPlayTexture,
@@ -66,7 +66,7 @@ public class MenuState extends AState
 
         //init Textfont
 
-        textFont = new BitmapFont(Gdx.files.internal("textfont.fnt"), false);
+        textFont = new BitmapFont(Gdx.files.internal("textfonts/textfont.fnt"), false);
         textFont.setColor(Color.WHITE);
         textFont.getData().setScale(1.5f);
 
