@@ -28,9 +28,9 @@ public class ShopState extends AState{
 
         //init Textures
         theBatch = new SpriteBatch();
-        shopGuy = new Texture(Gdx.files.internal("shop.png"));
+        shopGuy = new Texture(Gdx.files.internal("shopstate/shop.png"));
 
-        Texture btnMenuTexture = new Texture(Gdx.files.internal("menubtn.png"));
+        Texture btnMenuTexture = new Texture(Gdx.files.internal("shopstate/menubtn.png"));
         menuBtn = new Button(btnMenuTexture, MainGame.WIDTH-btnMenuTexture.getWidth(), MainGame.HEIGHT-btnMenuTexture.getHeight());
     }
 
