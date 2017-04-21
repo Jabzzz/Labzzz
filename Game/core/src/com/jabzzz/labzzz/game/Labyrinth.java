@@ -118,10 +118,15 @@ public class Labyrinth {
 
 
 
-    public void render(SpriteBatch theBatch)
+    public void render(SpriteBatch theBatch, OrthographicCamera theCam)
     {
         theBatch.begin();
         Vector2 position = new Vector2();
+
+        colStart = MathUtils.floor((theCam.position.x - halfDisplayX) / MainGame.BLOCK_SIZE);
+        colEnd = MathUtils.floor((theCam.position.x + halfDisplayX) / MainGame.BLOCK_SIZE);
+        rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / MainGame.BLOCK_SIZE);
+        rowEnd = MathUtils.floor((theCam.position.y + halfDisplayY) / MainGame.BLOCK_SIZE);
 
         for(int row = rowStart; row <= rowEnd; row++)
         {
@@ -143,16 +148,16 @@ public class Labyrinth {
 
     }
 
-    public void update(OrthographicCamera theCam)
+    public void update()
     {
-        colStart = MathUtils.floor((theCam.position.x - halfDisplayX) / MainGame.BLOCK_SIZE);
-        colEnd = MathUtils.floor((theCam.position.x + halfDisplayX) / MainGame.BLOCK_SIZE);
-        rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / MainGame.BLOCK_SIZE);
-        rowEnd = MathUtils.floor((theCam.position.y + halfDisplayY) / MainGame.BLOCK_SIZE);
+
     }
 
     public int[][] getMap()
     {
         return map;
     }
+
+    public int getWidth() { return map.length * MainGame.BLOCK_SIZE; }
+    public int getHeight() { return map[0].length * MainGame.BLOCK_SIZE; }
 }

@@ -9,6 +9,7 @@ import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
+import com.jabzzz.labzzz.game.Labyrinth;
 
 import java.util.ArrayList;
 
@@ -34,8 +35,10 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
     private int collisionWidth = 20;
     private int collisionHeight = 20;
 
-    public Player(Vector2 position, OrthographicCamera theCam)
+    public Player(Vector2 position, Labyrinth labyrinth, OrthographicCamera theCam)
     {
+        super(labyrinth);
+
         this.theCam = theCam;
         this.position = new Vector2(position);
 
@@ -90,7 +93,7 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
         }
         totalAcceleration.add(frictionAcceleration);
 
-        position.add(velocity);
+        addToPosition(velocity);
 
         if(new Vector2(velocity).add(totalAcceleration).len() <= maxVelocity)
         {
@@ -192,6 +195,23 @@ public class Player extends com.jabzzz.labzzz.entities.AEntity {
     public void setPosition(Vector2 position)
     {
         this.position.set(position.x + (pictureWidth / 2), position.y + (pictureHeight / 2));
+    }
+
+    public void addToPosition(Vector2 velocity)
+    {
+        position.add(velocity);
+
+        int labWidth = labyrinth.getWidth();
+        int labHeight = labyrinth.getHeight();
+        while(position.x < 0)
+            position.x += labWidth;
+        while(position.x > labWidth)
+            position.x -= labWidth;
+        while(position.y < 0)
+            position.y += labHeight;
+        while(position.y > labHeight)
+            position.y -= labHeight;
+
     }
 
     public Rectangle getCollisionRectangle()
