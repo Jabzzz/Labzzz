@@ -1,10 +1,14 @@
 package com.jabzzz.labzzz.entities;
 
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
@@ -12,6 +16,7 @@ import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.Labyrinth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -30,21 +35,33 @@ public class Player extends ACharacter
         this.theCam = theCam;
         this.position = new Vector2(position);
 
-        shapeRenderer.setAutoShapeType(true);
+        //Set Texture
+        TextureAtlas atlas = new TextureAtlas("gamestate/texturepacker/sprites.txt");
+        Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
 
-        System.out.println("Player - Constructor");
+        for(TextureAtlas.AtlasRegion region : regions)
+        {
+            Sprite sprite = atlas.createSprite(region.name);
+            sprites.put(region.name, sprite);
+        }
+        lastAnimation = System.currentTimeMillis();
+        currentSprite = sprites.get("d1");
+
+        //Set collision
+        pictureWidth = sprites.get("d1").getRegionWidth();
+        pictureHeight = sprites.get("d1").getRegionHeight();
+        collisionWidth = (int) (pictureWidth * 0.5f);
+        collisionHeight = (int) (pictureHeight * 0.4f);
     }
 
     public void render(SpriteBatch theBatch)
     {
-        shapeRenderer.setProjectionMatrix(theCam.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        theBatch.begin();
 
-        shapeRenderer.setColor(0, 1, 0, 1);
-        shapeRenderer.circle(getPosition().x, getPosition().y, 10);
-        shapeRenderer.rect(getCollisionRectangle().x, getCollisionRectangle().y, getCollisionRectangle().width, getCollisionRectangle().height);
+        currentSprite.setPosition(position.x - (pictureWidth / 2), position.y - (pictureHeight / 2));
+        currentSprite.draw(theBatch);
 
-        shapeRenderer.end();
+        theBatch.end();
     }
 
     public synchronized void calcInputData()
@@ -71,11 +88,20 @@ public class Player extends ACharacter
         inputDataList.add(inputData);
     }
 
+    public Vector2 getDecenteredPosition()
+    {
+        return new Vector2(position.x - (pictureWidth / 2), position.y - (pictureHeight / 2));
+    }
 
 
     public Rectangle getCollisionRectangle()
     {
-        return new Rectangle(getDecenteredPosition().x, getDecenteredPosition().y, collisionWidth, collisionHeight);
+        return new Rectangle(getCollisionPosition().x, getCollisionPosition().y, collisionWidth, collisionHeight);
+    }
+
+    public Vector2 getCollisionPosition()
+    {
+        return new Vector2(getDecenteredPosition().x + (pictureWidth * 0.25f), getDecenteredPosition().y + (pictureHeight * 0.1f));
     }
 
 
