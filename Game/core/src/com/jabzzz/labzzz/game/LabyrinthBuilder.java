@@ -186,13 +186,14 @@ public class LabyrinthBuilder extends Labyrinth
                             map[row][col]=48;
                     }
                     else
-                        map[row][col]=35;
+                        if(checkBottomRight(row,col))
+                            map[row][col]=47;
                 }
                 else
                     map[row][col]=26;
             }
         }
-        else if((checkLeft(row,col)&&checkRight(row,col))==true)
+        else if((checkLeft(row,col)&&checkRight(row,col)))
         {
             if(checkTop(row, col))
             {
@@ -219,11 +220,89 @@ public class LabyrinthBuilder extends Labyrinth
                     }
                 }
             }
-            //? 0 ?
+            //e 0 e
             //1 x 1
-            //? 0 ?
-            else;
+            //? ? ?
+            else
+                if(checkBottom(row,col))
+                {
+                    if(checkBottomLeft(row,col))
+                    {
+                        if(checkBottomRight(row,col))
+                            map[row][col]=43;
+                        else
+                            map[row][col]=51;
+                    }
+                    else
+                        if(checkBottomRight(row,col))
+                            map[row][col]=45;
+                }
+                map[row][col]=25;
         }
+        else if(checkBottom(row,col)&&checkRight(row,col))
+        {
+            //e ? e
+            //? x 1
+            //e 1 e
+            if(checkTop(row,col))
+                map[row][col]=35;
+            if(checkLeft(row,col))
+                map[row][col]=32;
+            //e 0 e
+            //0 x 1
+            //e 1 ?
+            if(checkBottomRight(row,col))
+                map[row][col]=38;
+            else
+                map[row][col]=30;
+        }
+        else if(checkBottom(row,col)&&checkLeft(row,col))
+        {
+            //e 0 e
+            //1 x 0
+            //? 1 e
+            if(checkBottomLeft(row,col))
+                map[row][col]=36;
+            else
+                map[row][col]=28;
+        }
+        else if(checkTop(row,col)&&checkLeft(row,col))
+        {
+            //e 1 e
+            //1 x ?
+            //e ? e
+            if(checkBottom(row,col))
+                map[row][col]=33;
+            if(checkTop(row,col))
+                map[row][col]=34;
+            //? 1 e
+            //1 x 0
+            //e 0 e
+            if(checkTopLeft(row,col))
+                map[row][col]=37;
+            else
+                map[row][col]=29;
+        }
+        else if(checkTop(row,col)&&checkRight(row,col))
+        {
+            //e 1 ?
+            //0 x 1
+            //e 0 e
+            if(checkTopRight(row,col))
+                map[row][col]=39;
+            else
+                map[row][col]=31;
+        }
+        else if(checkBottom(row,col))
+            map[row][col]=21;
+        else if(checkLeft(row,col))
+            map[row][col]=22;
+        else if (checkRight(row,col))
+            map[row][col]=23;
+        else if(checkTop(row,col))
+            map[row][col]=24;
+        else
+            map[row][col]=20;
     }
 
     private void checkDiagonals(int row, int col) {
@@ -273,8 +352,10 @@ public class LabyrinthBuilder extends Labyrinth
                 else
                     map[row][col]=63;
             }
-            else if (checkTopRight(row, col))
-                map[row][col]=64;
+            else
+                if (checkTopRight(row, col))
+                    map[row][col]=64;
+                else map[row][col]=27;
         }
 
         if (checkTopLeft(row, col))
@@ -285,7 +366,7 @@ public class LabyrinthBuilder extends Labyrinth
                 //1 x 1
                 //? 1 ?
                 if(checkBottomRight(col, row))
-                    if(checkBottomLeft(col,row)==false)
+                    if(!checkBottomLeft(col,row))
                         map[row][col]=56;
             }
         }
