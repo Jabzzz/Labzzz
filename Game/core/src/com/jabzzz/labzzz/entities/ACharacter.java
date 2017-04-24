@@ -1,0 +1,170 @@
+package com.jabzzz.labzzz.entities;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.jabzzz.labzzz.controller.InputData;
+import com.jabzzz.labzzz.enums.Direction;
+import com.jabzzz.labzzz.enums.InputSystem;
+import com.jabzzz.labzzz.enums.Speed;
+import com.jabzzz.labzzz.game.Labyrinth;
+
+/**
+ * Created by Stefan on 24.04.2017.
+ */
+
+public abstract class ACharacter extends AEntity
+{
+    protected Vector2 acceleration = new Vector2();
+    protected Vector2 velocity = new Vector2();
+    protected float maxVelocity = 0f;
+
+    protected int pictureWidth = 20;
+    protected int pictureHeight = 20;
+    protected int collisionWidth = 20;
+    protected int collisionHeight = 20;
+
+    protected ShapeRenderer shapeRenderer = new ShapeRenderer();
+    protected Texture texture;
+
+    public ACharacter(Labyrinth l)
+    {
+        super(l);
+    }
+
+    public abstract void render(SpriteBatch sb);
+    public void update(float delta)
+    {
+        //Calculate Input
+        calcInputData();
+
+        //Set movement
+        movement(delta);
+
+        //Set animation
+        animate();
+    }
+
+    protected void animate()
+    {
+
+    }
+
+    protected void movement(float delta)
+    {
+        //MaxSpeed
+        Vector2 totalAcceleration = new Vector2(Vector2.Zero);
+        totalAcceleration.add(this.acceleration);
+
+        //Friction
+        Vector2 frictionAcceleration = new Vector2(Vector2.Zero);
+        frictionAcceleration.sub(new Vector2(velocity).setLength(0.1f));
+        if(frictionAcceleration.len2() > velocity.len2())
+        {
+            frictionAcceleration = new Vector2(Vector2.Zero);
+            frictionAcceleration.sub(velocity);
+        }
+        totalAcceleration.add(frictionAcceleration);
+
+        addToPosition(velocity);
+
+        if(new Vector2(velocity).add(totalAcceleration).len() <= maxVelocity)
+        {
+            velocity.add(totalAcceleration);
+        }
+        else
+        {
+            velocity.add(frictionAcceleration);
+        }
+    }
+
+    public abstract void calcInputData();
+
+
+    protected Vector2 getAccelerationFrom(Speed speed, Direction dir, InputSystem is)
+    {
+        if(is == InputSystem.CLICKSTOP)
+            return new Vector2(0,0);
+
+        float accelerationAbs = 0.4f;
+        switch (speed)
+        {
+            case SLOW:
+                maxVelocity = 1f;
+                break;
+            case NORMAL:
+                maxVelocity = 2f;
+                break;
+            case FAST:
+                maxVelocity = 4f;
+                break;
+        }
+
+        switch (dir)
+        {
+            case UPRIGHT:
+                return new Vector2(1,1).setLength(accelerationAbs);
+            case UP:
+                return new Vector2(0,1).setLength(accelerationAbs);
+            case UPLEFT:
+                return new Vector2(-1,1).setLength(accelerationAbs);
+            case LEFT:
+                return new Vector2(-1,0).setLength(accelerationAbs);
+            case DOWNLEFT:
+                return new Vector2(-1,-1).setLength(accelerationAbs);
+            case DOWN:
+                return new Vector2(0,-1).setLength(accelerationAbs);
+            case DOWNRIGHT:
+                return new Vector2(1,-1).setLength(accelerationAbs);
+            case RIGHT:
+                return new Vector2(1,0).setLength(accelerationAbs);
+        }
+        return new Vector2(0,0);
+    }
+
+    public Vector2 getVelocity()
+    {
+        return this.velocity;
+    }
+    public void setVelocity(Vector2 velocity)
+    {
+        this.velocity = velocity;
+    }
+
+    public void setAcceleration(Vector2 acceleration)
+    {
+        this.acceleration = acceleration;
+    }
+    public Vector2 getAcceleration()
+    {
+        return this.acceleration;
+    }
+
+    public Vector2 getDecenteredPosition()
+    {
+        return new Vector2(position.x - (pictureWidth / 2), position.y - (pictureHeight / 2));
+    }
+
+    public void setPosition(Vector2 position)
+    {
+        this.position.set(position.x + (pictureWidth / 2), position.y + (pictureHeight / 2));
+    }
+    public void addToPosition(Vector2 velocity)
+    {
+        position.add(velocity);
+
+        int labWidth = labyrinth.getWidth();
+        int labHeight = labyrinth.getHeight();
+        while(position.x < 0)
+            position.x += labWidth;
+        while(position.x > labWidth)
+            position.x -= labWidth;
+        while(position.y < 0)
+            position.y += labHeight;
+        while(position.y > labHeight)
+            position.y -= labHeight;
+
+    }
+
+}

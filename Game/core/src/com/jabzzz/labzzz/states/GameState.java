@@ -3,6 +3,7 @@ package com.jabzzz.labzzz.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.collision.CollisionHandler;
 import com.jabzzz.labzzz.controller.*;
 import com.jabzzz.labzzz.entities.Enemy;
@@ -40,13 +41,14 @@ public class GameState extends AState
 
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
-        LabyrinthBuilder lb = new LabyrinthBuilder(3);
+        LabyrinthBuilder lb = new LabyrinthBuilder(20);
         lb.resetLab();
         lb.createMap(2000);
         labyrinth = lb;
 
-        player = new Player(lb.getRandomSpawnPosition(), labyrinth, theCam);
-        enemy = new Enemy(lb.getRandomSpawnPosition(), labyrinth);
+        Vector2 pos = lb.getRandomSpawnPosition();
+        player = new Player(pos, labyrinth, theCam);
+        enemy = new Enemy(pos, labyrinth);
         theCollisionHandler = new CollisionHandler(player, labyrinth);
 
 
@@ -80,6 +82,7 @@ public class GameState extends AState
         labyrinth.update();
 
         player.update(delta);
+        enemy.update(delta);
         //theMainGame.getInputHandler()
     }
 

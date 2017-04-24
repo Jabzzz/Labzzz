@@ -69,6 +69,14 @@ public class Labyrinth
 
         return getMapBlockAt(row, col);
     }
+    public int getColumnMapBlocksAtPosition(Vector2 position)
+    {
+        return MathUtils.floor(position.x / MainGame.BLOCK_SIZE);
+    }
+    public int getRowMapBlocksAtPosition(Vector2 position)
+    {
+        return MathUtils.floor(position.y / MainGame.BLOCK_SIZE);
+    }
     private int mod(int x, int y)
     {
         return (((x % y) + y) % y);
