@@ -28,7 +28,7 @@ public class CollisionHandler
 
     public void update()
     {
-        currentPositionCollision();
+      //  currentPositionCollision();
 
         nextStepCollisionPvE();
     }
@@ -42,7 +42,7 @@ public class CollisionHandler
 
         //Set last velocity
         if(!thePlayer.getVelocity().isZero(0.1f))
-            lastVelocity = thePlayer.getVelocity();
+            lastVelocity = new Vector2(thePlayer.getVelocity());
 
         if(collides(collisionPoints))
         {
@@ -88,7 +88,7 @@ public class CollisionHandler
     {
         //Get Values
         Vector2 velocity = new Vector2(thePlayer.getVelocity());
-        Vector2 dPosition = thePlayer.getDecenteredPosition().add(velocity);
+        Vector2 dPosition = thePlayer.getCollisionPosition().add(velocity);
         Rectangle collisionRect = thePlayer.getCollisionRectangle();
 
         //Calc new Position and Speed-Direction
@@ -110,7 +110,7 @@ public class CollisionHandler
         if(isCollisionEDGE(collisionMatrix))
         {
             thePlayer.setVelocity(new Vector2(0,0));
-            System.out.println("Edge");
+            twoPointCollision = true;
         }
         else if(isCollisionUP(collisionMatrix) || isCollisionDOWN(collisionMatrix))
         {

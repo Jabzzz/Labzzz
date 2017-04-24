@@ -40,7 +40,7 @@ public class GameState extends AState
 
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
-        LabyrinthBuilder lb = new LabyrinthBuilder(3);
+        LabyrinthBuilder lb = new LabyrinthBuilder(20);
         lb.resetLab();
         lb.createMap(2000);
         labyrinth = lb;

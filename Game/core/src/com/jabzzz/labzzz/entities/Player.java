@@ -1,10 +1,14 @@
 package com.jabzzz.labzzz.entities;
 
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
@@ -12,6 +16,7 @@ import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.Labyrinth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Stefan on 04.04.2017.
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 
 public class Player extends AEntity
 {
+    private static final int ANIMATION_TIME = 700;
 
     private Vector2 acceleration = new Vector2();
     private Vector2 velocity = new Vector2();
@@ -30,11 +36,19 @@ public class Player extends AEntity
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthographicCamera theCam;
 
-
     private int pictureWidth = 20;
     private int pictureHeight = 20;
     private int collisionWidth = 20;
     private int collisionHeight = 20;
+
+    private HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
+    private Sprite currentSprite = new Sprite();
+    private String dir = "d";
+    private int loop_current = 1;
+    private int loop_from = 1;
+    private int loop_to = 4;
+    private long lastAnimation = 0;
+
 
     public Player(Vector2 position, Labyrinth labyrinth, OrthographicCamera theCam)
     {
@@ -43,37 +57,111 @@ public class Player extends AEntity
         this.theCam = theCam;
         this.position = new Vector2(position);
 
-        shapeRenderer.setAutoShapeType(true);
+        //Set Texture
+        TextureAtlas atlas = new TextureAtlas("gamestate/texturepacker/sprites.txt");
+        Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
 
-        System.out.println("Player - Constructor");
+        for(TextureAtlas.AtlasRegion region : regions)
+        {
+            Sprite sprite = atlas.createSprite(region.name);
+            sprites.put(region.name, sprite);
+        }
+        lastAnimation = System.currentTimeMillis();
+        currentSprite = sprites.get("d1");
+
+        //Set collision
+        pictureWidth = sprites.get("d1").getRegionWidth();
+        pictureHeight = sprites.get("d1").getRegionHeight();
+        collisionWidth = (int) (pictureWidth * 0.5f);
+        collisionHeight = (int) (pictureHeight * 0.4f);
     }
 
     public void render(SpriteBatch theBatch)
     {
-        shapeRenderer.setProjectionMatrix(theCam.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        theBatch.begin();
 
-        shapeRenderer.setColor(0, 1, 0, 1);
-        shapeRenderer.circle(getPosition().x, getPosition().y, 10);
-        shapeRenderer.rect(getCollisionRectangle().x, getCollisionRectangle().y, getCollisionRectangle().width, getCollisionRectangle().height);
+        currentSprite.setPosition(position.x - (pictureWidth / 2), position.y - (pictureHeight / 2));
+        currentSprite.draw(theBatch);
 
-        shapeRenderer.end();
+        theBatch.end();
     }
 
     public void update(float delta)
     {
+        //Set animation
+        animate();
+
         //Calculate Input
         calcInputData();
 
         //Set movement
         movement(delta);
-
-        //Set animation
-        animate();
     }
 
     private void animate()
     {
+        if(velocity.len() > 0.01f)
+        {
+            float angle = velocity.angle();
+
+            if(angle < 45 || angle > 315)
+            {
+                //right
+                dir = "r";
+            }
+            else if(angle < 135)
+            {
+                //up
+                dir = "u";
+            }
+            else if(angle < 225)
+            {
+                //left
+                dir = "l";
+            }
+            else
+            {
+                //down
+                dir = "d";
+            }
+
+            //Set next Image
+            if((System.currentTimeMillis() - lastAnimation) > getAnimationTime())
+            {
+                loop_current++;
+                lastAnimation = System.currentTimeMillis();
+
+                if(loop_current > loop_to || loop_current < loop_from)
+                {
+                    loop_current = loop_from;
+                    System.out.println("loop: " + loop_current);
+                }
+            }
+        }
+        else if(System.currentTimeMillis() - lastAnimation > getAnimationTime())
+        {
+            loop_current = loop_from;
+        }
+
+        switch(loop_current)
+        {
+            case 1:
+                currentSprite = sprites.get(dir + "1");
+                break;
+            case 2:
+                currentSprite = sprites.get(dir + "2");
+                break;
+            case 3:
+                currentSprite = sprites.get(dir + "1");
+                break;
+            case 4:
+                currentSprite = sprites.get(dir + "3");
+                break;
+            default:
+                currentSprite = sprites.get(dir + loop_from);
+                loop_current = loop_from;
+
+        }
 
     }
 
@@ -94,16 +182,21 @@ public class Player extends AEntity
         }
         totalAcceleration.add(frictionAcceleration);
 
-        addToPosition(velocity);
+        addToPosition(velocity.scl(delta + 1));
 
         if(new Vector2(velocity).add(totalAcceleration).len() <= maxVelocity)
         {
-            velocity.add(totalAcceleration);
+            velocity.add(totalAcceleration.scl(delta + 1));
         }
         else
         {
-            velocity.add(frictionAcceleration);
+            velocity.add(frictionAcceleration.scl(delta + 1));
         }
+    }
+
+    private float getAnimationTime()
+    {
+        return ANIMATION_TIME / (velocity.len() + 1);
     }
 
     public void input(Speed speed, Direction dir, InputSystem is)
@@ -169,6 +262,8 @@ public class Player extends AEntity
 
     }
 
+
+
     public Vector2 getVelocity()
     {
         return this.velocity;
@@ -177,16 +272,6 @@ public class Player extends AEntity
     public void setVelocity(Vector2 velocity)
     {
         this.velocity = velocity;
-    }
-
-    public void setAcceleration(Vector2 acceleration)
-    {
-        this.acceleration = acceleration;
-    }
-
-    public Vector2 getAcceleration()
-    {
-        return this.acceleration;
     }
 
     public Vector2 getDecenteredPosition()
@@ -218,7 +303,12 @@ public class Player extends AEntity
 
     public Rectangle getCollisionRectangle()
     {
-        return new Rectangle(getDecenteredPosition().x, getDecenteredPosition().y, collisionWidth, collisionHeight);
+        return new Rectangle(getCollisionPosition().x, getCollisionPosition().y, collisionWidth, collisionHeight);
+    }
+
+    public Vector2 getCollisionPosition()
+    {
+        return new Vector2(getDecenteredPosition().x + (pictureWidth * 0.25f), getDecenteredPosition().y + (pictureHeight * 0.1f));
     }
 
 

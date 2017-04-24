@@ -63,10 +63,10 @@ public class MainGame extends ApplicationAdapter
 		//init MenuState
 		theStateStack.add(theMenuState = new MenuState(this));
 
-		theUpdateThread = new UpdateThread(this);
-		theUpdateThread.start();
+		//theUpdateThread = new UpdateThread(this);
+		//theUpdateThread.start();
 
-		theUpdateThread.setUpdatesPerSecond(60);
+		//theUpdateThread.setUpdatesPerSecond(60);
 	}
 
 	private void printFPS()
@@ -89,6 +89,7 @@ public class MainGame extends ApplicationAdapter
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 
+		theStateStack.peek().update(Gdx.graphics.getRawDeltaTime());
 
 		printFPS();
 
@@ -98,7 +99,7 @@ public class MainGame extends ApplicationAdapter
 
 	public void update()
 	{
-		theStateStack.peek().update(Gdx.graphics.getRawDeltaTime());
+	//	theStateStack.peek().update(Gdx.graphics.getRawDeltaTime());
 	}
 
 	public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
@@ -125,7 +126,7 @@ public class MainGame extends ApplicationAdapter
 		//theStateStack.peek().dispose();
 		theGameState.dispose();
 		theMenuState.dispose();
-		theUpdateThread.setRunning(false);
+	//	theUpdateThread.setRunning(false);
 		//Gdx.app.exit();
 	}
 
