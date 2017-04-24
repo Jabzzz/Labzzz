@@ -1,6 +1,7 @@
 package com.jabzzz.labzzz.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -10,15 +11,29 @@ import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.Labyrinth;
 
+import java.util.HashMap;
+
 /**
  * Created by Stefan on 24.04.2017.
  */
 
 public abstract class ACharacter extends AEntity
 {
+
+    private static final int ANIMATION_TIME = 700;
+
+
     protected Vector2 acceleration = new Vector2();
     protected Vector2 velocity = new Vector2();
     protected float maxVelocity = 0f;
+
+    protected HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
+    protected Sprite currentSprite = new Sprite();
+    protected String dir = "d";
+    protected int loop_current = 1;
+    protected int loop_from = 1;
+    protected int loop_to = 4;
+    protected long lastAnimation = 0;
 
     protected int pictureWidth = 20;
     protected int pictureHeight = 20;
@@ -48,7 +63,68 @@ public abstract class ACharacter extends AEntity
 
     protected void animate()
     {
+        if(velocity.len() > 0.01f)
+        {
+            float angle = velocity.angle();
 
+            if(angle < 45 || angle > 315)
+            {
+                //right
+                dir = "r";
+            }
+            else if(angle < 135)
+            {
+                //up
+                dir = "u";
+            }
+            else if(angle < 225)
+            {
+                //left
+                dir = "l";
+            }
+            else
+            {
+                //down
+                dir = "d";
+            }
+
+            //Set next Image
+            if((System.currentTimeMillis() - lastAnimation) > getAnimationTime())
+            {
+                loop_current++;
+                lastAnimation = System.currentTimeMillis();
+
+                if(loop_current > loop_to || loop_current < loop_from)
+                {
+                    loop_current = loop_from;
+                    System.out.println("loop: " + loop_current);
+                }
+            }
+        }
+        else if(System.currentTimeMillis() - lastAnimation > getAnimationTime())
+        {
+            loop_current = loop_from;
+        }
+
+        switch(loop_current)
+        {
+            case 1:
+                currentSprite = sprites.get(dir + "1");
+                break;
+            case 2:
+                currentSprite = sprites.get(dir + "2");
+                break;
+            case 3:
+                currentSprite = sprites.get(dir + "1");
+                break;
+            case 4:
+                currentSprite = sprites.get(dir + "3");
+                break;
+            default:
+                currentSprite = sprites.get(dir + loop_from);
+                loop_current = loop_from;
+
+        }
     }
 
     protected void movement(float delta)
@@ -77,6 +153,11 @@ public abstract class ACharacter extends AEntity
         {
             velocity.add(frictionAcceleration);
         }
+    }
+
+    private float getAnimationTime()
+    {
+        return ANIMATION_TIME / (velocity.len() + 1);
     }
 
     public abstract void calcInputData();
