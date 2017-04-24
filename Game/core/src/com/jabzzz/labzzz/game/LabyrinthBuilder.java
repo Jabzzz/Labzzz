@@ -109,7 +109,7 @@ public class LabyrinthBuilder extends Labyrinth
             }
         }
 
-        makeGraphicsMap();
+        //makeGraphicsMap();
     }
 
 
@@ -222,7 +222,7 @@ public class LabyrinthBuilder extends Labyrinth
             //? 0 ?
             //1 x 1
             //? 0 ?
-            else
+            else;
         }
     }
 
