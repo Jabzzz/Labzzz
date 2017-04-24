@@ -12,7 +12,7 @@ public class LabyrinthBuilder extends Labyrinth
     /*
 		Textures - Numbering
 
-		0 -> 19 (Ground textures, no collision)
+		2 -> 19 (Ground textures, no collision)
 		20 -> 49 (Wall Textures, collisable)
 
 	 */
@@ -120,7 +120,24 @@ public class LabyrinthBuilder extends Labyrinth
         {
             for(int col = 0; col < map.length; col++)
             {
-                //HHIIIIIIER JOSHUUUUAAAAA
+                //if ground
+                if(map[row][col]==0)
+                {
+                    if(row==0)
+                        if(map[map.length][col]==1)
+                            map[row][col]=2;    //check last row
+                    else if(map[row-1][col]==1)
+                        map[row][col]=2;
+                }
+
+                //if wall
+                if(map[row][col]==0) {
+
+                    checkNormal(row,col);
+
+
+
+                }
             }
 
 
@@ -128,6 +145,245 @@ public class LabyrinthBuilder extends Labyrinth
 
     }
 
+    private void checkNormal(int row, int col)
+    {
+        if((checkTop(row,col)&&checkBottom(row,col)))
+        {
+            if (checkLeft(row, col))
+            {
+                if(checkRight(row, col))
+                {
+                    checkDiagonals(row, col);
+                }
+                //? 1 e
+                //1 x 0
+                //? 1 e
+                else
+                {
+                    if(checkTopLeft(row,col))
+                    {
+                        if(checkBottomLeft(row,col))
+                            map[row][col]=42;
+                        else
+                            map[row][col]=50;
+                    }
+                    else if(checkBottomLeft(row,col))
+                        map[row][col]=49;
+                }
+            }
+            //? 1 ?
+            //0 x ?
+            //? 1 ?
+            else
+            {
+                if(checkRight(row,col))
+                {
+                    if(checkTopRight(row,col))
+                    {
+                        if(checkBottomRight(row,col))
+                            map[row][col]=41;
+                        else
+                            map[row][col]=48;
+                    }
+                    else
+                        map[row][col]=35;
+                }
+                else
+                    map[row][col]=26;
+            }
+        }
+        else if((checkLeft(row,col)&&checkRight(row,col))==true)
+        {
+            if(checkTop(row, col))
+            {
+                if(checkBottom(row, col))
+                {
+                    checkDiagonals(row, col);
+                }
+                //? 1 ?
+                //1 x 1
+                //e 0 e
+                else
+                {
+                    if(checkTopLeft(row,col))
+                    {
+                        if(checkTopRight(row,col))
+                            map[row][col]=40;
+                        else
+                            map[row][col]=46;
+                    }
+                    else
+                    {
+                        if(checkTopRight(row, col))
+                            map[row][col]=52;
+                    }
+                }
+            }
+            //? 0 ?
+            //1 x 1
+            //? 0 ?
+            else
+        }
+    }
+
+    private void checkDiagonals(int row, int col) {
+        //? 1 ?
+        //1 x 1
+        //? 1 ?
+        if (checkBottomLeft(row, col))
+        {
+            if (checkBottomRight(row, col))
+            {
+                //? 1 ?
+                //1 x 1
+                //1 1 1
+                if (checkTopRight(row, col))
+                {
+                    if (checkTopLeft(row, col))
+                        map[row][col] = 44;
+                    else
+                        map[row][col] = 55;
+                }
+                if (checkTopLeft(row, col))
+                    map[row][col] = 54;
+                else
+                    map[row][col] = 61;
+            }
+            //? 1 ?
+            //1 x 1
+            //1 1 0
+            else if (checkTopRight(row, col))
+            {
+                if (checkTopLeft(row, col))
+                    map[row][col] = 53;
+                else
+                    map[row][col] = 57;
+            }
+            if (checkTopLeft(row, col))
+                map[row][col] = 59;
+        }
+        //? 1 ?
+        //1 x 1
+        //0 1 0
+        else {
+            if (checkTopLeft(row, col))
+            {
+                if (checkTopRight(row, col))
+                    map[row][col]=62;
+                else
+                    map[row][col]=63;
+            }
+            else if (checkTopRight(row, col))
+                map[row][col]=64;
+        }
+
+        if (checkTopLeft(row, col))
+        {
+            if (checkTopRight(row, col))
+            {
+                //1 1 1
+                //1 x 1
+                //? 1 ?
+                if(checkBottomRight(col, row))
+                    if(checkBottomLeft(col,row)==false)
+                        map[row][col]=56;
+            }
+        }
+        else
+        {
+            if (checkTopRight(row, col))
+            {
+                //0 1 1
+                //1 x 1
+                //? 1 ?
+                if(checkBottomLeft(row,col))
+                {
+                    if(checkBottomRight(row,col))
+                    map[row][col] = 58;
+                }
+                else
+                    if(checkBottomRight(row, col))
+                        map[row][col]=60;
+            }
+            else
+            {
+                //0 1 0
+                //1 x 1
+                //? 1 ?
+                if(checkBottomLeft(row,col))
+                {
+                    if(checkBottomRight(row,col))
+                        map[row][col]=67;
+                    else
+                        map[row][col]=66;
+                }
+                else
+                {
+                    if(checkBottomRight(row,col))
+                    {
+                        map[row][col]=56;
+                    }
+
+                }
+            }
+        }
+    }
+
+    private boolean checkTop(int row, int col)
+    {
+        if(map[row-1][col]==1)
+            return true;
+        return false;
+    }
+
+    private boolean checkBottom(int row, int col)
+    {
+        if(map[row+1][col]==1)
+            return true;
+        return false;
+    }
+
+    private boolean checkLeft(int row, int col)
+    {
+        if(map[row][col-1]==1)
+            return true;
+        return false;
+    }
+
+    private boolean checkRight(int row, int col)
+    {
+        if(map[row][col+1]==1)
+            return true;
+        return false;
+    }
+
+    private boolean checkTopLeft(int row, int col)
+    {
+        if(map[row-1][col-1]==1)
+            return true;
+        return false;
+    }
+
+    private boolean checkTopRight(int row, int col)
+    {
+        if(map[row-1][col+1]==1)
+            return true;
+        return false;
+    }
+
+    private boolean checkBottomLeft(int row, int col)
+    {
+        if(map[row+1][col-1]==1)
+            return true;
+        return false;
+    }
+
+    private boolean checkBottomRight(int row, int col)
+    {
+        if(map[row+1][col+1]==1)
+            return true;
+        return false;
+    }
 
     private void countFreeBlocksAndSet(int index)
     {
