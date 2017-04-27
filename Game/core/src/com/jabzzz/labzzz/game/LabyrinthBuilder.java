@@ -1,5 +1,6 @@
 package com.jabzzz.labzzz.game;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -109,12 +110,18 @@ public class LabyrinthBuilder extends Labyrinth
             }
         }
 
-        //makeGraphicsMap();
+        makeGraphicsMap();
+        System.out.println(Arrays.deepToString(map));
     }
 
 
     public void makeGraphicsMap()
     {
+        int[][] newMap = map.clone();
+        for(int k = 0; k < newMap.length; k++)
+        {
+            newMap[k] = map[k].clone();
+        }
 
         for(int row = 0; row < map.length; row++)
         {
@@ -123,19 +130,16 @@ public class LabyrinthBuilder extends Labyrinth
                 //if ground
                 if(map[row][col]==0)
                 {
-                    if(row==0)
-                        if(map[map.length][col]==1)
-                            map[row][col]=2;    //check last row
-                    else if(map[row-1][col]==1)
-                        map[row][col]=2;
+                    if(getMapBlockAt(row+1,col)==0)
+                        newMap[row][col]=2;
+                    else
+                        newMap[row][col]=3;
                 }
 
                 //if wall
-                if(map[row][col]==0) {
+                if(getMapBlockAt(row,col)==1) {
 
-                    checkNormal(row,col);
-
-
+                    newMap=checkBlock(row,col,newMap);
 
                 }
             }
@@ -143,9 +147,11 @@ public class LabyrinthBuilder extends Labyrinth
 
         }
 
+        map = newMap;
+
     }
 
-    private void checkNormal(int row, int col)
+    private int[][] checkBlock(int row, int col, int[][]newMap)
     {
         if((checkTop(row,col)&&checkBottom(row,col)))
         {
@@ -153,7 +159,7 @@ public class LabyrinthBuilder extends Labyrinth
             {
                 if(checkRight(row, col))
                 {
-                    checkDiagonals(row, col);
+                    checkDiagonals(row, col, newMap);
                 }
                 //? 1 e
                 //1 x 0
@@ -163,12 +169,12 @@ public class LabyrinthBuilder extends Labyrinth
                     if(checkTopLeft(row,col))
                     {
                         if(checkBottomLeft(row,col))
-                            map[row][col]=42;
+                            newMap[row][col]=42;
                         else
-                            map[row][col]=50;
+                            newMap[row][col]=50;
                     }
                     else if(checkBottomLeft(row,col))
-                        map[row][col]=49;
+                        newMap[row][col]=49;
                 }
             }
             //? 1 ?
@@ -181,16 +187,16 @@ public class LabyrinthBuilder extends Labyrinth
                     if(checkTopRight(row,col))
                     {
                         if(checkBottomRight(row,col))
-                            map[row][col]=41;
+                            newMap[row][col]=41;
                         else
-                            map[row][col]=48;
+                            newMap[row][col]=48;
                     }
                     else
                         if(checkBottomRight(row,col))
-                            map[row][col]=47;
+                            newMap[row][col]=47;
                 }
                 else
-                    map[row][col]=26;
+                    newMap[row][col]=26;
             }
         }
         else if((checkLeft(row,col)&&checkRight(row,col)))
@@ -199,7 +205,7 @@ public class LabyrinthBuilder extends Labyrinth
             {
                 if(checkBottom(row, col))
                 {
-                    checkDiagonals(row, col);
+                    checkDiagonals(row, col, newMap);
                 }
                 //? 1 ?
                 //1 x 1
@@ -209,14 +215,14 @@ public class LabyrinthBuilder extends Labyrinth
                     if(checkTopLeft(row,col))
                     {
                         if(checkTopRight(row,col))
-                            map[row][col]=40;
+                            newMap[row][col]=40;
                         else
-                            map[row][col]=46;
+                            newMap[row][col]=46;
                     }
                     else
                     {
                         if(checkTopRight(row, col))
-                            map[row][col]=52;
+                            newMap[row][col]=52;
                     }
                 }
             }
@@ -229,15 +235,15 @@ public class LabyrinthBuilder extends Labyrinth
                     if(checkBottomLeft(row,col))
                     {
                         if(checkBottomRight(row,col))
-                            map[row][col]=43;
+                            newMap[row][col]=43;
                         else
-                            map[row][col]=51;
+                            newMap[row][col]=51;
                     }
                     else
                         if(checkBottomRight(row,col))
-                            map[row][col]=45;
+                            newMap[row][col]=45;
                 }
-                map[row][col]=25;
+                newMap[row][col]=25;
         }
         else if(checkBottom(row,col)&&checkRight(row,col))
         {
@@ -245,16 +251,16 @@ public class LabyrinthBuilder extends Labyrinth
             //? x 1
             //e 1 e
             if(checkTop(row,col))
-                map[row][col]=35;
+                newMap[row][col]=35;
             if(checkLeft(row,col))
-                map[row][col]=32;
+                newMap[row][col]=32;
             //e 0 e
             //0 x 1
             //e 1 ?
             if(checkBottomRight(row,col))
-                map[row][col]=38;
+                newMap[row][col]=38;
             else
-                map[row][col]=30;
+                newMap[row][col]=30;
         }
         else if(checkBottom(row,col)&&checkLeft(row,col))
         {
@@ -262,9 +268,9 @@ public class LabyrinthBuilder extends Labyrinth
             //1 x 0
             //? 1 e
             if(checkBottomLeft(row,col))
-                map[row][col]=36;
+                newMap[row][col]=36;
             else
-                map[row][col]=28;
+                newMap[row][col]=28;
         }
         else if(checkTop(row,col)&&checkLeft(row,col))
         {
@@ -272,16 +278,17 @@ public class LabyrinthBuilder extends Labyrinth
             //1 x ?
             //e ? e
             if(checkBottom(row,col))
-                map[row][col]=33;
+                newMap[row][col]=33;
+                System.out.println(row+", "+col);
             if(checkTop(row,col))
-                map[row][col]=34;
+                newMap[row][col]=34;
             //? 1 e
             //1 x 0
             //e 0 e
             if(checkTopLeft(row,col))
-                map[row][col]=37;
+                newMap[row][col]=37;
             else
-                map[row][col]=29;
+                newMap[row][col]=29;
         }
         else if(checkTop(row,col)&&checkRight(row,col))
         {
@@ -289,23 +296,25 @@ public class LabyrinthBuilder extends Labyrinth
             //0 x 1
             //e 0 e
             if(checkTopRight(row,col))
-                map[row][col]=39;
+                newMap[row][col]=39;
             else
-                map[row][col]=31;
+                newMap[row][col]=31;
         }
         else if(checkBottom(row,col))
-            map[row][col]=21;
+            newMap[row][col]=21;
         else if(checkLeft(row,col))
-            map[row][col]=22;
+            newMap[row][col]=22;
         else if (checkRight(row,col))
-            map[row][col]=23;
+            newMap[row][col]=23;
         else if(checkTop(row,col))
-            map[row][col]=24;
+            newMap[row][col]=24;
         else
-            map[row][col]=20;
+            newMap[row][col]=20;
+
+        return newMap;
     }
 
-    private void checkDiagonals(int row, int col) {
+    private int[][] checkDiagonals(int row, int col, int[][] newMap) {
         //? 1 ?
         //1 x 1
         //? 1 ?
@@ -319,14 +328,14 @@ public class LabyrinthBuilder extends Labyrinth
                 if (checkTopRight(row, col))
                 {
                     if (checkTopLeft(row, col))
-                        map[row][col] = 44;
+                        newMap[row][col] = 44;
                     else
-                        map[row][col] = 55;
+                        newMap[row][col] = 55;
                 }
                 if (checkTopLeft(row, col))
-                    map[row][col] = 54;
+                    newMap[row][col] = 54;
                 else
-                    map[row][col] = 61;
+                    newMap[row][col] = 61;
             }
             //? 1 ?
             //1 x 1
@@ -334,12 +343,12 @@ public class LabyrinthBuilder extends Labyrinth
             else if (checkTopRight(row, col))
             {
                 if (checkTopLeft(row, col))
-                    map[row][col] = 53;
+                    newMap[row][col] = 53;
                 else
-                    map[row][col] = 57;
+                    newMap[row][col] = 57;
             }
             if (checkTopLeft(row, col))
-                map[row][col] = 59;
+                newMap[row][col] = 59;
         }
         //? 1 ?
         //1 x 1
@@ -348,14 +357,16 @@ public class LabyrinthBuilder extends Labyrinth
             if (checkTopLeft(row, col))
             {
                 if (checkTopRight(row, col))
-                    map[row][col]=62;
+                    newMap[row][col]=62;
                 else
-                    map[row][col]=63;
+                    newMap[row][col]=63;
             }
             else
                 if (checkTopRight(row, col))
-                    map[row][col]=64;
-                else map[row][col]=27;
+                {
+                    newMap[row][col]=64;
+                }
+                else newMap[row][col]=27;
         }
 
         if (checkTopLeft(row, col))
@@ -367,7 +378,7 @@ public class LabyrinthBuilder extends Labyrinth
                 //? 1 ?
                 if(checkBottomRight(col, row))
                     if(!checkBottomLeft(col,row))
-                        map[row][col]=56;
+                        newMap[row][col]=56;
             }
         }
         else
@@ -380,11 +391,11 @@ public class LabyrinthBuilder extends Labyrinth
                 if(checkBottomLeft(row,col))
                 {
                     if(checkBottomRight(row,col))
-                    map[row][col] = 58;
+                        newMap[row][col] = 58;
                 }
                 else
                     if(checkBottomRight(row, col))
-                        map[row][col]=60;
+                        newMap[row][col]=60;
             }
             else
             {
@@ -394,74 +405,76 @@ public class LabyrinthBuilder extends Labyrinth
                 if(checkBottomLeft(row,col))
                 {
                     if(checkBottomRight(row,col))
-                        map[row][col]=67;
+                        newMap[row][col]=67;
                     else
-                        map[row][col]=66;
+                        newMap[row][col]=66;
                 }
                 else
                 {
                     if(checkBottomRight(row,col))
                     {
-                        map[row][col]=56;
+                        newMap[row][col]=56;
                     }
 
                 }
             }
         }
+
+        return newMap;
     }
 
     private boolean checkTop(int row, int col)
     {
-        if(map[row-1][col]==1)
+        if(getMapBlockAt(row+1,col)==1)
             return true;
         return false;
     }
 
     private boolean checkBottom(int row, int col)
     {
-        if(map[row+1][col]==1)
+        if(getMapBlockAt(row-1,col)==1)
             return true;
         return false;
     }
 
     private boolean checkLeft(int row, int col)
     {
-        if(map[row][col-1]==1)
+        if(getMapBlockAt(row,col-1)==1)
             return true;
         return false;
     }
 
     private boolean checkRight(int row, int col)
     {
-        if(map[row][col+1]==1)
+        if(getMapBlockAt(row,col+1)==1)
             return true;
         return false;
     }
 
     private boolean checkTopLeft(int row, int col)
     {
-        if(map[row-1][col-1]==1)
+        if(getMapBlockAt(row+1,col-1)==1)
             return true;
         return false;
     }
 
     private boolean checkTopRight(int row, int col)
     {
-        if(map[row-1][col+1]==1)
+        if(getMapBlockAt(row+1,col+1)==1)
             return true;
         return false;
     }
 
     private boolean checkBottomLeft(int row, int col)
     {
-        if(map[row+1][col-1]==1)
+        if(getMapBlockAt(row-1,col-1)==1)
             return true;
         return false;
     }
 
     private boolean checkBottomRight(int row, int col)
     {
-        if(map[row+1][col+1]==1)
+        if(getMapBlockAt(row-1,col+1)==1)
             return true;
         return false;
     }
