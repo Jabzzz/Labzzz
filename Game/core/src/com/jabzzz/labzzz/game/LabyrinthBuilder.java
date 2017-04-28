@@ -14,7 +14,7 @@ public class LabyrinthBuilder extends Labyrinth
 		Textures - Numbering
 
 		2 -> 19 (Ground textures, no collision)
-		20 -> 49 (Wall Textures, collisable)
+		20 -> 67 (Wall Textures, collisable)
 
 	 */
 

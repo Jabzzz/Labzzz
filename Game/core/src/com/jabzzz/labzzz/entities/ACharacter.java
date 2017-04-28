@@ -46,86 +46,16 @@ public abstract class ACharacter extends AEntity
     public ACharacter(Labyrinth l)
     {
         super(l);
+
+        currentSprite = new Sprite();
     }
 
     public abstract void render(SpriteBatch sb);
-    public void update(float delta)
-    {
-        //Calculate Input
-        calcInputData();
 
-        //Set movement
-        movement(delta);
+    public abstract void update(float delta);
 
-        //Set animation
-        animate();
-    }
+    public abstract void animate();
 
-    protected void animate()
-    {
-        if(velocity.len() > 0.01f)
-        {
-            float angle = velocity.angle();
-
-            if(angle < 45 || angle > 315)
-            {
-                //right
-                dir = "r";
-            }
-            else if(angle < 135)
-            {
-                //up
-                dir = "u";
-            }
-            else if(angle < 225)
-            {
-                //left
-                dir = "l";
-            }
-            else
-            {
-                //down
-                dir = "d";
-            }
-
-            //Set next Image
-            if((System.currentTimeMillis() - lastAnimation) > getAnimationTime())
-            {
-                loop_current++;
-                lastAnimation = System.currentTimeMillis();
-
-                if(loop_current > loop_to || loop_current < loop_from)
-                {
-                    loop_current = loop_from;
-                    System.out.println("loop: " + loop_current);
-                }
-            }
-        }
-        else if(System.currentTimeMillis() - lastAnimation > getAnimationTime())
-        {
-            loop_current = loop_from;
-        }
-
-        switch(loop_current)
-        {
-            case 1:
-                currentSprite = sprites.get(dir + "1");
-                break;
-            case 2:
-                currentSprite = sprites.get(dir + "2");
-                break;
-            case 3:
-                currentSprite = sprites.get(dir + "1");
-                break;
-            case 4:
-                currentSprite = sprites.get(dir + "3");
-                break;
-            default:
-                currentSprite = sprites.get(dir + loop_from);
-                loop_current = loop_from;
-
-        }
-    }
 
     protected void movement(float delta)
     {
@@ -155,7 +85,7 @@ public abstract class ACharacter extends AEntity
         }
     }
 
-    private float getAnimationTime()
+    protected float getAnimationTime()
     {
         return ANIMATION_TIME / (velocity.len() + 1);
     }

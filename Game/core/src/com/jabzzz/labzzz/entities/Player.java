@@ -24,6 +24,9 @@ import java.util.HashMap;
 
 public class Player extends ACharacter
 {
+
+    private static final float SCALE = 0.7f;
+
     private ArrayList<InputData> inputDataList = new ArrayList<InputData>();
 
     private OrthographicCamera theCam;
@@ -42,6 +45,7 @@ public class Player extends ACharacter
         for(TextureAtlas.AtlasRegion region : regions)
         {
             Sprite sprite = atlas.createSprite(region.name);
+            sprite.setScale(SCALE);
             sprites.put(region.name, sprite);
         }
         lastAnimation = System.currentTimeMillis();
@@ -50,10 +54,11 @@ public class Player extends ACharacter
         //Set collision
         pictureWidth = sprites.get("d1").getRegionWidth();
         pictureHeight = sprites.get("d1").getRegionHeight();
-        collisionWidth = (int) (pictureWidth * 0.5f);
+        collisionWidth = (int) (pictureWidth * 0.31f);
         collisionHeight = (int) (pictureHeight * 0.4f);
     }
 
+    @Override
     public void render(SpriteBatch theBatch)
     {
         theBatch.begin();
@@ -62,6 +67,85 @@ public class Player extends ACharacter
         currentSprite.draw(theBatch);
 
         theBatch.end();
+    }
+
+    @Override
+    public void update(float delta)
+    {
+        //Calculate Input
+        calcInputData();
+
+        //Set movement
+        movement(delta);
+
+        //Set animation
+        animate();
+    }
+
+    @Override
+    public void animate()
+    {
+        if(velocity.len() > 0.01f)
+        {
+            float angle = velocity.angle();
+
+            if(angle < 45 || angle > 315)
+            {
+                //right
+                dir = "r";
+            }
+            else if(angle < 135)
+            {
+                //up
+                dir = "u";
+            }
+            else if(angle < 225)
+            {
+                //left
+                dir = "l";
+            }
+            else
+            {
+                //down
+                dir = "d";
+            }
+
+            //Set next Image
+            if((System.currentTimeMillis() - lastAnimation) > getAnimationTime())
+            {
+                loop_current++;
+                lastAnimation = System.currentTimeMillis();
+
+                if(loop_current > loop_to || loop_current < loop_from)
+                {
+                    loop_current = loop_from;
+                }
+            }
+        }
+        else if(System.currentTimeMillis() - lastAnimation > getAnimationTime())
+        {
+            loop_current = loop_from;
+        }
+
+        switch(loop_current)
+        {
+            case 1:
+                currentSprite = sprites.get(dir + "1");
+                break;
+            case 2:
+                currentSprite = sprites.get(dir + "2");
+                break;
+            case 3:
+                currentSprite = sprites.get(dir + "1");
+                break;
+            case 4:
+                currentSprite = sprites.get(dir + "3");
+                break;
+            default:
+                loop_current = loop_from;
+                currentSprite = sprites.get(dir + "1");
+
+        }
     }
 
     public synchronized void calcInputData()
@@ -101,7 +185,7 @@ public class Player extends ACharacter
 
     public Vector2 getCollisionPosition()
     {
-        return new Vector2(getDecenteredPosition().x + (pictureWidth * 0.25f), getDecenteredPosition().y + (pictureHeight * 0.1f));
+        return new Vector2(getDecenteredPosition().x + (pictureWidth * 0.35f), getDecenteredPosition().y + (pictureHeight * 0.2f));
     }
 
 

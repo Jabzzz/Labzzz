@@ -62,18 +62,34 @@ public class Enemy extends ACharacter {
     }
 
     @Override
+    public void update(float delta)
+    {
+        //Calculate Input
+        calcInputData();
+
+        //Set movement
+        movement(delta);
+    }
+
+    @Override
     public void calcInputData()
     {
         updateDetection();
         //System.out.println(Arrays.toString(wallDetection) + " " + Arrays.toString(blockDetection));
 
-        System.out.print(blockDetection[2] + " " + blockDetection[1]);
-        System.out.print(" " + blockDetection[3]);
-        System.out.println(" " + blockDetection[0]);
+        //System.out.print(blockDetection[2] + " " + blockDetection[1]);
+        //System.out.print(" " + blockDetection[3]);
+        //System.out.println(" " + blockDetection[0]);
 
         InputData id = calcControl();
 
         acceleration = getAccelerationFrom(id.getSpeed(), id.getDirection(), id.getInputSystem());
+
+    }
+
+    @Override
+    public void animate()
+    {
 
     }
 
