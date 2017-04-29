@@ -71,6 +71,30 @@ public class Enemy extends ACharacter {
         GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.BLUE);
         GameState.shapeRenderer.circle(position.x, position.y, 10);
 
+        if(blockDetection[0])
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+        else
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+        GameState.shapeRenderer.rect(position.x - 5 + 20, position.y - 5, 10, 10);
+
+        if(blockDetection[1])
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+        else
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+        GameState.shapeRenderer.rect(position.x - 5, position.y - 5 + 20, 10, 10);
+
+        if(blockDetection[2])
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+        else
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+        GameState.shapeRenderer.rect(position.x - 5 - 20, position.y - 5, 10, 10);
+
+        if(blockDetection[3])
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+        else
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+        GameState.shapeRenderer.rect(position.x - 5, position.y - 25, 10, 10);
+
         GameState.shapeRenderer.end();
     }
 
@@ -109,18 +133,18 @@ public class Enemy extends ACharacter {
 
     private void updateDetection()
     {
-        wallDetection[0] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0, MainGame.BLOCK_SIZE / 4)) == 1;
-        wallDetection[1] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(MainGame.BLOCK_SIZE / 4, 0)) == 1;
-        wallDetection[2] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0,- MainGame.BLOCK_SIZE / 4)) == 1;
-        wallDetection[3] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(- MainGame.BLOCK_SIZE / 4, 0)) == 1;
+        wallDetection[0] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0, MainGame.BLOCK_SIZE / 4)) > 19;
+        wallDetection[1] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(MainGame.BLOCK_SIZE / 4, 0)) > 19;
+        wallDetection[2] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0,- MainGame.BLOCK_SIZE / 4)) > 19;
+        wallDetection[3] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(- MainGame.BLOCK_SIZE / 4, 0)) > 19;
 
         int colum = labyrinth.getColumnMapBlocksAtPosition(this.position);
         int row = labyrinth.getRowMapBlocksAtPosition(this.position);
 
-        blockDetection[0] = labyrinth.getMapBlockAt(row, colum + 1) == 1;
-        blockDetection[1] = labyrinth.getMapBlockAt(row + 1, colum) == 1;
-        blockDetection[2] = labyrinth.getMapBlockAt(row, colum - 1) == 1;
-        blockDetection[3] = labyrinth.getMapBlockAt(row - 1, colum) == 1;
+        blockDetection[0] = labyrinth.getMapBlockAt(row, colum + 1) > 19;
+        blockDetection[1] = labyrinth.getMapBlockAt(row + 1, colum) > 19;
+        blockDetection[2] = labyrinth.getMapBlockAt(row, colum - 1) > 19;
+        blockDetection[3] = labyrinth.getMapBlockAt(row - 1, colum) > 19;
     }
     private InputData calcControl()
     {
