@@ -3,6 +3,7 @@ package com.jabzzz.labzzz.collision;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.game.Labyrinth;
 import com.jabzzz.labzzz.entities.Player;
 
@@ -127,22 +128,22 @@ public class CollisionHandler
 
         if(!twoPointCollision)
         {
-            if(collisionMatrix[0][0] == 1)
+            if(collisionMatrix[0][0] >= MainGame.INDEX_WALL_START)
             {
                 dPoint = collisionPoints[2];
                 onePointCollision = true;
             }
-            else if(collisionMatrix[0][1] == 1)
+            else if(collisionMatrix[0][1] >= MainGame.INDEX_WALL_START)
             {
                 dPoint = collisionPoints[3];
                 onePointCollision = true;
             }
-            else if(collisionMatrix[1][0] == 1)
+            else if(collisionMatrix[1][0] >= MainGame.INDEX_WALL_START)
             {
                 dPoint = collisionPoints[0];
                 onePointCollision = true;
             }
-            else if(collisionMatrix[1][1] == 1)
+            else if(collisionMatrix[1][1] >= MainGame.INDEX_WALL_START)
             {
                 dPoint = collisionPoints[1];
                 onePointCollision = true;
@@ -153,7 +154,7 @@ public class CollisionHandler
         {
             dPoint.add(new Vector2(velocity.x, -1f * velocity.y));
 
-            if(theLabyrinth.getMapBlockAtPosition(dPoint) == 1)
+            if(theLabyrinth.getMapBlockAtPosition(dPoint) >= MainGame.INDEX_WALL_START)
             {
                 thePlayer.setVelocity(new Vector2(0,velocity.y));
             }
@@ -223,31 +224,31 @@ public class CollisionHandler
 
     private boolean isCollisionEDGE(int collisionMatrix[][])
     {
-        return (collisionMatrix[0][0] == 1 && collisionMatrix[1][1] == 1 ||
-                    collisionMatrix[0][1] == 1 && collisionMatrix[1][0] == 1 );
+        return (collisionMatrix[0][0] >= MainGame.INDEX_WALL_START && collisionMatrix[1][1] >= MainGame.INDEX_WALL_START ||
+                    collisionMatrix[0][1] >= MainGame.INDEX_WALL_START && collisionMatrix[1][0] >= MainGame.INDEX_WALL_START);
     }
 
     private boolean isCollisionUP(int collisionMatrix[][])
     {
-        return (collisionMatrix[0][0] == 1 && collisionMatrix[0][1] == 1);// &&
+        return (collisionMatrix[0][0] >= MainGame.INDEX_WALL_START && collisionMatrix[0][1] >= MainGame.INDEX_WALL_START);// &&
                 //collisionMatrix[1][0] == 0 && collisionMatrix[1][1] == 0);
     }
 
     private boolean isCollisionDOWN(int collisionMatrix[][])
     {
-        return (collisionMatrix[1][0] == 1 && collisionMatrix[1][1] == 1);// &&
+        return (collisionMatrix[1][0] >= MainGame.INDEX_WALL_START && collisionMatrix[1][1] >= MainGame.INDEX_WALL_START);// &&
                 //collisionMatrix[0][0] == 0 && collisionMatrix[0][1] == 0);
     }
 
     private boolean isCollisionLEFT(int collisionMatrix[][])
     {
-        return (collisionMatrix[0][0] == 1 && collisionMatrix[1][0] == 1);// &&
+        return (collisionMatrix[0][0] >= MainGame.INDEX_WALL_START && collisionMatrix[1][0] >= MainGame.INDEX_WALL_START);// &&
                 //collisionMatrix[0][1] == 0 && collisionMatrix[1][1] == 0);
     }
 
     private boolean isCollisionRIGHT(int collisionMatrix[][])
     {
-        return (collisionMatrix[0][1] == 1  && collisionMatrix[1][1] == 1);// &&
+        return (collisionMatrix[0][1] >= MainGame.INDEX_WALL_START  && collisionMatrix[1][1] >= MainGame.INDEX_WALL_START);// &&
                 //collisionMatrix[0][0] == 0 && collisionMatrix[1][0] == 0);
     }
 

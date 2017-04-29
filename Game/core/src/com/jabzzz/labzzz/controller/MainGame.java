@@ -24,6 +24,9 @@ public class MainGame extends ApplicationAdapter
 	 */
 
 
+	public static final int INDEX_WALL_START = 20;
+	public static final int INDEX_WALL_END = 67;
+
 
 	public static final String TITLE = "THE Game";
 	public static final int WIDTH = 500;
