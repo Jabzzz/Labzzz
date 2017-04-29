@@ -210,7 +210,7 @@ public class Labyrinth
                         break;
                     case 33:theBatch.draw(wall_s_left_right_bottom, position.x, position.y+MainGame.BLOCK_SIZE, 0, 0, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE, 1, 1, 270f);
                         break;
-                    case 34:theBatch.draw(wall_s_left_right_bottom, position.x+MainGame.BLOCK_SIZE, position.y+MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE, 0, 0, MainGame.BLOCK_SIZE, 1, 1, 180f);
+                    case 34:theBatch.draw(wall_s_left_right_bottom, position.x+MainGame.BLOCK_SIZE, position.y+MainGame.BLOCK_SIZE,  0, 0, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE, 1, 1, 180f);
                         break;
                     case 35:theBatch.draw(wall_s_left_right_bottom, position.x+MainGame.BLOCK_SIZE, position.y, 0, 0, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE, 1, 1, 90f);
                         break;
