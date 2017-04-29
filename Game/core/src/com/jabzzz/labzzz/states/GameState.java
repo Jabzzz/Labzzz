@@ -3,6 +3,7 @@ package com.jabzzz.labzzz.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.collision.CollisionHandler;
 import com.jabzzz.labzzz.controller.*;
@@ -24,6 +25,7 @@ public class GameState extends AState
 
     private InputHandler theInputHandler = null;
     private CollisionHandler theCollisionHandler = null;
+    public static ShapeRenderer shapeRenderer = null;
 
     private Player player = null;
     private Enemy enemy = null;
@@ -37,11 +39,12 @@ public class GameState extends AState
         this.theInputHandler = theInputHandler;
 
         theBatch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
         theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
 
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
-        LabyrinthBuilder lb = new LabyrinthBuilder(20);
+        LabyrinthBuilder lb = new LabyrinthBuilder(5);
         lb.resetLab();
         lb.createMap(2000);
         labyrinth = lb;
@@ -61,6 +64,7 @@ public class GameState extends AState
                                 player.getPosition().y + player.getVelocity().y * Gdx.graphics.getRawDeltaTime() * 40, 0);
         theCam.update();
         theBatch.setProjectionMatrix(theCam.combined);
+        shapeRenderer.setProjectionMatrix(theCam.combined);
 
         labyrinth.render(theBatch, theCam);
 
@@ -89,6 +93,7 @@ public class GameState extends AState
     public void dispose()
     {
         theBatch.dispose();
+        shapeRenderer.dispose();
     }
 
     public void input(Speed speed, Direction dir, InputSystem is, float x, float y)

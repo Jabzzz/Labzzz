@@ -12,9 +12,13 @@ import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.Labyrinth;
+import com.jabzzz.labzzz.states.GameState;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Random;
+
+import sun.applet.Main;
 
 /**
  * Created by Stefan on 18.04.2017.
@@ -59,6 +63,15 @@ public class Enemy extends ACharacter {
         theBatch.draw(texture, getPosition().x - 25, getPosition().y - 25, 50, 50);
 
         theBatch.end();
+        GameState.shapeRenderer.setAutoShapeType(true);
+        GameState.shapeRenderer.begin();
+
+        GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+        GameState.shapeRenderer.circle(target.x, target.y, 10);
+        GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.BLUE);
+        GameState.shapeRenderer.circle(position.x, position.y, 10);
+
+        GameState.shapeRenderer.end();
     }
 
     @Override
@@ -96,6 +109,7 @@ public class Enemy extends ACharacter {
     private InputData calcControl()
     {
         if(target.dst2(position) < 40)
+        if(target.dst2(position) < 30)
             status = 0;
         switch (status)
         {
@@ -103,16 +117,16 @@ public class Enemy extends ACharacter {
                 switch (getNewRandomAcc())
                 {
                     case 0:
-                        target = labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)+1);
+                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)+1));
                         break;
                     case 1:
-                        target = labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)+1, labyrinth.getColumnMapBlocksAtPosition(position));
+                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)+1, labyrinth.getColumnMapBlocksAtPosition(position)));
                         break;
                     case 2:
-                        target = labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)-1);
+                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)-1));
                         break;
                     case 3:
-                        target = labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)-1, labyrinth.getColumnMapBlocksAtPosition(position));
+                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)-1, labyrinth.getColumnMapBlocksAtPosition(position)));
                         break;
                 }
                 status = 1;
@@ -160,7 +174,7 @@ public class Enemy extends ACharacter {
     private int getNewRandomAcc()
     {
         int possibilities = new Random().nextInt(4);
-        for(int i = 0; i < possibilities+3; i++)
+        for(int i = possibilities+3; i > 0; i--)
         {
             if (!blockDetection[i%4])
             {
@@ -168,5 +182,21 @@ public class Enemy extends ACharacter {
             }
         }
         return -1;
+    }
+
+    public void setTarget(Vector2 point)
+    {
+        target = point;
+
+        int labWidth = labyrinth.getWidth();
+        int labHeight = labyrinth.getHeight();
+        while(target.x < 0)
+            target.x += labWidth;
+        while(target.x > labWidth)
+            target.x -= labWidth;
+        while(target.y < 0)
+            target.y += labHeight;
+        while(target.y > labHeight)
+            target.y -= labHeight;
     }
 }
