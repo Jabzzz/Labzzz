@@ -69,6 +69,15 @@ public class Labyrinth
     private Texture  wall_b_c_bottom_left   = null;
     private Texture  wall_b_cs_top_left_and_bottom_right    = null;
     private Texture  wall_b_cs_top_right_and_bottom_left    = null;
+    private Texture  wall_b_cs_bottom_left_right    = null;
+    private Texture  wall_b_cs_left_bottom_top      = null;
+    private Texture  wall_b_cs_right_bottom_top     = null;
+    private Texture  wall_b_cs_top_left_right       = null;
+    private Texture  wall_b_threecs_bottom_left     = null;
+    private Texture  wall_b_threecs_bottom_right    = null;
+    private Texture  wall_b_threecs_top_left        = null;
+    private Texture  wall_b_threecs_top_right       = null;
+    private Texture  wall_b_fourcs    = null;
 
     private int colStart = 0;
     private int colEnd = 0;
@@ -89,6 +98,7 @@ public class Labyrinth
                     {0,0,0,0,0,0},
                     {1,1,1,0,1,1}
             };*/
+
         map = new int[mapLength][mapLength];
 
         ground = new Texture("gamestate/environment/ground.png");
@@ -134,6 +144,15 @@ public class Labyrinth
         wall_b_c_bottom_left   = new Texture("gamestate/environment/wall_shadow_big_corner_bottom_left.png");
         wall_b_cs_top_left_and_bottom_right    = new Texture("gamestate/environment/wall_shadow_big_twocorners_top_left_and_bottom_right.png");
         wall_b_cs_top_right_and_bottom_left    = new Texture("gamestate/environment/wall_shadow_big_twocorners_top_right_and_bottom_left.png");
+        wall_b_cs_bottom_left_right = new Texture("gamestate/environment/wall_shadow_big_twocorners_bottom_left_right.png");
+        wall_b_cs_left_bottom_top = new Texture("gamestate/environment/wall_shadow_big_twocorners_left_bottom_top.png");
+        wall_b_cs_right_bottom_top = new Texture("gamestate/environment/wall_shadow_big_twocorners_right_bottom_top.png");
+        wall_b_cs_top_left_right = new Texture("gamestate/environment/wall_shadow_big_twocorners_top_left_right.png");
+        wall_b_threecs_bottom_left     = new Texture("gamestate/environment/wall_shadow_big_threecorners_bottom_left.png");
+        wall_b_threecs_bottom_right    = new Texture("gamestate/environment/wall_shadow_big_threecorners_bottom_right.png");
+        wall_b_threecs_top_left        = new Texture("gamestate/environment/wall_shadow_big_threecorners_top_left.png");
+        wall_b_threecs_top_right       = new Texture("gamestate/environment/wall_shadow_big_threecorners_top_right.png");
+        wall_b_fourcs    = new Texture("gamestate/environment/wall_shadow_big_fourcorners.png");
     }
 
     public int getMapBlockAt(int row, int col)
@@ -317,7 +336,23 @@ public class Labyrinth
                         break;
                     case 57:theBatch.draw(wall_b_cs_top_left_and_bottom_right, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
                         break;
-                    case 58:theBatch.draw(wall_b_cs_top_right_and_bottom_left, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                    case 59:theBatch.draw(wall_b_cs_bottom_left_right, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 60:theBatch.draw(wall_b_cs_left_bottom_top, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 61:theBatch.draw(wall_b_cs_right_bottom_top, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 62:theBatch.draw(wall_b_cs_top_left_right, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 63:theBatch.draw(wall_b_threecs_bottom_left, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 64:theBatch.draw(wall_b_threecs_bottom_right, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 65:theBatch.draw(wall_b_threecs_top_left, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 66:theBatch.draw(wall_b_threecs_top_right, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
+                        break;
+                    case 67:theBatch.draw(wall_b_fourcs, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
                 }
             }
         }
