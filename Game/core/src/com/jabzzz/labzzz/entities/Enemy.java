@@ -1,11 +1,9 @@
 package com.jabzzz.labzzz.entities;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.enums.Direction;
@@ -14,11 +12,7 @@ import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.Labyrinth;
 import com.jabzzz.labzzz.states.GameState;
 
-import java.awt.Color;
-import java.util.Arrays;
 import java.util.Random;
-
-import sun.applet.Main;
 
 /**
  * Created by Stefan on 18.04.2017.
@@ -30,8 +24,8 @@ public class Enemy extends ACharacter {
     private int roleAI;
     private Vector2 target;
     private int status = 0;
-    private boolean[] wallDetection;
     private boolean[] blockDetection;
+    private WallDetection wallDetection = new WallDetection();
     private int currentRow = -1;
     private int currentColumn = -1;
 
@@ -51,7 +45,6 @@ public class Enemy extends ACharacter {
 
         texture = new Texture("gamestate/entities/enemy.gif");
 
-        wallDetection = new boolean[] {false, false, false, false};
         blockDetection = new boolean[] {false, false, false, false};
     }
 
@@ -71,25 +64,25 @@ public class Enemy extends ACharacter {
         GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.BLUE);
         GameState.shapeRenderer.circle(position.x, position.y, 10);
 
-        if(blockDetection[0])
+        if(wallDetection.getBlock(0))
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
         else
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
         GameState.shapeRenderer.rect(position.x - 5 + 20, position.y - 5, 10, 10);
 
-        if(blockDetection[1])
+        if(wallDetection.getBlock(1))
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
         else
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
         GameState.shapeRenderer.rect(position.x - 5, position.y - 5 + 20, 10, 10);
 
-        if(blockDetection[2])
+        if(wallDetection.getBlock(2))
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
         else
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
         GameState.shapeRenderer.rect(position.x - 5 - 20, position.y - 5, 10, 10);
 
-        if(blockDetection[3])
+        if(wallDetection.getBlock(3))
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
         else
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
@@ -133,22 +126,15 @@ public class Enemy extends ACharacter {
 
     private void updateDetection()
     {
-        wallDetection[0] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0, MainGame.BLOCK_SIZE / 4)) > 19;
-        wallDetection[1] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(MainGame.BLOCK_SIZE / 4, 0)) > 19;
-        wallDetection[2] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0,- MainGame.BLOCK_SIZE / 4)) > 19;
-        wallDetection[3] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(- MainGame.BLOCK_SIZE / 4, 0)) > 19;
+        blockDetection[0] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0, MainGame.BLOCK_SIZE / 4)) > 19;
+        blockDetection[1] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(MainGame.BLOCK_SIZE / 4, 0)) > 19;
+        blockDetection[2] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0,- MainGame.BLOCK_SIZE / 4)) > 19;
+        blockDetection[3] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(- MainGame.BLOCK_SIZE / 4, 0)) > 19;
 
-        int colum = labyrinth.getColumnMapBlocksAtPosition(this.position);
-        int row = labyrinth.getRowMapBlocksAtPosition(this.position);
-
-        blockDetection[0] = labyrinth.getMapBlockAt(row, colum + 1) > 19;
-        blockDetection[1] = labyrinth.getMapBlockAt(row + 1, colum) > 19;
-        blockDetection[2] = labyrinth.getMapBlockAt(row, colum - 1) > 19;
-        blockDetection[3] = labyrinth.getMapBlockAt(row - 1, colum) > 19;
+        wallDetection.update(labyrinth, position);
     }
     private InputData calcControl()
     {
-        if(target.dst2(position) < 40)
         if(target.dst2(position) < 30)
             status = 0;
         switch (status)
@@ -174,18 +160,51 @@ public class Enemy extends ACharacter {
         }
 
         Vector2 vec = new Vector2(target).sub(position);
+
+        if(vec.len() > Math.min(labyrinth.getWidth(), labyrinth.getHeight()) * 0.5f)
+        {
+            //maybe there is a shorter way
+            Vector2 visualTarget = new Vector2(target);
+
+            Vector2 shorterPath;
+
+            float yAchsisChange;
+            if(position.y > labyrinth.getHeight() * 0.5f)
+                yAchsisChange = labyrinth.getHeight();
+            else
+                yAchsisChange = - labyrinth.getHeight();
+
+            shorterPath = new Vector2(target).add(0, yAchsisChange).sub(position);
+
+            if(shorterPath.len2() < vec.len2())
+                visualTarget.add(0, yAchsisChange);
+
+            float xAchsisChange;
+            if(position.x > labyrinth.getWidth() * 0.5f)
+                xAchsisChange = labyrinth.getWidth();
+            else
+                xAchsisChange = - labyrinth.getWidth();
+
+            shorterPath = new Vector2(target).add(xAchsisChange,0).sub(position);
+
+            if(shorterPath.len2() < vec.len2())
+                visualTarget.add(xAchsisChange, 0);
+
+            vec = new Vector2(visualTarget).sub(position);
+        }
+
         vec.setLength(1f);
         Direction d = Direction.NONE;
 
         Vector2 wallDetAcceleration = new Vector2(Vector2.Zero);
         float wda_length = 1;
-        if(wallDetection[0])
+        if(blockDetection[0])
             wallDetAcceleration.add(-wda_length, 0);
-        if(wallDetection[1])
+        if(blockDetection[1])
             wallDetAcceleration.add(0, -wda_length);
-        if(wallDetection[2])
+        if(blockDetection[2])
             wallDetAcceleration.add(wda_length, 0);
-        if(wallDetection[3])
+        if(blockDetection[3])
             wallDetAcceleration.add(0, wda_length);
 
         vec.add(wallDetAcceleration);
@@ -213,15 +232,8 @@ public class Enemy extends ACharacter {
 
     private int getNewRandomAcc()
     {
-        int possibilities = new Random().nextInt(4);
-        for(int i = possibilities+3; i > 0; i--)
-        {
-            if (!blockDetection[i%4])
-            {
-                return i%4;
-            }
-        }
-        return -1;
+        java.util.List<Integer> noWallBlocks = wallDetection.getNoWallBlocks();
+        return noWallBlocks.get((new Random()).nextInt(noWallBlocks.size()));
     }
 
     public void setTarget(Vector2 point)
