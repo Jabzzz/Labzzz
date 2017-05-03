@@ -1,5 +1,6 @@
 package com.jabzzz.labzzz.entities;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -50,7 +51,7 @@ public abstract class ACharacter extends AEntity
         currentSprite = new Sprite();
     }
 
-    public abstract void render(SpriteBatch sb);
+    public abstract void render(SpriteBatch sb, OrthographicCamera theCam);
 
     public abstract void update(float delta);
 

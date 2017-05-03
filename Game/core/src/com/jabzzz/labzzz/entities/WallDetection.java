@@ -59,6 +59,19 @@ public class WallDetection {
 
         return noWallBlocks;
     }
+    public List<Integer> getNoWallBlocksWithout(int withoutValue)
+    {
+        List<Integer> noWallBlocks = new ArrayList<Integer>();
+        for(int i = 0; i < 4; i++)
+        {
+            if(!borderingBlocks[i] && (i != withoutValue))
+            {
+                noWallBlocks.add(i);
+            }
+        }
+
+        return noWallBlocks;
+    }
 
     public boolean getBlock(int index)
     {

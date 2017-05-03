@@ -44,14 +44,14 @@ public class GameState extends AState
 
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
 
-        LabyrinthBuilder lb = new LabyrinthBuilder(2);
+        LabyrinthBuilder lb = new LabyrinthBuilder(30);
         lb.resetLab();
         lb.createMap(2000);
         labyrinth = lb;
 
         Vector2 pos = lb.getRandomSpawnPosition();
         player = new Player(pos, labyrinth, theCam);
-        enemy = new Enemy(pos, labyrinth);
+        enemy = new Enemy(pos, labyrinth, player);
         theCollisionHandler = new CollisionHandler(player, labyrinth);
 
 
@@ -71,8 +71,8 @@ public class GameState extends AState
         //Render the Game
         theInputHandler.render(theCam);
 
-        player.render(theBatch);
-        enemy.render(theBatch);
+        player.render(theBatch, theCam);
+        enemy.render(theBatch, theCam);
 
 
     }

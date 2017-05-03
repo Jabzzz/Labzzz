@@ -59,7 +59,7 @@ public class Player extends ACharacter
     }
 
     @Override
-    public void render(SpriteBatch theBatch)
+    public void render(SpriteBatch theBatch, OrthographicCamera theCam)
     {
         theBatch.begin();
 

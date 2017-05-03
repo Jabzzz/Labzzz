@@ -1,7 +1,9 @@
 package com.jabzzz.labzzz.entities;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.jabzzz.labzzz.controller.InputData;
@@ -23,11 +25,11 @@ public class Enemy extends ACharacter {
 
     private int roleAI;
     private Vector2 target;
-    private int status = 0;
+    private int status = 2;
     private boolean[] blockDetection;
     private WallDetection wallDetection = new WallDetection();
-    private int currentRow = -1;
-    private int currentColumn = -1;
+    private Player player;
+    private int lastWalkBlock = -1;
 
     private int colStart = 0;
     private int colEnd = 0;
@@ -36,10 +38,11 @@ public class Enemy extends ACharacter {
     private int halfDisplayX = (int) (MainGame.WIDTH / 2);
     private int halfDisplayY = (int) (MainGame.HEIGHT / 2);
 
-    public Enemy(Vector2 position, Labyrinth labyrinth)
+    public Enemy(Vector2 position, Labyrinth labyrinth, Player player)
     {
         super(labyrinth);
 
+        this.player = player;
         this.position = new Vector2(position);
         this.target  = new Vector2(position);
 
@@ -48,14 +51,30 @@ public class Enemy extends ACharacter {
         blockDetection = new boolean[] {false, false, false, false};
     }
 
-    @Override
-    public void render(SpriteBatch theBatch)
+    public void render(SpriteBatch theBatch, OrthographicCamera theCam)
     {
         theBatch.begin();
+        colStart = MathUtils.floor((theCam.position.x - halfDisplayX) / labyrinth.getWidth());
+        colEnd = MathUtils.floor((theCam.position.x + halfDisplayX) / labyrinth.getWidth());
+        rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / labyrinth.getHeight());
+        rowEnd = MathUtils.floor((theCam.position.y + halfDisplayY) / labyrinth.getHeight());
 
-        theBatch.draw(texture, getPosition().x - 25, getPosition().y - 25, 50, 50);
+        for(int row = rowStart; row <= rowEnd; row++)
+        {
+            for (int colum = colStart; colum <= colEnd; colum++)
+            {
+                Vector2 virtualPos = new Vector2(position).add(colum * labyrinth.getWidth(), row * labyrinth.getWidth());
+                theBatch.draw(texture, virtualPos.x - 25, virtualPos.y - 25, 50, 50);
+            }
+        }
 
         theBatch.end();
+
+        drawDebug(getPosition());
+    }
+
+    private void drawDebug(Vector2 pos)
+    {
         GameState.shapeRenderer.setAutoShapeType(true);
         GameState.shapeRenderer.begin();
 
@@ -135,7 +154,7 @@ public class Enemy extends ACharacter {
     }
     private InputData calcControl()
     {
-        if(target.dst2(position) < 30)
+        if(status == 1 && target.dst2(position) < 30)
             status = 0;
         switch (status)
         {
@@ -143,19 +162,26 @@ public class Enemy extends ACharacter {
                 switch (getNewRandomAcc())
                 {
                     case 0:
+                        lastWalkBlock = 2;
                         setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)+1));
                         break;
                     case 1:
+                        lastWalkBlock = 3;
                         setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)+1, labyrinth.getColumnMapBlocksAtPosition(position)));
                         break;
                     case 2:
+                        lastWalkBlock = 0;
                         setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)-1));
                         break;
                     case 3:
+                        lastWalkBlock = 1;
                         setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)-1, labyrinth.getColumnMapBlocksAtPosition(position)));
                         break;
                 }
                 status = 1;
+                break;
+            case 2:
+                setTarget(player.getPosition());
                 break;
         }
 
@@ -232,7 +258,8 @@ public class Enemy extends ACharacter {
 
     private int getNewRandomAcc()
     {
-        java.util.List<Integer> noWallBlocks = wallDetection.getNoWallBlocks();
+        java.util.List<Integer> noWallBlocks = wallDetection.getNoWallBlocksWithout(lastWalkBlock);
+        System.out.println("lastAction: " + lastWalkBlock + " List: " + noWallBlocks.toString());
         return noWallBlocks.get((new Random()).nextInt(noWallBlocks.size()));
     }
 
