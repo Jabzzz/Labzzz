@@ -41,7 +41,7 @@ public class InputHandler implements InputProcessor
     {
         this.theGameState = theGameState;
         Gdx.input.setInputProcessor(this);
-        //System.out.println("InputHandler got constructed!");
+        System.out.println("InputHandler got constructed!");
         kbSpeed = Speed.SLOW;
 
         for(int i=0; i<refPoints.length; i++)
@@ -54,7 +54,6 @@ public class InputHandler implements InputProcessor
 
     public void render(OrthographicCamera theCam)
     {
-
 
         //zeichnet nur für einen Finger
         if ((refPoints[0][0] != 0)&&(refPoints[0][1] != 0))

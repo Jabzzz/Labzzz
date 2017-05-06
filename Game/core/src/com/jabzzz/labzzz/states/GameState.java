@@ -42,14 +42,14 @@ public class GameState extends AState
         this.theMainGame = theMainGame;
         this.theInputHandler = new InputHandler(this);
 
-        Gdx.input.setInputProcessor(theInputHandler);
+        //Gdx.input.setInputProcessor(theInputHandler);
 
         theBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        theCam = new OrthographicCamera();//theMainGame.WIDTH, theMainGame.HEIGHT);
+        //theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
 
-        theViewPort = new ScalingViewport(Scaling.stretch, theMainGame.WIDTH * 0.5f, theMainGame.HEIGHT * 0.5f, theCam);//900, 900f * ((float) theMainGame.HEIGHT / theMainGame.WIDTH), theCam);
-        theViewPort.apply();
+        //theViewPort = new ScalingViewport(Scaling.stretch, theMainGame.WIDTH * 0.5f, theMainGame.HEIGHT * 0.5f, theCam);//900, 900f * ((float) theMainGame.HEIGHT / theMainGame.WIDTH), theCam);
+        //theViewPort.apply();
 
 
         LabyrinthBuilder lb = new LabyrinthBuilder(30);

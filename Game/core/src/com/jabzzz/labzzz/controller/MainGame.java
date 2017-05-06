@@ -54,6 +54,7 @@ public class MainGame extends ApplicationAdapter
 
 		if(System.currentTimeMillis() - lastOut > 1000)
 		{
+			System.out.println("Elements: " + theStateStack.firstElement());
 			System.out.println("FPS: " + frames);
 			frames = 0;
 			lastOut = System.currentTimeMillis();
@@ -73,8 +74,6 @@ public class MainGame extends ApplicationAdapter
 		printFPS();
 
 		theStateStack.peek().render();
-		System.out.println("Elements: " + theStateStack.firstElement());
-
 	}
 
 
@@ -86,28 +85,34 @@ public class MainGame extends ApplicationAdapter
     public void pushShopStack()
 	{
 		if(!theStateStack.empty())
+		{
 			theStateStack.peek().dispose();
-
-		theStateStack.pop();
+			theStateStack.pop();
+		}
 		theStateStack.push(new ShopState(this));
+		System.out.println(theStateStack.firstElement()+", "+theStateStack.size());
 	}
 
 	public void pushMenuStack()
 	{
 		if(!theStateStack.empty())
+		{
 			theStateStack.peek().dispose();
-
-		theStateStack.pop();
+			theStateStack.pop();
+		}
 		theStateStack.push(new MenuState(this));
+		System.out.println(theStateStack.firstElement()+", "+theStateStack.size());
 	}
 
 	public void pushGameStack()
 	{
 		if(!theStateStack.empty())
+		{
 			theStateStack.peek().dispose();
-
-		theStateStack.pop();
+			theStateStack.pop();
+		}
 		theStateStack.push(new GameState(this));
+		System.out.println(theStateStack.firstElement()+", "+theStateStack.size());
 	}
 
 
