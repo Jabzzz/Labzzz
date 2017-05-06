@@ -10,6 +10,7 @@ import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.states.AState;
+import com.jabzzz.labzzz.states.GameState;
 
 import java.util.Stack;
 
@@ -20,11 +21,11 @@ import java.util.Stack;
 public class InputHandler implements InputProcessor
 {
 
-    private MainGame theMainGame = null;
+    private GameState theGameState = null;
 
 
     private final int SLOWBOARDER = 50;
-    private final int FASTBOARDER = 100;
+    private final int FASTBOARDER = 70;
 
     private int refPoints[][] = new int[10][2];
     //array for directions: 0=up 1=left 2=down 3=right
@@ -36,9 +37,9 @@ public class InputHandler implements InputProcessor
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    public InputHandler(MainGame theMainGame)
+    public InputHandler(GameState theGameState)
     {
-        this.theMainGame = theMainGame;
+        this.theGameState = theGameState;
         Gdx.input.setInputProcessor(this);
         //System.out.println("InputHandler got constructed!");
         kbSpeed = Speed.SLOW;
@@ -99,7 +100,7 @@ public class InputHandler implements InputProcessor
         getSpeed();
 
         System.out.println("Input: Keyboard move with speed: " +kbSpeed+ ", direction: " + d);
-        theMainGame.input(kbSpeed, d, is, 0, 0);
+        theGameState.input(kbSpeed, d, is, 0, 0);
 
         return false;
     }
@@ -187,7 +188,7 @@ public class InputHandler implements InputProcessor
         getSpeed();
 
         //System.out.println("Input: Keyboard stop: new speed: "+kbSpeed+", direction: "+d);
-        theMainGame.input(kbSpeed, d, is, 0 ,0);
+        theGameState.input(kbSpeed, d, is, 0 ,0);
         return false;
     }
 
@@ -208,7 +209,7 @@ public class InputHandler implements InputProcessor
         float dScreenY = screenY * ((float) MainGame.HEIGHT / Gdx.graphics.getHeight());
 
 
-        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICK, dScreenX, MainGame.HEIGHT - dScreenY);
+        theGameState.input(Speed.NONE, Direction.NONE, InputSystem.CLICK, dScreenX, MainGame.HEIGHT - dScreenY);
         return false;
     }
 
@@ -220,7 +221,7 @@ public class InputHandler implements InputProcessor
         refPoints[pointer][1] = 0;
 
         //System.out.println("Input: Click stop at: x: "+screenX+", "+screenX);
-        theMainGame.input(Speed.NONE, Direction.NONE, InputSystem.CLICKSTOP, screenX, screenY);
+        theGameState.input(Speed.NONE, Direction.NONE, InputSystem.CLICKSTOP, screenX, screenY);
         return false;
     }
 
@@ -275,7 +276,7 @@ public class InputHandler implements InputProcessor
 
 
                 //System.out.println("Input: Drag or mouse with speed:" + s + ", direction: " + d);
-                theMainGame.input(s, d, is, screenX, screenY);
+                theGameState.input(s, d, is, screenX, screenY);
             }
             /*else
                 System.out.println("Skipped");*/

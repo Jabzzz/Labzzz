@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.jabzzz.labzzz.collision.CollisionHandler;
 import com.jabzzz.labzzz.controller.*;
 import com.jabzzz.labzzz.entities.Enemy;
@@ -32,17 +34,23 @@ public class GameState extends AState
     private Labyrinth labyrinth = null;
 
 
+    //private StretchViewport theViewPort = null;
+    private ScalingViewport theViewPort = null;
 
-    public GameState(MainGame theMainGame, InputHandler theInputHandler)
+    public GameState(MainGame theMainGame)
     {
         this.theMainGame = theMainGame;
-        this.theInputHandler = theInputHandler;
+        this.theInputHandler = new InputHandler(this);
+
+        Gdx.input.setInputProcessor(theInputHandler);
 
         theBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
+        theCam = new OrthographicCamera();//theMainGame.WIDTH, theMainGame.HEIGHT);
 
-        theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
+        theViewPort = new ScalingViewport(Scaling.stretch, theMainGame.WIDTH * 0.5f, theMainGame.HEIGHT * 0.5f, theCam);//900, 900f * ((float) theMainGame.HEIGHT / theMainGame.WIDTH), theCam);
+        theViewPort.apply();
+
 
         LabyrinthBuilder lb = new LabyrinthBuilder(30);
         lb.resetLab();
@@ -53,8 +61,6 @@ public class GameState extends AState
         player = new Player(pos, labyrinth, theCam);
         enemy = new Enemy(pos, labyrinth, player);
         theCollisionHandler = new CollisionHandler(player, labyrinth);
-
-
     }
 
     public void render()
@@ -73,8 +79,6 @@ public class GameState extends AState
 
         player.render(theBatch, theCam);
         enemy.render(theBatch, theCam);
-
-
     }
 
     public void update(float delta)
@@ -89,6 +93,13 @@ public class GameState extends AState
         enemy.update(delta);
         //theMainGame.getInputHandler()
     }
+
+    @Override
+    public void peeked()
+    {
+        Gdx.input.setInputProcessor(theInputHandler);
+    }
+
 
     public void dispose()
     {

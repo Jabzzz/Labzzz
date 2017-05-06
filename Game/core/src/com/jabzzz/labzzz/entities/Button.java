@@ -41,4 +41,10 @@ public class Button extends com.badlogic.gdx.scenes.scene2d.ui.Button
     {
         return recBtn.contains(x, y);
     }
+
+    public Vector2 getPosition()
+    {
+        return this.position;
+    }
+
 }

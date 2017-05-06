@@ -1,12 +1,16 @@
 package com.jabzzz.labzzz.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
@@ -17,7 +21,7 @@ import com.jabzzz.labzzz.entities.Button;
  * Created by Useless on 01.04.2017.
  */
 
-public class MenuState extends AState
+public class MenuState extends AState implements InputProcessor
 {
 
 
@@ -31,13 +35,26 @@ public class MenuState extends AState
     private Button exitButton = null;
     private Button shopButton = null;
 
+    private ScalingViewport theViewPort = null;
+
 
     public MenuState(MainGame theMainGame)
     {
         this.theMainGame = theMainGame;
+
+        //Set InputProcessor
+        Gdx.input.setInputProcessor(this);
         
         //init Camera
         theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
+
+        //theViewPort = new ScalingViewport(Scaling.stretch, MainGame.WIDTH * 0.5f, MainGame.HEIGHT * 0.5f, theCam);//900, 900f * ((float) theMainGame.HEIGHT / theMainGame.WIDTH), theCam);
+        //theViewPort.apply();
+
+
+        //theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
+
+
 
         //init Textures
         theBatch = new SpriteBatch();
@@ -106,28 +123,35 @@ public class MenuState extends AState
     }
 
     @Override
+    public void peeked()
+    {
+
+    }
+
+    @Override
     public void dispose()
     {
         theBatch.dispose();
     }
 
     @Override
-    public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
+    public void input(Speed speed, Direction dir, InputSystem is, float x, float y) {
+
+    }
+
+    @Override
+    public boolean touchDown (int x, int y, int pointer, int button)
     {
-        if(is==InputSystem.CLICK)
-        {
-            //System.out.println(recPlay.contains(x, y) + "   " + recPlay.getX() + "   " + recPlay.getY() + "   " + recPlay.getWidth() + "   " + recPlay.getHeight() + "  x " + x + "   y  " + y);
-            if (playButton.isClicked(x,y)==true)
-                theMainGame.pushGameStack();
-                //theMainGame.popStack();
+        y = MainGame.HEIGHT - y;
 
-            if (exitButton.isClicked(x,y)==true)
-                theMainGame.dispose();
+        if (playButton.isClicked(x,y))
+            theMainGame.pushGameStack();
+        else if (exitButton.isClicked(x,y))
+            theMainGame.dispose();
+        else if (shopButton.isClicked(x,y))
+            theMainGame.pushShopStack();
 
-            if (shopButton.isClicked(x,y)==true)
-                theMainGame.pushShopStack();
-
-        }
+        return false;
     }
 
 }

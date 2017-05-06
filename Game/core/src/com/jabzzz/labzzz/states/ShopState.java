@@ -57,6 +57,12 @@ public class ShopState extends AState{
     }
 
     @Override
+    public void peeked()
+    {
+
+    }
+
+    @Override
     public void dispose() {
         theBatch.dispose();
     }

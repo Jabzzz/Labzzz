@@ -3,9 +3,6 @@ package com.jabzzz.labzzz.controller;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.jabzzz.labzzz.enums.Direction;
-import com.jabzzz.labzzz.enums.InputSystem;
-import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.states.GameState;
 import com.jabzzz.labzzz.states.MenuState;
 import com.jabzzz.labzzz.states.AState;
@@ -29,47 +26,26 @@ public class MainGame extends ApplicationAdapter
 
 
 	public static final String TITLE = "THE Game";
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 850;
+	public static int WIDTH = 600;
+	public static int HEIGHT = 800;
 	public static final int BLOCK_SIZE = 100;
-
-
-	private GameState theGameState = null;
-	private MenuState theMenuState = null;
-	private ShopState theShopState = null;
-	private UpdateThread theUpdateThread = null;
-	private InputHandler theInputHandler = null;
 
 	private Stack<AState> theStateStack = new Stack();
 
 
 	private int frames = 0;
 	private long lastOut = 0;
-
-
 	
 	@Override
 	public void create ()
 	{
+		WIDTH = Gdx.graphics.getWidth();
+		HEIGHT = Gdx.graphics.getHeight();
+
 		//init printFPS
 		lastOut = System.currentTimeMillis();
 
-		//init InputHandler
-		theInputHandler = new InputHandler(this);
-
-		//init GameState
-		theStateStack.add(theGameState = new GameState(this, theInputHandler));
-
-		//init ShopState
-		theStateStack.add(theShopState = new ShopState(this));
-
-		//init MenuState
-		theStateStack.add(theMenuState = new MenuState(this));
-
-		//theUpdateThread = new UpdateThread(this);
-		//theUpdateThread.start();
-
-		//theUpdateThread.setUpdatesPerSecond(60);
+		pushMenuStack();
 	}
 
 	private void printFPS()
@@ -97,6 +73,8 @@ public class MainGame extends ApplicationAdapter
 		printFPS();
 
 		theStateStack.peek().render();
+		System.out.println("Elements: " + theStateStack.firstElement());
+
 	}
 
 
@@ -105,37 +83,40 @@ public class MainGame extends ApplicationAdapter
 	//	theStateStack.peek().update(Gdx.graphics.getRawDeltaTime());
 	}
 
-	public void input(Speed speed, Direction dir, InputSystem is, float x, float y)
+    public void pushShopStack()
 	{
-		theStateStack.peek().input(speed, dir, is, x, y);
+		if(!theStateStack.empty())
+			theStateStack.peek().dispose();
+
+		theStateStack.pop();
+		theStateStack.push(new ShopState(this));
+	}
+
+	public void pushMenuStack()
+	{
+		if(!theStateStack.empty())
+			theStateStack.peek().dispose();
+
+		theStateStack.pop();
+		theStateStack.push(new MenuState(this));
+	}
+
+	public void pushGameStack()
+	{
+		if(!theStateStack.empty())
+			theStateStack.peek().dispose();
+
+		theStateStack.pop();
+		theStateStack.push(new GameState(this));
 	}
 
 
-	public void popStack()
-    {
-        theStateStack.pop();
-    }
-
-    public void pushShopStack() { theStateStack.push(theShopState);}
-
-	public void pushMenuStack() { theStateStack.push(theMenuState);}
-
-	public void pushGameStack() { theStateStack.push(theGameState);}
 
 
 	@Override
 	public void dispose ()
 	{
-		//theStateStack.peek().dispose();
-		theGameState.dispose();
-		theMenuState.dispose();
-	//	theUpdateThread.setRunning(false);
-		//Gdx.app.exit();
-	}
-
-	public InputHandler getInputHandler()
-	{
-		return theInputHandler;
+		theStateStack.peek().dispose();
 	}
 
 }
