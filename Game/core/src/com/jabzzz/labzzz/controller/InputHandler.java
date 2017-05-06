@@ -41,7 +41,6 @@ public class InputHandler implements InputProcessor
     {
         this.theGameState = theGameState;
         Gdx.input.setInputProcessor(this);
-        System.out.println("InputHandler got constructed!");
         kbSpeed = Speed.SLOW;
 
         for(int i=0; i<refPoints.length; i++)
@@ -50,6 +49,8 @@ public class InputHandler implements InputProcessor
             refPoints[i][j] = 0;
         }
 
+        System.out.println("<InputHandler>");
+        System.out.println("</InputHandler>");
     }
 
     public void render(OrthographicCamera theCam)
@@ -98,7 +99,6 @@ public class InputHandler implements InputProcessor
 
         getSpeed();
 
-        System.out.println("Input: Keyboard move with speed: " +kbSpeed+ ", direction: " + d);
         theGameState.input(kbSpeed, d, is, 0, 0);
 
         return false;

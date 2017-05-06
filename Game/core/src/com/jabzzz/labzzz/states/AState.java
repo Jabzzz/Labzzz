@@ -23,7 +23,6 @@ public abstract class AState extends Stage
 
     public AState()
     {
-        System.out.println("State - Constructor");
         theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
 
     }

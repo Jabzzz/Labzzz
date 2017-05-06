@@ -11,13 +11,21 @@ public class DesktopLauncher {
 
 
 		config.title = MainGame.TITLE;
-		//config.width = 600;
-		//config.height = 800;
+		config.width = 600;
+		config.height = 800;
 		config.resizable = false;
-		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
-		config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
-		config.fullscreen = true;
+		//config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
+		//config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+		config.fullscreen = false;
 		config.foregroundFPS = 60;
+
+		System.out.println("<DesktopLauncher>");
+		System.out.println("\tTitle: " + config.title);
+		System.out.println("\tResizeable: " + config.resizable);
+		System.out.println("\tFullscreen: " + config.fullscreen);
+		System.out.println("\tWindow-Size: " + config.width + "x" + config.height);
+		System.out.println("\tFPS: " + config.foregroundFPS);
+		System.out.println("</DesktopLauncher>");
 
 		new LwjglApplication(new MainGame(), config);
 	}

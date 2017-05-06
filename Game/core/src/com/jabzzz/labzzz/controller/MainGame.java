@@ -26,8 +26,8 @@ public class MainGame extends ApplicationAdapter
 
 
 	public static final String TITLE = "THE Game";
-	public static int WIDTH = 600;
-	public static int HEIGHT = 800;
+	public static int WIDTH = 0;
+	public static int HEIGHT = 0;
 	public static final int BLOCK_SIZE = 100;
 
 	private Stack<AState> theStateStack = new Stack();
@@ -54,7 +54,6 @@ public class MainGame extends ApplicationAdapter
 
 		if(System.currentTimeMillis() - lastOut > 1000)
 		{
-			System.out.println("Elements: " + theStateStack.firstElement());
 			System.out.println("FPS: " + frames);
 			frames = 0;
 			lastOut = System.currentTimeMillis();
@@ -71,15 +70,9 @@ public class MainGame extends ApplicationAdapter
 
 		theStateStack.peek().update(Gdx.graphics.getRawDeltaTime());
 
-		printFPS();
+	//	printFPS();
 
 		theStateStack.peek().render();
-	}
-
-
-	public void update()
-	{
-	//	theStateStack.peek().update(Gdx.graphics.getRawDeltaTime());
 	}
 
     public void pushShopStack()
@@ -89,8 +82,8 @@ public class MainGame extends ApplicationAdapter
 			theStateStack.peek().dispose();
 			theStateStack.pop();
 		}
+
 		theStateStack.push(new ShopState(this));
-		System.out.println(theStateStack.firstElement()+", "+theStateStack.size());
 	}
 
 	public void pushMenuStack()
@@ -100,8 +93,8 @@ public class MainGame extends ApplicationAdapter
 			theStateStack.peek().dispose();
 			theStateStack.pop();
 		}
+
 		theStateStack.push(new MenuState(this));
-		System.out.println(theStateStack.firstElement()+", "+theStateStack.size());
 	}
 
 	public void pushGameStack()
@@ -111,8 +104,8 @@ public class MainGame extends ApplicationAdapter
 			theStateStack.peek().dispose();
 			theStateStack.pop();
 		}
+
 		theStateStack.push(new GameState(this));
-		System.out.println(theStateStack.firstElement()+", "+theStateStack.size());
 	}
 
 
@@ -122,6 +115,7 @@ public class MainGame extends ApplicationAdapter
 	public void dispose ()
 	{
 		theStateStack.peek().dispose();
+		super.dispose();
 	}
 
 }

@@ -116,7 +116,6 @@ public class LabyrinthBuilder extends Labyrinth {
                     mapString += getMapBlockAt(row, colum) + ", ";
             }
         }
-        System.out.println(mapString);
     }
 
     private void createStaticMap() {

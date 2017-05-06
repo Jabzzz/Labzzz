@@ -179,4 +179,9 @@ public abstract class ACharacter extends AEntity
 
     }
 
+    public void dispose()
+    {
+        sprites.clear();
+    }
+
 }
