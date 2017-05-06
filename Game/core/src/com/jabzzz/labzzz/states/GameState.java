@@ -28,7 +28,7 @@ public class GameState extends AState
     public static ShapeRenderer shapeRenderer = null;
 
     private Player player = null;
-    private Enemy enemy = null;
+    private Enemy[] enemies = null;
     private Labyrinth labyrinth = null;
 
 
@@ -51,7 +51,20 @@ public class GameState extends AState
 
         Vector2 pos = lb.getRandomSpawnPosition();
         player = new Player(pos, labyrinth, theCam);
-        enemy = new Enemy(pos, labyrinth, player);
+        enemies = new Enemy[] {
+                //new Enemy(pos, labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player)
+        };
+
         theCollisionHandler = new CollisionHandler(player, labyrinth);
 
 
@@ -72,7 +85,8 @@ public class GameState extends AState
         theInputHandler.render(theCam);
 
         player.render(theBatch, theCam);
-        enemy.render(theBatch, theCam);
+        for(Enemy enemy : enemies)
+            enemy.render(theBatch, theCam);
 
 
     }
@@ -86,7 +100,8 @@ public class GameState extends AState
         labyrinth.update();
 
         player.update(delta);
-        enemy.update(delta);
+        for(Enemy enemy : enemies)
+            enemy.update(delta);
         //theMainGame.getInputHandler()
     }
 

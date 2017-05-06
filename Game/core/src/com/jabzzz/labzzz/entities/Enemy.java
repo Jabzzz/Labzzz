@@ -1,20 +1,19 @@
 package com.jabzzz.labzzz.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.jabzzz.labzzz.ai_skills.*;
+import com.jabzzz.labzzz.ai_skills.WallDetection;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.controller.MainGame;
-import com.jabzzz.labzzz.enums.Direction;
-import com.jabzzz.labzzz.enums.InputSystem;
-import com.jabzzz.labzzz.enums.Speed;
 import com.jabzzz.labzzz.game.Labyrinth;
 import com.jabzzz.labzzz.states.GameState;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * Created by Stefan on 18.04.2017.
@@ -24,17 +23,13 @@ public class Enemy extends ACharacter {
 
 
     private int roleAI;
-    private Vector2 target;
-    private int status = 2;
-    private boolean[] blockDetection;
-    private WallDetection wallDetection = new WallDetection();
     private Player player;
-    private int lastWalkBlock = -1;
 
-    private int colStart = 0;
-    private int colEnd = 0;
-    private int rowStart = 0;
-    private int rowEnd = 0;
+    private int currentFollowTargetSkill = -1;
+    private ArrayList<FollowTargetSkill> followTargetSkills = new ArrayList<FollowTargetSkill>();
+
+
+
     private int halfDisplayX = (int) (MainGame.WIDTH / 2);
     private int halfDisplayY = (int) (MainGame.HEIGHT / 2);
 
@@ -44,16 +39,19 @@ public class Enemy extends ACharacter {
 
         this.player = player;
         this.position = new Vector2(position);
-        this.target  = new Vector2(position);
+
+        WallDetection wallDetection = new WallDetection();
+        followTargetSkills.add(new RandomWalk(labyrinth, wallDetection, this.position));
+        followTargetSkills.add(new FollowPlayer(labyrinth, this.position, wallDetection, player));
+        currentFollowTargetSkill = 1;
 
         texture = new Texture("gamestate/entities/enemy.gif");
-
-        blockDetection = new boolean[] {false, false, false, false};
     }
 
     public void render(SpriteBatch theBatch, OrthographicCamera theCam)
     {
         theBatch.begin();
+        int colStart, colEnd, rowStart, rowEnd;
         colStart = MathUtils.floor((theCam.position.x - halfDisplayX) / labyrinth.getWidth());
         colEnd = MathUtils.floor((theCam.position.x + halfDisplayX) / labyrinth.getWidth());
         rowStart = MathUtils.floor((theCam.position.y - halfDisplayY) / labyrinth.getHeight());
@@ -70,44 +68,57 @@ public class Enemy extends ACharacter {
 
         theBatch.end();
 
-        drawDebug(getPosition());
+        //drawDebug(getPosition());
     }
 
     private void drawDebug(Vector2 pos)
     {
-        GameState.shapeRenderer.setAutoShapeType(true);
-        GameState.shapeRenderer.begin();
+        if(currentFollowTargetSkill >= 0)
+        {
+            FollowTargetSkill targetSkill = followTargetSkills.get(currentFollowTargetSkill);
 
-        GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
-        GameState.shapeRenderer.circle(target.x, target.y, 10);
-        GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.BLUE);
-        GameState.shapeRenderer.circle(position.x, position.y, 10);
+            GameState.shapeRenderer.setAutoShapeType(true);
+            GameState.shapeRenderer.begin();
 
-        if(wallDetection.getBlock(0))
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
-        else
-            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
-        GameState.shapeRenderer.rect(position.x - 5 + 20, position.y - 5, 10, 10);
+            GameState.shapeRenderer.circle(targetSkill.getTarget().x, targetSkill.getTarget().y, 10);
+            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.BLUE);
+            GameState.shapeRenderer.circle(position.x, position.y, 10);
 
-        if(wallDetection.getBlock(1))
-            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
-        else
-            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
-        GameState.shapeRenderer.rect(position.x - 5, position.y - 5 + 20, 10, 10);
+            float scale = 20f;
+            GameState.shapeRenderer.setColor(Color.RED);
+            GameState.shapeRenderer.line(position, new Vector2(position).add(new Vector2(velocity).setLength(velocity.len() * scale)));
 
-        if(wallDetection.getBlock(2))
-            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
-        else
-            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
-        GameState.shapeRenderer.rect(position.x - 5 - 20, position.y - 5, 10, 10);
+            GameState.shapeRenderer.setColor(Color.GREEN);
+            GameState.shapeRenderer.line(position, new Vector2(position).add(new Vector2(acceleration).setLength(acceleration.len() * scale)));
 
-        if(wallDetection.getBlock(3))
-            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
-        else
-            GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
-        GameState.shapeRenderer.rect(position.x - 5, position.y - 25, 10, 10);
+            if(targetSkill.getWallDetection().getBlock(0))
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+            else
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+            GameState.shapeRenderer.rect(position.x - 5 + 20, position.y - 5, 10, 10);
 
-        GameState.shapeRenderer.end();
+            if(targetSkill.getWallDetection().getBlock(1))
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+            else
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+            GameState.shapeRenderer.rect(position.x - 5, position.y - 5 + 20, 10, 10);
+
+            if(targetSkill.getWallDetection().getBlock(2))
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+            else
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+            GameState.shapeRenderer.rect(position.x - 5 - 20, position.y - 5, 10, 10);
+
+            if(targetSkill.getWallDetection().getBlock(3))
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
+            else
+                GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+            GameState.shapeRenderer.rect(position.x - 5, position.y - 25, 10, 10);
+
+            GameState.shapeRenderer.end();
+        }
+
     }
 
     @Override
@@ -123,17 +134,31 @@ public class Enemy extends ACharacter {
     @Override
     public void calcInputData()
     {
-        updateDetection();
-        //System.out.println(Arrays.toString(wallDetection) + " " + Arrays.toString(blockDetection));
+        float distanceEnemyPlayer = FollowTargetSkill.searchPathThroughBorder(position, player.position, labyrinth).len();
+        if(distanceEnemyPlayer < MainGame.BLOCK_SIZE * 1.5)
+        {
+            if(currentFollowTargetSkill != 1)
+            {
+                currentFollowTargetSkill = 1;
+                followTargetSkills.get(1).reset();
+            }
+        }
+        else if(distanceEnemyPlayer > MainGame.BLOCK_SIZE * 3)
+        {
+            if(currentFollowTargetSkill != 0)
+            {
+                currentFollowTargetSkill = 0;
+                followTargetSkills.get(0).reset();
+            }
+        }
+        //currentFollowTargetSkill = 0;
 
-        //System.out.print(blockDetection[2] + " " + blockDetection[1]);
-        //System.out.print(" " + blockDetection[3]);
-        //System.out.println(" " + blockDetection[0]);
+        if(currentFollowTargetSkill >= 0)
+        {
+            InputData id = followTargetSkills.get(currentFollowTargetSkill).update(this);
 
-        InputData id = calcControl();
-
-        acceleration = getAccelerationFrom(id.getSpeed(), id.getDirection(), id.getInputSystem());
-
+            acceleration = getAccelerationFrom(id.getSpeed(), id.getDirection(), id.getInputSystem());
+        }
     }
 
     @Override
@@ -143,18 +168,10 @@ public class Enemy extends ACharacter {
     }
 
 
-    private void updateDetection()
-    {
-        blockDetection[0] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0, MainGame.BLOCK_SIZE / 4)) > 19;
-        blockDetection[1] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(MainGame.BLOCK_SIZE / 4, 0)) > 19;
-        blockDetection[2] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(0,- MainGame.BLOCK_SIZE / 4)) > 19;
-        blockDetection[3] = labyrinth.getMapBlockAtPosition(new Vector2(position).add(- MainGame.BLOCK_SIZE / 4, 0)) > 19;
-
-        wallDetection.update(labyrinth, position);
-    }
+/*
     private InputData calcControl()
     {
-        if(status == 1 && target.dst2(position) < 30)
+        if(status == 1 && target.dst(position) < 40)
             status = 0;
         switch (status)
         {
@@ -219,6 +236,8 @@ public class Enemy extends ACharacter {
             vec = new Vector2(visualTarget).sub(position);
         }
 
+        //vec.setLength(1f);
+        //vec.sub(velocity);
         vec.setLength(1f);
         Direction d = Direction.NONE;
 
@@ -252,30 +271,8 @@ public class Enemy extends ACharacter {
         else if (vec.angle() < 337.5)
             d = Direction.DOWNRIGHT;
 
-        return new InputData(Speed.SLOW, d, InputSystem.CLICK);
+        return new InputData(Speed.FAST, d, InputSystem.CLICK);
     }
+*/
 
-
-    private int getNewRandomAcc()
-    {
-        java.util.List<Integer> noWallBlocks = wallDetection.getNoWallBlocksWithout(lastWalkBlock);
-        System.out.println("lastAction: " + lastWalkBlock + " List: " + noWallBlocks.toString());
-        return noWallBlocks.get((new Random()).nextInt(noWallBlocks.size()));
-    }
-
-    public void setTarget(Vector2 point)
-    {
-        target = point;
-
-        int labWidth = labyrinth.getWidth();
-        int labHeight = labyrinth.getHeight();
-        while(target.x < 0)
-            target.x += labWidth;
-        while(target.x > labWidth)
-            target.x -= labWidth;
-        while(target.y < 0)
-            target.y += labHeight;
-        while(target.y > labHeight)
-            target.y -= labHeight;
-    }
 }

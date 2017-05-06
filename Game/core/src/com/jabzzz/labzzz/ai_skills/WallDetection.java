@@ -1,8 +1,6 @@
-package com.jabzzz.labzzz.entities;
+package com.jabzzz.labzzz.ai_skills;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.IntArray;
-import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.game.Labyrinth;
 
 import java.util.ArrayList;
