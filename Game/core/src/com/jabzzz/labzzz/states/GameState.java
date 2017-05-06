@@ -5,6 +5,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jabzzz.labzzz.collision.CollisionHandler;
 import com.jabzzz.labzzz.controller.*;
 import com.jabzzz.labzzz.entities.Enemy;
@@ -32,17 +38,25 @@ public class GameState extends AState
     private Labyrinth labyrinth = null;
 
 
+    //private StretchViewport theViewPort = null;
+    private Viewport theViewPort = null;
 
-    public GameState(MainGame theMainGame, InputHandler theInputHandler)
+    public GameState(MainGame theMainGame)
     {
         this.theMainGame = theMainGame;
-        this.theInputHandler = theInputHandler;
+        this.theInputHandler = new InputHandler(this);
+
+        //Gdx.input.setInputProcessor(theInputHandler);
 
         theBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        theCam = new OrthographicCamera(MainGame.WIDTH, MainGame.HEIGHT);
 
-        theCam.position.set(theCam.viewportWidth / 2f, theCam.viewportHeight / 2f, 0);
+        theCam = new OrthographicCamera();
+
+        theViewPort = new FillViewport(MainGame.WIDTH * 0.5f, MainGame.HEIGHT * 0.5f, theCam);//(Scaling.stretch, theMainGame.WIDTH * 0.5f, theMainGame.HEIGHT * 0.5f, theCam);
+        theViewPort.setScreenSize(MainGame.WIDTH, MainGame.HEIGHT);
+        theViewPort.apply();
+
 
         LabyrinthBuilder lb = new LabyrinthBuilder(30);
         lb.resetLab();
@@ -67,7 +81,11 @@ public class GameState extends AState
 
         theCollisionHandler = new CollisionHandler(player, labyrinth);
 
+        System.out.println("<GameState>");
+        System.out.println("\tGame-Size: " + MainGame.WIDTH + "x" + MainGame.HEIGHT);
+        System.out.println("\tViewPort: " + theViewPort.getClass().getSimpleName());
 
+        System.out.println("</GameState>");
     }
 
     public void render()
@@ -76,8 +94,11 @@ public class GameState extends AState
         theCam.position.set(player.getPosition().x + player.getVelocity().x * Gdx.graphics.getRawDeltaTime() * 40f,
                                 player.getPosition().y + player.getVelocity().y * Gdx.graphics.getRawDeltaTime() * 40, 0);
         theCam.update();
+
         theBatch.setProjectionMatrix(theCam.combined);
         shapeRenderer.setProjectionMatrix(theCam.combined);
+
+
 
         labyrinth.render(theBatch, theCam);
 
@@ -104,6 +125,13 @@ public class GameState extends AState
             enemy.update(delta);
         //theMainGame.getInputHandler()
     }
+
+    @Override
+    public void peeked()
+    {
+        Gdx.input.setInputProcessor(theInputHandler);
+    }
+
 
     public void dispose()
     {

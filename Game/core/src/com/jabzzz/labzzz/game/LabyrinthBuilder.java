@@ -93,7 +93,6 @@ public class LabyrinthBuilder extends Labyrinth {
             int oldRating = rateCurrentMap();
             countFreeBlocksAndSet(nextBlock);
             int newRating = rateCurrentMap();
-            System.out.println("Map Rating:" + oldRating + ":" + newRating);
 
             if (oldRating > newRating) {
                 map = oldMap;
@@ -117,7 +116,6 @@ public class LabyrinthBuilder extends Labyrinth {
                     mapString += getMapBlockAt(row, colum) + ", ";
             }
         }
-        System.out.println(mapString);
     }
 
     private void createStaticMap() {
