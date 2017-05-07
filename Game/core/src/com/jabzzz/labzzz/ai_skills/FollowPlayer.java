@@ -3,7 +3,7 @@ package com.jabzzz.labzzz.ai_skills;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.entities.Player;
 import com.jabzzz.labzzz.enums.Speed;
-import com.jabzzz.labzzz.game.Labyrinth;
+import com.jabzzz.labzzz.environment.Labyrinth;
 
 /**
  * Created by Stefan on 06.05.2017.

@@ -1,4 +1,4 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.environment;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.controller.*;
+import com.jabzzz.labzzz.states.GameState;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -47,8 +48,8 @@ public class Labyrinth
     private int colEnd = 0;
     private int rowStart = 0;
     private int rowEnd = 0;
-    private int halfDisplayX = (int) (MainGame.WIDTH / 2);
-    private int halfDisplayY = (int) (MainGame.HEIGHT / 2);
+    private int halfDisplayX = (int) (GameState.viewPortWidth / 2);
+    private int halfDisplayY = (int) (GameState.viewPortHeight / 2);
 
     public Labyrinth(int mapLength)//int amountColums, int amountRows)
     {

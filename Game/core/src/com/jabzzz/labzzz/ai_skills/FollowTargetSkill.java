@@ -6,7 +6,7 @@ import com.jabzzz.labzzz.entities.ACharacter;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
-import com.jabzzz.labzzz.game.Labyrinth;
+import com.jabzzz.labzzz.environment.Labyrinth;
 
 /**
  * Created by Stefan on 06.05.2017.

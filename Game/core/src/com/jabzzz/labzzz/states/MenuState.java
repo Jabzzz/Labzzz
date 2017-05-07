@@ -176,7 +176,6 @@ public class MenuState extends AState implements InputProcessor
     public void update(float delta)
     {
         yText = (int) ( 50 * Math.sin(System.currentTimeMillis() * 0.001));
-        System.out.println(yText);
     }
 
     @Override
@@ -188,7 +187,8 @@ public class MenuState extends AState implements InputProcessor
     @Override
     public void dispose()
     {
-        theBatch.dispose();
+        textFont.dispose();
+        myStage.dispose();
     }
 
     @Override

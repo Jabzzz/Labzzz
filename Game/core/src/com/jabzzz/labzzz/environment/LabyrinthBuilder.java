@@ -1,4 +1,4 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.environment;
 
 import java.util.Random;
 
