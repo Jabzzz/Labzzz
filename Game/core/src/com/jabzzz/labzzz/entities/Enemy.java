@@ -10,7 +10,7 @@ import com.jabzzz.labzzz.ai_skills.*;
 import com.jabzzz.labzzz.ai_skills.WallDetection;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.controller.MainGame;
-import com.jabzzz.labzzz.game.Labyrinth;
+import com.jabzzz.labzzz.environment.Labyrinth;
 import com.jabzzz.labzzz.states.GameState;
 
 import java.util.ArrayList;
@@ -68,17 +68,31 @@ public class Enemy extends ACharacter {
 
         theBatch.end();
 
-        //drawDebug(getPosition());
+        drawDebug(getPosition());
     }
 
     private void drawDebug(Vector2 pos)
     {
+        GameState.shapeRenderer.setAutoShapeType(true);
+        GameState.shapeRenderer.begin();
+
+        GameState.shapeRenderer.setColor(Color.BLUE);
+        GameState.shapeRenderer.line(player.position, position);
+        ArrayList<Vector2> intersections = labyrinth.getIntersectionsWithGrid(player.position, position);
+        if(labyrinth.isLineWithoutBlocks(player.position, position))
+            GameState.shapeRenderer.setColor(Color.GREEN);
+        else
+            GameState.shapeRenderer.setColor(Color.RED);
+        for(Vector2 intersection : intersections)
+        {
+            GameState.shapeRenderer.circle(intersection.x, intersection.y, 3);
+        }
+
         if(currentFollowTargetSkill >= 0)
         {
             FollowTargetSkill targetSkill = followTargetSkills.get(currentFollowTargetSkill);
 
-            GameState.shapeRenderer.setAutoShapeType(true);
-            GameState.shapeRenderer.begin();
+
 
             GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.RED);
             GameState.shapeRenderer.circle(targetSkill.getTarget().x, targetSkill.getTarget().y, 10);
@@ -116,8 +130,9 @@ public class Enemy extends ACharacter {
                 GameState.shapeRenderer.setColor(com.badlogic.gdx.graphics.Color.GREEN);
             GameState.shapeRenderer.rect(position.x - 5, position.y - 25, 10, 10);
 
-            GameState.shapeRenderer.end();
+
         }
+        GameState.shapeRenderer.end();
 
     }
 
@@ -168,111 +183,5 @@ public class Enemy extends ACharacter {
     }
 
 
-/*
-    private InputData calcControl()
-    {
-        if(status == 1 && target.dst(position) < 40)
-            status = 0;
-        switch (status)
-        {
-            case 0:
-                switch (getNewRandomAcc())
-                {
-                    case 0:
-                        lastWalkBlock = 2;
-                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)+1));
-                        break;
-                    case 1:
-                        lastWalkBlock = 3;
-                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)+1, labyrinth.getColumnMapBlocksAtPosition(position)));
-                        break;
-                    case 2:
-                        lastWalkBlock = 0;
-                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position), labyrinth.getColumnMapBlocksAtPosition(position)-1));
-                        break;
-                    case 3:
-                        lastWalkBlock = 1;
-                        setTarget(labyrinth.getMidpointFromBlock(labyrinth.getRowMapBlocksAtPosition(position)-1, labyrinth.getColumnMapBlocksAtPosition(position)));
-                        break;
-                }
-                status = 1;
-                break;
-            case 2:
-                setTarget(player.getPosition());
-                break;
-        }
-
-        Vector2 vec = new Vector2(target).sub(position);
-
-        if(vec.len() > Math.min(labyrinth.getWidth(), labyrinth.getHeight()) * 0.5f)
-        {
-            //maybe there is a shorter way
-            Vector2 visualTarget = new Vector2(target);
-
-            Vector2 shorterPath;
-
-            float yAchsisChange;
-            if(position.y > labyrinth.getHeight() * 0.5f)
-                yAchsisChange = labyrinth.getHeight();
-            else
-                yAchsisChange = - labyrinth.getHeight();
-
-            shorterPath = new Vector2(target).add(0, yAchsisChange).sub(position);
-
-            if(shorterPath.len2() < vec.len2())
-                visualTarget.add(0, yAchsisChange);
-
-            float xAchsisChange;
-            if(position.x > labyrinth.getWidth() * 0.5f)
-                xAchsisChange = labyrinth.getWidth();
-            else
-                xAchsisChange = - labyrinth.getWidth();
-
-            shorterPath = new Vector2(target).add(xAchsisChange,0).sub(position);
-
-            if(shorterPath.len2() < vec.len2())
-                visualTarget.add(xAchsisChange, 0);
-
-            vec = new Vector2(visualTarget).sub(position);
-        }
-
-        //vec.setLength(1f);
-        //vec.sub(velocity);
-        vec.setLength(1f);
-        Direction d = Direction.NONE;
-
-        Vector2 wallDetAcceleration = new Vector2(Vector2.Zero);
-        float wda_length = 1;
-        if(blockDetection[0])
-            wallDetAcceleration.add(-wda_length, 0);
-        if(blockDetection[1])
-            wallDetAcceleration.add(0, -wda_length);
-        if(blockDetection[2])
-            wallDetAcceleration.add(wda_length, 0);
-        if(blockDetection[3])
-            wallDetAcceleration.add(0, wda_length);
-
-        vec.add(wallDetAcceleration);
-
-        if (337.5 <= vec.angle() || vec.angle() < 22.5)
-            d = Direction.RIGHT;
-        else if (vec.angle() < 67.5)
-            d = Direction.UPRIGHT;
-        else if (vec.angle() < 112.5)
-            d = Direction.UP;
-        else if (vec.angle() < 157.5)
-            d = Direction.UPLEFT;
-        else if (vec.angle() < 202.5)
-            d = Direction.LEFT;
-        else if (vec.angle() < 247.5)
-            d = Direction.DOWNLEFT;
-        else if (vec.angle() < 292.5)
-            d = Direction.DOWN;
-        else if (vec.angle() < 337.5)
-            d = Direction.DOWNRIGHT;
-
-        return new InputData(Speed.FAST, d, InputSystem.CLICK);
-    }
-*/
 
 }
