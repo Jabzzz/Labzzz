@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.jabzzz.labzzz.ai_skills.*;
 import com.jabzzz.labzzz.ai_skills.WallDetection;
+import com.jabzzz.labzzz.ai_skills.follow_target.*;
+import com.jabzzz.labzzz.ai_skills.follow_target.RandomWalk;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.controller.MainGame;
 import com.jabzzz.labzzz.environment.Labyrinth;
@@ -26,7 +27,7 @@ public class Enemy extends ACharacter {
     private Player player;
 
     private int currentFollowTargetSkill = -1;
-    private ArrayList<FollowTargetSkill> followTargetSkills = new ArrayList<FollowTargetSkill>();
+    private ArrayList<AFollowTargetSkill> followTargetSkills = new ArrayList<AFollowTargetSkill>();
 
 
 
@@ -42,7 +43,7 @@ public class Enemy extends ACharacter {
 
         WallDetection wallDetection = new WallDetection();
         followTargetSkills.add(new RandomWalk(labyrinth, wallDetection, this.position));
-        followTargetSkills.add(new FollowPlayer(labyrinth, this.position, wallDetection, player));
+        followTargetSkills.add(new com.jabzzz.labzzz.ai_skills.follow_target.FollowPlayer(labyrinth, this.position, wallDetection, player));
         currentFollowTargetSkill = 1;
 
         texture = new Texture("gamestate/entities/enemy.gif");
@@ -90,7 +91,7 @@ public class Enemy extends ACharacter {
 
         if(currentFollowTargetSkill >= 0)
         {
-            FollowTargetSkill targetSkill = followTargetSkills.get(currentFollowTargetSkill);
+            AFollowTargetSkill targetSkill = followTargetSkills.get(currentFollowTargetSkill);
 
 
 
@@ -149,8 +150,8 @@ public class Enemy extends ACharacter {
     @Override
     public void calcInputData()
     {
-        float distanceEnemyPlayer = FollowTargetSkill.searchPathThroughBorder(position, player.position, labyrinth).len();
-        if(distanceEnemyPlayer < MainGame.BLOCK_SIZE * 1.5)
+        float distanceEnemyPlayer = AFollowTargetSkill.searchPathThroughBorder(position, player.position, labyrinth).len();
+        if(labyrinth.isLineWithoutBlocks(player.position, position))//(distanceEnemyPlayer < MainGame.BLOCK_SIZE * 1.5)
         {
             if(currentFollowTargetSkill != 1)
             {
@@ -158,7 +159,7 @@ public class Enemy extends ACharacter {
                 followTargetSkills.get(1).reset();
             }
         }
-        else if(distanceEnemyPlayer > MainGame.BLOCK_SIZE * 3)
+        else //if(distanceEnemyPlayer > MainGame.BLOCK_SIZE * 3)
         {
             if(currentFollowTargetSkill != 0)
             {
