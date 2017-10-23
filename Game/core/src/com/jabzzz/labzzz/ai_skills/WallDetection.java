@@ -39,7 +39,7 @@ public class WallDetection {
         borderingBlocks[3] = isBlockWall(labyrinth.getMapBlockAt(row - 1, colum));
     }
 
-    private boolean isBlockWall(int blockType)
+    public static boolean isBlockWall(int blockType)
     {
         return (blockType > 19) || (2 > blockType);
     }
