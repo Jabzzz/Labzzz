@@ -7,9 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.jabzzz.labzzz.ai_skills.WallDetection;
 import com.jabzzz.labzzz.controller.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 
 
@@ -288,6 +291,137 @@ public class Labyrinth
     public void update()
     {
 
+    }
+
+    public boolean isLineWithoutBlocks(Vector2 start, Vector2 end)
+    {
+        ArrayList<Vector2> intersectionsWithGrid = getIntersectionsWithGrid(start, end);
+
+        for(int i = 1; i < intersectionsWithGrid.size(); i++)
+        {
+            Vector2 midPoint = new Vector2(intersectionsWithGrid.get(i-1)).add(intersectionsWithGrid.get(i));
+            midPoint.x *= 0.5f;
+            midPoint.y *= 0.5f;
+            if (WallDetection.isBlockWall(getMapBlockAtPosition(midPoint)))
+                return false;
+        }
+
+        return true;
+    }
+
+    public ArrayList<Vector2> getIntersectionsWithGrid(Vector2 start, Vector2 end)
+    {
+        ArrayList<Vector2> intersections = new ArrayList<Vector2>();
+
+        Line2 line = searchPathThroughBorder(start, end);
+
+        int xStart, xEnd, yStart, yEnd;
+
+        if(line.start.x < line.end.x)
+        {
+            xStart = MathUtils.ceil((line.start.x) / MainGame.BLOCK_SIZE);
+            xEnd = MathUtils.floor((line.end.x) / MainGame.BLOCK_SIZE);
+        }
+        else
+        {
+            xStart = MathUtils.ceil((line.end.x) / MainGame.BLOCK_SIZE);
+            xEnd = MathUtils.floor((line.start.x) / MainGame.BLOCK_SIZE);
+        }
+
+        if(start.y < end.y)
+        {
+            yStart = MathUtils.ceil((line.start.y) / MainGame.BLOCK_SIZE);
+            yEnd = MathUtils.floor((line.end.y) / MainGame.BLOCK_SIZE);
+        }
+        else
+        {
+            yStart = MathUtils.ceil((line.end.y) / MainGame.BLOCK_SIZE);
+            yEnd = MathUtils.floor((line.start.y) / MainGame.BLOCK_SIZE);
+        }
+
+        float m = (line.end.y - line.start.y) / (line.end.x - line.start.x);
+        float t = line.start.y - line.start.x * m;
+
+        for (int xGrid = xStart; xGrid <= xEnd; xGrid++)
+        {
+            float x = xGrid * MainGame.BLOCK_SIZE;
+            float y = m * x + t;
+            intersections.add(new Vector2(x, y));
+        }
+
+        for(int yGrid = yStart; yGrid <= yEnd; yGrid++)
+        {
+            float x;
+            float y = yGrid * MainGame.BLOCK_SIZE;
+            if(start.x != end.x)
+                x = (y - t) / m;
+            else
+                x = start.x;
+            intersections.add(new Vector2(x, y));
+        }
+
+        intersections.sort(new Comparator<Vector2>() {
+            @Override
+            public int compare(Vector2 v1, Vector2 v2) {
+                if(v1.x < v2.x)
+                    return 1;
+                else if(v1.x == v2.x)
+                    if(v1.y < v2.y)
+                        return 1;
+                    else
+                        return -1;
+                else
+                    return -1;
+            }
+        });
+
+        return intersections;
+    }
+
+    public Line2 searchPathThroughBorder(Vector2 start, Vector2 end)
+    {
+        Vector2 path = new Vector2(end).sub(start);
+        Vector2 visualEnd = new Vector2(end);
+
+        if(path.len() > Math.min(getWidth(), getHeight()) * 0.5f)
+        {
+            //maybe there is a shorter way
+            Vector2 shorterPath;
+
+            float yAchsisChange;
+            if(start.y > getHeight() * 0.5f)
+                yAchsisChange = getHeight();
+            else
+                yAchsisChange = - getHeight();
+
+            shorterPath = new Vector2(end).add(0, yAchsisChange).sub(start);
+
+            if(shorterPath.len2() < path.len2())
+                visualEnd.add(0, yAchsisChange);
+
+            float xAchsisChange;
+            if(start.x > getWidth() * 0.5f)
+                xAchsisChange = getWidth();
+            else
+                xAchsisChange = - getWidth();
+
+            shorterPath = new Vector2(end).add(xAchsisChange,0).sub(start);
+
+            if(shorterPath.len2() < path.len2())
+                visualEnd.add(xAchsisChange, 0);
+        }
+
+        return new Line2(start, visualEnd);
+    }
+
+    public class Line2 {
+        public Vector2 start, end;
+
+        public Line2(Vector2 s, Vector2 e)
+        {
+            start = new Vector2(s);
+            end = new Vector2(e);
+        }
     }
 
     public int[][] getMap()

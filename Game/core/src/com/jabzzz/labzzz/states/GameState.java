@@ -66,7 +66,8 @@ public class GameState extends AState
         Vector2 pos = lb.getRandomSpawnPosition();
         player = new Player(pos, labyrinth, theCam);
         enemies = new Enemy[] {
-                //new Enemy(pos, labyrinth, player),
+                new Enemy(pos, labyrinth, player)
+                /*new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
                 new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
                 new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
                 new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
@@ -75,8 +76,7 @@ public class GameState extends AState
                 new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
                 new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
                 new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
-                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player),
-                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player)
+                new Enemy(lb.getRandomSpawnPosition(), labyrinth, player)*/
         };
 
         theCollisionHandler = new CollisionHandler(player, labyrinth);
