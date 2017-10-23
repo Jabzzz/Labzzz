@@ -19,11 +19,11 @@ public class Button extends com.badlogic.gdx.scenes.scene2d.ui.Button
     protected Vector2 position = null;
 
 
-    public Button(Texture btnTexture, int x, int y)
+    public Button(Texture btnTexture)
     {
         super(new TextureRegionDrawable(new TextureRegion(btnTexture)));
 
-        this.btnTexture = btnTexture;
+        /*this.btnTexture = btnTexture;
 
         position = new Vector2(x, y);
         position.x = x;
@@ -31,17 +31,17 @@ public class Button extends com.badlogic.gdx.scenes.scene2d.ui.Button
 
         theBatch = new SpriteBatch();
 
-        recBtn = new Rectangle(x,y,btnTexture.getWidth(), btnTexture.getHeight());
+        recBtn = new Rectangle(x,y,btnTexture.getWidth(), btnTexture.getHeight());*/
     }
 
 
 
-    public void render(SpriteBatch theBatch)
+    /*public void render(SpriteBatch theBatch)
     {
         //theBatch.draw(btnTexture, position.x, position.y);
     }
 
-    /*public boolean isClicked(float x, float y)
+    public boolean isClicked(float x, float y)
     {
         return recBtn.contains(x, y);
     }

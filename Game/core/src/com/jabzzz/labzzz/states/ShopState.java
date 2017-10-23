@@ -46,7 +46,7 @@ public class ShopState extends AState{
         shopGuy = new Image(new Texture(Gdx.files.internal("shopstate/shop.png")));
 
         Texture btnMenuTexture = new Texture(Gdx.files.internal("shopstate/menubtn.png"));
-        menuBtn = new Button(btnMenuTexture, MainGame.WIDTH-btnMenuTexture.getWidth(), MainGame.HEIGHT-btnMenuTexture.getHeight());
+        menuBtn = new Button(btnMenuTexture);
         menuBtn.addListener(new ClickListener()
         {
             @Override
