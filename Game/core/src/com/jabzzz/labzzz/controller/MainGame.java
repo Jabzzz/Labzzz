@@ -28,7 +28,7 @@ public class MainGame extends ApplicationAdapter
 	public static final String TITLE = "THE Game";
 	public static int WIDTH = 0;
 	public static int HEIGHT = 0;
-	public static final int BLOCK_SIZE = 50;
+	public static final int BLOCK_SIZE = 100;
 
 	private Stack<AState> theStateStack = new Stack();
 

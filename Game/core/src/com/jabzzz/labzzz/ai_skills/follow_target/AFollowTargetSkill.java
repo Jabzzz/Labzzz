@@ -1,6 +1,7 @@
-package com.jabzzz.labzzz.ai_skills;
+package com.jabzzz.labzzz.ai_skills.follow_target;
 
 import com.badlogic.gdx.math.Vector2;
+import com.jabzzz.labzzz.ai_skills.WallDetection;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.entities.ACharacter;
 import com.jabzzz.labzzz.enums.Direction;
@@ -12,7 +13,7 @@ import com.jabzzz.labzzz.environment.Labyrinth;
  * Created by Stefan on 06.05.2017.
  */
 
-public abstract class FollowTargetSkill {
+public abstract class AFollowTargetSkill {
 
     private final float accuracyTarget = 5f;
     private final float accuracyTargetSlow = 25f;
@@ -29,7 +30,7 @@ public abstract class FollowTargetSkill {
     private boolean[] blockDetection = new boolean[] {false, false, false, false};
     protected WallDetection wallDetection;
 
-    public FollowTargetSkill(Labyrinth labyrinth, Vector2 position, WallDetection wallDetection)
+    public AFollowTargetSkill(Labyrinth labyrinth, Vector2 position, WallDetection wallDetection)
     {
         this.labyrinth = labyrinth;
         this.position = position;
