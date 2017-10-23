@@ -309,6 +309,7 @@ public class Labyrinth
 
         return true;
     }
+    //test
 
     public ArrayList<Vector2> getIntersectionsWithGrid(Vector2 start, Vector2 end)
     {
