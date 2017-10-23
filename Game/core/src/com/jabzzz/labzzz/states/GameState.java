@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jabzzz.labzzz.collision.CollisionHandler;
 import com.jabzzz.labzzz.controller.*;
@@ -18,7 +15,6 @@ import com.jabzzz.labzzz.entities.Player;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
-import com.jabzzz.labzzz.game.*;
 import com.jabzzz.labzzz.controller.MainGame;
 
 /**
@@ -35,8 +31,10 @@ public class GameState extends AState
 
     private Player player = null;
     private Enemy[] enemies = null;
-    private Labyrinth labyrinth = null;
+    private com.jabzzz.labzzz.environment.Labyrinth labyrinth = null;
 
+    public static float viewPortWidth = 800;
+    public static float viewPortHeight = 800 * ((float) MainGame.HEIGHT / MainGame.WIDTH);
 
     //private StretchViewport theViewPort = null;
     private Viewport theViewPort = null;
@@ -53,12 +51,12 @@ public class GameState extends AState
 
         theCam = new OrthographicCamera();
 
-        theViewPort = new FillViewport(MainGame.WIDTH * 0.5f, MainGame.HEIGHT * 0.5f, theCam);//(Scaling.stretch, theMainGame.WIDTH * 0.5f, theMainGame.HEIGHT * 0.5f, theCam);
+        theViewPort = new ScalingViewport(Scaling.stretch, viewPortWidth, viewPortHeight, theCam);//(Scaling.stretch, theMainGame.WIDTH * 0.5f, theMainGame.HEIGHT * 0.5f, theCam);
         theViewPort.setScreenSize(MainGame.WIDTH, MainGame.HEIGHT);
         theViewPort.apply();
 
 
-        LabyrinthBuilder lb = new LabyrinthBuilder(30);
+        com.jabzzz.labzzz.environment.LabyrinthBuilder lb = new com.jabzzz.labzzz.environment.LabyrinthBuilder(30);
         lb.resetLab();
         lb.createMap(2000);
         labyrinth = lb;

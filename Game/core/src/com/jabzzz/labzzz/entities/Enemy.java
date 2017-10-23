@@ -10,7 +10,7 @@ import com.jabzzz.labzzz.ai_skills.*;
 import com.jabzzz.labzzz.ai_skills.WallDetection;
 import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.controller.MainGame;
-import com.jabzzz.labzzz.game.Labyrinth;
+import com.jabzzz.labzzz.environment.Labyrinth;
 import com.jabzzz.labzzz.states.GameState;
 
 import java.util.ArrayList;

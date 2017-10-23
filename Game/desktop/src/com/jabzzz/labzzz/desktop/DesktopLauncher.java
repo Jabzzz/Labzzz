@@ -11,8 +11,8 @@ public class DesktopLauncher {
 
 
 		config.title = MainGame.TITLE;
-		config.width = 600;
-		config.height = 800;
+		config.width = 400;
+		config.height = 400;
 		config.resizable = false;
 		//config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
 		//config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;

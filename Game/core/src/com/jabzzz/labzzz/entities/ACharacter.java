@@ -6,11 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.jabzzz.labzzz.controller.InputData;
 import com.jabzzz.labzzz.enums.Direction;
 import com.jabzzz.labzzz.enums.InputSystem;
 import com.jabzzz.labzzz.enums.Speed;
-import com.jabzzz.labzzz.game.Labyrinth;
+import com.jabzzz.labzzz.environment.Labyrinth;
 
 import java.util.HashMap;
 

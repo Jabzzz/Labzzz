@@ -4,7 +4,7 @@ package com.jabzzz.labzzz.collision;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.controller.MainGame;
-import com.jabzzz.labzzz.game.Labyrinth;
+import com.jabzzz.labzzz.environment.Labyrinth;
 import com.jabzzz.labzzz.entities.Player;
 
 /**

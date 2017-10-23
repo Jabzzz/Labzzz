@@ -2,8 +2,10 @@ package com.jabzzz.labzzz.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * Created by samvell on 05.04.17.
@@ -19,6 +21,8 @@ public class Button extends com.badlogic.gdx.scenes.scene2d.ui.Button
 
     public Button(Texture btnTexture, int x, int y)
     {
+        super(new TextureRegionDrawable(new TextureRegion(btnTexture)));
+
         this.btnTexture = btnTexture;
 
         position = new Vector2(x, y);
@@ -34,10 +38,10 @@ public class Button extends com.badlogic.gdx.scenes.scene2d.ui.Button
 
     public void render(SpriteBatch theBatch)
     {
-        theBatch.draw(btnTexture, position.x, position.y);
+        //theBatch.draw(btnTexture, position.x, position.y);
     }
 
-    public boolean isClicked(float x, float y)
+    /*public boolean isClicked(float x, float y)
     {
         return recBtn.contains(x, y);
     }
@@ -46,5 +50,5 @@ public class Button extends com.badlogic.gdx.scenes.scene2d.ui.Button
     {
         return this.position;
     }
-
+    */
 }

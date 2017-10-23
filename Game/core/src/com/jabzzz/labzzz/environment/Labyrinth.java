@@ -1,4 +1,4 @@
-package com.jabzzz.labzzz.game;
+package com.jabzzz.labzzz.environment;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.jabzzz.labzzz.ai_skills.WallDetection;
 import com.jabzzz.labzzz.controller.*;
+import com.jabzzz.labzzz.states.GameState;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,8 +51,8 @@ public class Labyrinth
     private int colEnd = 0;
     private int rowStart = 0;
     private int rowEnd = 0;
-    private int halfDisplayX = (int) (MainGame.WIDTH / 2);
-    private int halfDisplayY = (int) (MainGame.HEIGHT / 2);
+    private int halfDisplayX = (int) (GameState.viewPortWidth / 2);
+    private int halfDisplayY = (int) (GameState.viewPortHeight / 2);
 
     public Labyrinth(int mapLength)//int amountColums, int amountRows)
     {
@@ -261,7 +262,7 @@ public class Labyrinth
                         break;
                     case 57:theBatch.draw(wall_b_cs_top_left_and_bottom_right, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
                         break;
-                    case 58:theBatch.draw(wall_b_cs_top_left_and_bottom_right, position.x+MainGame.BLOCK_SIZE, position.y+MainGame.BLOCK_SIZE, 0, 0, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE, 1, 1, 180f);
+                    case 58:theBatch.draw(wall_b_cs_top_left_and_bottom_right, position.x+MainGame.BLOCK_SIZE, position.y+MainGame.BLOCK_SIZE, 0, 0, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE, 1, 1, 90f);
                         break;
                     case 59:theBatch.draw(wall_b_cs_bottom_left_right, position.x, position.y, MainGame.BLOCK_SIZE, MainGame.BLOCK_SIZE);
                         break;
